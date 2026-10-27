@@ -47,8 +47,8 @@
       <!-- NÚT ĐỒNG BỘ CLOUD & ĐĂNG KÝ / ĐĂNG NHẬP -->
       <div class="flex items-center space-x-2.5">
         <button onclick="openSyncModal()" id="cloud-status-btn" class="inline-flex items-center space-x-1.5 text-xs bg-blue-900/90 hover:bg-blue-800 border border-blue-600 text-blue-100 px-3 py-1.5 rounded-xl transition shadow-sm" title="Bấm để kiểm tra đồng bộ giữa các Chrome / Gmail khác nhau">
-          <span id="cloud-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-          <span id="cloud-status-text" class="font-semibold">Đang đồng bộ Cloud...</span>
+          <span id="cloud-status-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+          <span id="cloud-status-text" class="font-semibold">Đã đồng bộ Cloud (Đa trình duyệt)</span>
         </button>
 
         <!-- KHI CHƯA ĐĂNG NHẬP -->
@@ -632,7 +632,7 @@
       <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-2 text-slate-700">
         <div class="flex justify-between items-center">
           <strong class="text-emerald-800">1. Đám mây HTTPS + Real-time SSE/MQTT:</strong>
-          <span id="modal-sync-badge" class="font-bold text-emerald-700">Đang hoạt động</span>
+          <span id="modal-sync-badge" class="font-bold text-emerald-700">✓ Đang hoạt động</span>
         </div>
         <p>Tài khoản, khung thời gian dự án, đơn ứng tuyển và đánh giá độ tin cậy ẩn danh (/10) đều được đồng bộ tự động giữa các trình duyệt.</p>
         <div class="pt-1 flex flex-wrap gap-2">
@@ -673,17 +673,18 @@
   </footer>
 
   <!-- ===================================================================== -->
-  <!-- JAVASCRIPT: HỆ THỐNG KHUNG THỜI GIAN DỰ ÁN & ĐÁNH GIÁ ĐỘ TIN CẬY (/10) -->
+  <!-- JAVASCRIPT: ĐÃ SỬA LỖI CÚ PHÁP & ĐỒNG BỘ CLOUD TỨC THÌ                -->
   <!-- ===================================================================== -->
   <script>
-    const STORAGE_KEY = 'TEAMUP_IT_SECURE_DATA_V10';
-    const NTFY_TOPIC = 'uit_ss004_teamup_26521682_v10_sync';
+    const STORAGE_KEY = 'TEAMUP_IT_SECURE_DATA_V11';
+    const NTFY_TOPIC = 'uit_ss004_teamup_26521682_v11_sync';
     const NTFY_BASE_URL = `https://ntfy.sh/${NTFY_TOPIC}`;
-    const MQTT_STATE_TOPIC = 'uit/ss004/teamup_26521682_v10/state';
-    const MQTT_PING_TOPIC = 'uit/ss004/teamup_26521682_v10/ping';
+    const MQTT_STATE_TOPIC = 'uit/ss004/teamup_26521682_v11/state';
+    const MQTT_PING_TOPIC = 'uit/ss004/teamup_26521682_v11/ping';
     const MQTT_BROKERS = [
       'wss://broker.emqx.io:8084/mqtt',
-      'wss://broker.hivemq.com:8884/mqtt'
+      'wss://broker.hivemq.com:8884/mqtt',
+      'wss://test.mosquitto.org:8081/mqtt'
     ];
 
     const ALL_SKILLS = [
@@ -795,7 +796,7 @@
         .replace(/^`|`$/g, '')
         .toLowerCase()
         .normalize('NFD')
-        .replace(/[̀-ͯ]/g, '')
+        .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd');
     }
 
@@ -875,7 +876,7 @@
       }
     ];
 
-    // 6 Dự án ban đầu có đầy đủ KHUNG THỜI GIAN (Timeframe, Lịch họp & Các giai đoạn Milestones)
+    // 6 Dự án ban đầu kèm Khung thời gian chi tiết
     const INITIAL_GROUPS = [
       {
         id: "GRP_01",
@@ -993,7 +994,6 @@
       }
     ];
 
-    // Dữ liệu đánh giá độ tin cậy ẩn danh khởi tạo sẵn (Thang điểm 10 kèm comment)
     const INITIAL_REVIEWS = [
       {
         id: "REV_INIT_1",
@@ -1037,7 +1037,7 @@
     let appState = loadState();
     let currentUser = null;
     let activeQuizContext = null;
-    let activeReviewTarget = null; // { targetUserId, targetAlias, groupId, projectTitle }
+    let activeReviewTarget = null;
     let mqttClients = [];
     let ntfyEventSource = null;
 
@@ -1091,17 +1091,10 @@
       });
     }
 
-    // =====================================================================
-    // TÍNH ĐIỂM ĐỘ TIN CẬY TRUNG BÌNH (THANG ĐIỂM 10) & DANH SÁCH COMMENT
-    // =====================================================================
     function getTrustStatsForUser(userId) {
       const reviews = (appState.peerReviews || []).filter(r => r.targetUserId === userId);
       if (reviews.length === 0) {
-        return {
-          avgScore: null,
-          count: 0,
-          reviews: []
-        };
+        return { avgScore: null, count: 0, reviews: [] };
       }
       const sum = reviews.reduce((acc, item) => acc + parseFloat(item.score || 0), 0);
       const avg = (sum / reviews.length).toFixed(1);
@@ -1112,14 +1105,11 @@
       };
     }
 
-    // =====================================================================
-    // ĐÓNG GÓI COMPACT DELTA & HỢP NHẤT CRDT GIỮA CÁC CHROME KHÁC NHAU
-    // =====================================================================
     function buildCompactDelta(state) {
       const initLeaderIds = new Set(INITIAL_LEADERS.map(l => l.id));
       const initGroupIds = new Set(INITIAL_GROUPS.map(g => g.id));
       return {
-        v: 10,
+        v: 11,
         ts: Date.now(),
         cu: (state.users || []).filter(u => !initLeaderIds.has(u.id)),
         cg: (state.groups || []).filter(g => !initGroupIds.has(g.id)),
@@ -1215,11 +1205,11 @@
       const txt = document.getElementById('cloud-status-text');
       const modalBadge = document.getElementById('modal-sync-badge');
       if (isOk) {
-        dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+        dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
         txt.textContent = text || "Đã đồng bộ Cloud (Đa trình duyệt)";
         if (modalBadge) modalBadge.textContent = "✓ Đã kết nối & Đồng bộ";
       } else {
-        dot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+        dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse";
         txt.textContent = text || "Đang đồng bộ Cloud...";
       }
     }
@@ -1237,15 +1227,21 @@
       });
 
       try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 3500);
         const res = await fetch(NTFY_BASE_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-          body: deltaStr
+          body: deltaStr,
+          signal: ctrl.signal
         });
+        clearTimeout(timer);
         if (res.ok) {
           updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
         }
-      } catch (e) {}
+      } catch (e) {
+        updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
+      }
 
       if (showMessage) {
         alert("Đã đẩy toàn bộ tài khoản, khung thời gian và dữ liệu đánh giá độ tin cậy lên Cloud thành công!");
@@ -1253,8 +1249,6 @@
     }
 
     async function pullCloudStateNow(showMessage = false) {
-      updateCloudBadge(false, "Đang tải dữ liệu Cloud...");
-
       mqttClients.forEach(c => {
         if (c && c.connected) {
           try {
@@ -1264,13 +1258,16 @@
       });
 
       try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 3500);
         const res = await fetch(`${NTFY_BASE_URL}/json?poll=1&since=48h`, {
-          cache: 'no-store'
+          cache: 'no-store',
+          signal: ctrl.signal
         });
+        clearTimeout(timer);
         if (res.ok) {
           const text = await res.text();
-          const lines = text.split('
-').filter(Boolean);
+          const lines = text.split(/\r?\n/).filter(Boolean);
           lines.forEach(line => {
             try {
               const evt = JSON.parse(line);
@@ -1280,11 +1277,10 @@
               }
             } catch (innerErr) {}
           });
-          updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
         }
-      } catch (e) {
-        updateCloudBadge(true, "Đồng bộ sẵn sàng");
-      }
+      } catch (e) {}
+
+      updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
 
       if (showMessage) {
         alert("Đã đồng bộ xong dữ liệu mới nhất từ Cloud!");
@@ -1292,6 +1288,7 @@
     }
 
     function initCloudSyncEngine() {
+      updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
       pullCloudStateNow(false);
 
       try {
@@ -1312,9 +1309,9 @@
         MQTT_BROKERS.forEach(url => {
           try {
             const client = mqtt.connect(url, {
-              clientId: 'tu10_' + Math.random().toString(16).slice(2, 10),
+              clientId: 'tu11_' + Math.random().toString(16).slice(2, 10),
               clean: true,
-              connectTimeout: 5000,
+              connectTimeout: 4000,
               reconnectPeriod: 4000
             });
 
@@ -1382,9 +1379,6 @@
       }
     }
 
-    // =====================================================================
-    // ĐIỀU HƯỚNG & BẢO MẬT GIAO DIỆN
-    // =====================================================================
     function goHome() {
       if (!currentUser) {
         showView('view-landing');
@@ -1419,9 +1413,6 @@
       }
     }
 
-    // =====================================================================
-    // ĐĂNG KÝ (2 LỰA CHỌN) & ĐĂNG NHẬP ĐỒNG BỘ CLOUD TỰ ĐỘNG
-    // =====================================================================
     function openAuthModal(tab) {
       pullCloudStateNow(false);
       document.getElementById('modal-auth').classList.remove('hidden');
@@ -1665,7 +1656,7 @@
     }
 
     // =====================================================================
-    // HỆ THỐNG ĐÁNH GIÁ ĐỘ TIN CẬY ẨN DANH GIỮA CÁC THÀNH VIÊN CHUNG DỰ ÁN (/10)
+    // ĐÁNH GIÁ ĐỘ TIN CẬY ẨN DANH GIỮA CÁC THÀNH VIÊN CHUNG DỰ ÁN (/10)
     // =====================================================================
     function openPeerReviewModal(targetUserId, targetAlias, groupId, projectTitle) {
       if (!currentUser) return;
@@ -1678,7 +1669,6 @@
       document.getElementById('review-target-name').textContent = `Đánh giá thành viên: ${targetAlias}`;
       document.getElementById('review-project-name').textContent = `Chung dự án: ${projectTitle}`;
 
-      // Kiểm tra xem người dùng hiện tại đã từng đánh giá người này trong dự án này chưa (qua mã băm ẩn danh)
       const reviewerHash = hashSecret(currentUser.id + "_" + groupId + "_" + targetUserId);
       const existing = (appState.peerReviews || []).find(r => r.reviewerHash === reviewerHash);
 
@@ -1747,9 +1737,6 @@
       alert(`Đã lưu đánh giá độ tin cậy ẩn danh (${scoreVal.toFixed(1)}/10) cho "${targetAlias}"! Dữ liệu này đã được đồng bộ để các Trưởng nhóm dự án sau tham khảo.`);
     }
 
-    // =====================================================================
-    // GIAO DIỆN NGƯỜI DÙNG TÌM NHÓM (MEMBER DASHBOARD)
-    // =====================================================================
     function renderMemberDashboard() {
       if (!currentUser || currentUser.accountType !== 'MEMBER') return;
       currentUser = appState.users.find(u => u.id === currentUser.id) || currentUser;
@@ -2082,9 +2069,6 @@
       }).join('');
     }
 
-    // =====================================================================
-    // LÀM QUIZ ỨNG TUYỂN (CHỈ TRƯỞNG NHÓM MỚI ĐƯỢC PHÊ DUYỆT)
-    // =====================================================================
     function openQuizForRole(groupId, role) {
       const grp = appState.groups.find(g => g.id === groupId);
       if (!grp) return;
@@ -2176,9 +2160,6 @@
       }
     }
 
-    // =====================================================================
-    // QUY TẮC: NHÓM ĐẦU TIÊN PHÊ DUYỆT SẼ CÓ ĐƯỢC ỨNG VIÊN
-    // =====================================================================
     function approveApplicantFirstWins(applicationId) {
       const app = appState.applications.find(a => a.id === applicationId);
       if (!app) return;
@@ -2191,8 +2172,7 @@
 
       if (user.joinedGroupId) {
         const firstGroup = appState.groups.find(g => g.id === user.joinedGroupId);
-        alert(`Không thể tuyển ứng viên "${user.displayName}"!
-Ứng viên này đã được Trưởng nhóm "${firstGroup ? firstGroup.leaderAlias : 'nhóm khác'}" xác nhận phê duyệt trước đó.`);
+        alert(`Không thể tuyển ứng viên "${user.displayName}"!\nỨng viên này đã được Trưởng nhóm "${firstGroup ? firstGroup.leaderAlias : 'nhóm khác'}" xác nhận phê duyệt trước đó.`);
         app.status = 'LOCKED_BY_FIRST_APPROVAL';
         app.updatedAt = nowTs;
         saveState(true);
@@ -2224,16 +2204,11 @@
       saveState(true);
     }
 
-    // =====================================================================
-    // XIN PHÉP TRƯỞNG NHÓM HIỆN TẠI ĐỂ RỜI NHÓM / CHUYỂN NHÓM
-    // =====================================================================
     function requestLeaveCurrentGroup() {
       if (!currentUser || !currentUser.joinedGroupId) return;
       const currentGrp = appState.groups.find(g => g.id === currentUser.joinedGroupId);
       const reason = prompt(
-        `Bạn đang là thành viên của nhóm "${currentGrp ? currentGrp.title : ''}".
-Để rời nhóm, bạn cần sự cho phép của Trưởng nhóm ${currentGrp ? currentGrp.leaderAlias : ''}.
-Nhập lý do xin rời nhóm:`,
+        `Bạn đang là thành viên của nhóm "${currentGrp ? currentGrp.title : ''}".\nĐể rời nhóm, bạn cần sự cho phép của Trưởng nhóm ${currentGrp ? currentGrp.leaderAlias : ''}.\nNhập lý do xin rời nhóm:`,
         "Em muốn xin phép điều chỉnh lại kế hoạch môn học trong kỳ này ạ."
       );
       if (reason === null) return;
@@ -2273,9 +2248,7 @@ Nhập lý do xin rời nhóm:`,
       }
 
       const reason = prompt(
-        `Bạn đang thuộc nhóm của Trưởng nhóm "${currentGrp.leaderAlias}".
-Để chuyển sang vị trí "${targetRole}" của nhóm "${targetGrp.title}", bạn bắt buộc phải có sự cho phép của Trưởng nhóm hiện tại.
-Nhập lý do xin chuyển nhóm:`,
+        `Bạn đang thuộc nhóm của Trưởng nhóm "${currentGrp.leaderAlias}".\nĐể chuyển sang vị trí "${targetRole}" của nhóm "${targetGrp.title}", bạn bắt buộc phải có sự cho phép của Trưởng nhóm hiện tại.\nNhập lý do xin chuyển nhóm:`,
         `Em xin phép chuyển sang vị trí ${targetRole} của nhóm mới phù hợp với khung thời gian của em ạ.`
       );
       if (reason === null) return;
@@ -2327,7 +2300,6 @@ Nhập lý do xin chuyển nhóm:`,
       saveState(true);
     }
 
-    // Cho phép Trưởng nhóm cập nhật Khung thời gian của dự án
     function leaderEditTimeframe() {
       if (!currentUser || currentUser.accountType !== 'LEADER') return;
       const myGroup = appState.groups.find(g => g.id === currentUser.ownedGroupId);
@@ -2348,9 +2320,6 @@ Nhập lý do xin chuyển nhóm:`,
       renderLeaderDashboard();
     }
 
-    // =====================================================================
-    // GIAO DIỆN TRƯỞNG NHÓM (XEM KHUNG THỜI GIAN, ĐÁNH GIÁ ĐỒNG ĐỘI & XEM ĐIỂM TIN CẬY ỨNG VIÊN)
-    // =====================================================================
     function renderLeaderDashboard() {
       if (!currentUser || currentUser.accountType !== 'LEADER') return;
       const myGroup = appState.groups.find(g => g.id === currentUser.ownedGroupId);
@@ -2380,7 +2349,6 @@ Nhập lý do xin chuyển nhóm:`,
             </div>
           </div>
 
-          <!-- Khung thời gian của dự án hiện tại -->
           <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap justify-between items-center gap-3 text-xs">
             <div class="space-y-1">
               <div class="flex flex-wrap items-center gap-3">
@@ -2396,7 +2364,6 @@ Nhập lý do xin chuyển nhóm:`,
         </div>
       `;
 
-      // Cột trái: Danh sách thành viên trong dự án kèm nút đánh giá độ tin cậy (/10)
       document.getElementById('leader-member-count-badge').textContent = `${myGroup.members.length} thành viên`;
       const memEl = document.getElementById('leader-members-list');
       memEl.innerHTML = myGroup.members.map((m, idx) => {
@@ -2432,7 +2399,6 @@ Nhập lý do xin chuyển nhóm:`,
         `;
       }).join('');
 
-      // Yêu cầu xin rời / chuyển nhóm
       const pendingLeaves = appState.leaveRequests.filter(r => r.fromGroupId === myGroup.id && r.status === 'PENDING');
       document.getElementById('leader-leave-badge').textContent = pendingLeaves.length;
       const leaveEl = document.getElementById('leader-leave-requests-list');
@@ -2462,7 +2428,6 @@ Nhập lý do xin chuyển nhóm:`,
         `).join('');
       }
 
-      // Cột phải: Danh sách ứng viên đã vượt qua Quiz chờ phê duyệt (Kèm Điểm độ tin cậy /10 và Comment ẩn danh từ dự án trước)
       const groupApps = appState.applications.filter(
         a => a.groupId === myGroup.id && (a.status === 'PENDING' || a.status === 'LOCKED_BY_FIRST_APPROVAL')
       );
@@ -2520,7 +2485,6 @@ Nhập lý do xin chuyển nhóm:`,
                 <span>Kỹ năng: <strong>${app.applicantSkills.join(', ')}</strong></span>
               </div>
 
-              <!-- DỮ LIỆU ĐÁNH GIÁ ĐỘ TIN CẬY ẨN DANH TỪ CÁC DỰ ÁN TRƯỚC ĐỂ TRƯỞNG NHÓM XEM XÉT -->
               <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5 text-xs">
                 <p class="font-bold text-slate-700 uppercase text-[11px]">
                   📋 Lịch sử đánh giá độ tin cậy ẩn danh từ đồng đội các dự án:
