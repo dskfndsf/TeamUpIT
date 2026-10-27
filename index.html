@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TeamUp IT - Nền tảng kết nối đồng đội làm đồ án (Cloud Sync)</title>
+  <title>TeamUp IT - Nền tảng kết nối đồng đội & Đánh giá độ tin cậy (Cloud Sync)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -89,14 +89,14 @@
       <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-7 space-y-5">
           <div class="inline-flex items-center space-x-2 bg-blue-800/50 border border-blue-500/40 px-3.5 py-1.5 rounded-full text-xs text-blue-200 font-semibold">
-            <span>☁️ Đồng bộ dữ liệu tự động giữa mọi trình duyệt Chrome & bảo mật thông tin</span>
+            <span>☁️ Quản lý khung thời gian dự án & Đánh giá độ tin cậy ẩn danh (Thang điểm 10)</span>
           </div>
           <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
             Tìm đúng đồng đội làm đồ án.<br>
             <span class="text-vibrant-orange">Chấm dứt nỗi lo "Gánh Team".</span>
           </h1>
           <p class="text-sm md:text-base text-slate-300 leading-relaxed">
-            <strong>TeamUp IT</strong> giúp sinh viên Công nghệ Thông tin kết nối nhóm làm đồ án môn học dựa trên sự tương thích về <strong>Trình độ, Kỹ năng, Mục tiêu điểm số</strong> và <strong>Bài Quiz kiểm tra kiến thức đầu vào</strong>. Tài khoản đăng ký ở bất kỳ trình duyệt Chrome nào đều được đồng bộ tự động lên Cloud và bảo mật tuyệt đối.
+            <strong>TeamUp IT</strong> giúp sinh viên Công nghệ Thông tin kết nối nhóm làm đồ án môn học dựa trên sự tương thích về <strong>Khung thời gian, Trình độ, Kỹ năng, Mục tiêu điểm số</strong>, kết hợp <strong>Bài Quiz đầu vào</strong> và <strong>Hệ thống đánh giá độ tin cậy ẩn danh (thang điểm 10)</strong> giữa các thành viên chung dự án.
           </p>
           <div class="flex flex-wrap gap-3 pt-2">
             <button onclick="openAuthModal('register')" class="bg-vibrant-orange hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition text-sm">
@@ -110,19 +110,19 @@
 
         <!-- Khung tóm tắt cơ chế hoạt động -->
         <div class="lg:col-span-5 bg-white/10 backdrop-blur-md border border-white/15 p-6 rounded-2xl space-y-4">
-          <h3 class="text-base font-bold text-orange-300 uppercase tracking-wider">Nguyên tắc vận hành cốt lõi</h3>
+          <h3 class="text-base font-bold text-orange-300 uppercase tracking-wider">Điểm nổi bật trên TeamUp IT</h3>
           <div class="space-y-3 text-xs md:text-sm">
             <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700">
-              <strong class="text-white block">1. Đồng bộ tài khoản đa trình duyệt (Cloud Sync)</strong>
-              <span class="text-slate-300">Đăng ký tài khoản ở Chrome Gmail A có thể đăng nhập ngay ở Chrome Gmail B. Mật khẩu được băm một chiều bảo mật.</span>
+              <strong class="text-white block">1. Khung thời gian & Lộ trình rõ ràng cho từng dự án</strong>
+              <span class="text-slate-300">Mỗi dự án công bố cụ thể thời gian bắt đầu – kết thúc, lịch họp định kỳ và các cột mốc (Milestones) để ứng viên chủ động sắp xếp lịch học.</span>
             </div>
             <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700">
-              <strong class="text-white block">2. Vượt qua Quiz & Trưởng nhóm đầu tiên xét duyệt</strong>
-              <span class="text-slate-300">Ứng viên làm đỗ Quiz có thể nộp đơn vào nhiều nhóm. Trưởng nhóm nào xác nhận phê duyệt đầu tiên sẽ chốt được ứng viên đó; các nhóm thứ 2, thứ 3 sẽ tự động không thể tuyển người này nữa.</span>
+              <strong class="text-white block">2. Đánh giá độ tin cậy ẩn danh (Thang điểm 10 + Nhận xét)</strong>
+              <span class="text-slate-300">Thành viên chung dự án chấm điểm độ tin cậy của nhau (1–10 điểm kèm comment). Dữ liệu được lưu lại để các Trưởng nhóm dự án sau xem xét khi duyệt người.</span>
             </div>
             <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700">
-              <strong class="text-white block">3. Rời / Chuyển nhóm phải được phép & Bảo mật riêng tư</strong>
-              <span class="text-slate-300">Thành viên muốn rời hoặc chuyển nhóm phải được Trưởng nhóm hiện tại phê duyệt. Lịch sử duyệt web và mật khẩu cá nhân được ẩn hoàn toàn.</span>
+              <strong class="text-white block">3. Sàng lọc qua Quiz, Duyệt ưu tiên & Đồng bộ Cloud</strong>
+              <span class="text-slate-300">Vượt qua Quiz để ứng tuyển nhiều nhóm; nhóm đầu tiên phê duyệt sẽ chốt ứng viên. Rời/chuyển nhóm cần Trưởng nhóm hiện tại cho phép.</span>
             </div>
           </div>
         </div>
@@ -133,23 +133,23 @@
     <section class="py-12 px-4 max-w-6xl mx-auto">
       <div class="text-center max-w-2xl mx-auto mb-10">
         <span class="text-xs font-bold uppercase tracking-widest text-vibrant-orange">Giới thiệu & Mục đích dự án</span>
-        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">Vì sao TeamUp IT được xây dựng?</h2>
-        <p class="text-sm text-slate-600 mt-2">Giải quyết 3 bài toán thực tế khi lập nhóm làm đồ án của sinh viên CNTT.</p>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">Giải quyết triệt để bài toán làm đồ án nhóm</h2>
+        <p class="text-sm text-slate-600 mt-2">Kết hợp kiểm tra kiến thức chuyên môn (Quiz) với lịch sử uy tín thực tế (Trust Score / 10).</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div class="w-11 h-11 rounded-xl bg-blue-100 text-tech-blue font-extrabold flex items-center justify-center text-lg mb-4">01</div>
-          <h3 class="text-base font-bold text-slate-900 mb-2">Ghép nhóm đúng năng lực & mục tiêu</h3>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Minh bạch Khung thời gian dự án</h3>
           <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-            Hệ thống đối chiếu tự động Trình độ năm học, Kỹ năng chuyên môn, Vị trí mong muốn và Mục tiêu điểm số để gợi ý các nhóm có độ tương thích cao nhất.
+            Tránh xung đột lịch trình nhờ thông tin chi tiết về thời gian triển khai dự án, các giai đoạn (Milestones) và khung giờ họp nhóm hàng tuần ngay trên từng thẻ dự án.
           </p>
         </div>
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div class="w-11 h-11 rounded-xl bg-orange-100 text-vibrant-orange font-extrabold flex items-center justify-center text-lg mb-4">02</div>
-          <h3 class="text-base font-bold text-slate-900 mb-2">Sàng lọc qua Quiz & Phê duyệt minh bạch</h3>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Chấm điểm Độ tin cậy ẩn danh (/10)</h3>
           <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-            Người dùng phải vượt qua bài Quiz kiến thức của vị trí ứng tuyển (≥ 2/3 câu đúng) thì hồ sơ mới được gửi sang giao diện của Trưởng nhóm đó chờ phê duyệt.
+            Các thành viên chung một dự án đánh giá độ tin cậy của nhau trên thang điểm 10 kèm nhận xét ẩn danh, giúp các Trưởng nhóm sau này có căn cứ khách quan khi tuyển người.
           </p>
         </div>
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
@@ -161,56 +161,50 @@
         </div>
       </div>
     </section>
-
-    <!-- Cách sử dụng -->
-    <section class="py-10 px-4 bg-slate-100 border-t border-slate-200">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-8">
-          <h2 class="text-2xl font-extrabold text-slate-900">Cách thức sử dụng hệ thống</h2>
-          <p class="text-sm text-slate-600 mt-1">Bấm chọn <strong>Đăng ký</strong> hoặc <strong>Đăng nhập</strong> ở góc trên bên phải màn hình</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-blue-200">
-            <span class="bg-blue-100 text-tech-blue text-xs font-extrabold px-3 py-1 rounded-full uppercase">Đối với Người tìm nhóm</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-3 mb-3">Tìm nhóm phù hợp & Làm Quiz ứng tuyển</h3>
-            <ol class="space-y-2 text-xs md:text-sm text-slate-700 list-decimal list-inside">
-              <li>Đăng ký tài khoản với lựa chọn <strong>Tìm nhóm phù hợp với bản thân</strong> (nhập trình độ, kỹ năng, mục tiêu, vị trí ứng tuyển).</li>
-              <li>Xem danh sách các nhóm phù hợp và thay đổi linh hoạt mục tiêu, vị trí ứng tuyển ngay trên bảng điều khiển.</li>
-              <li>Chọn vị trí ở một hoặc nhiều nhóm để làm bài Quiz (3 câu hỏi). Nếu không đạt sẽ nhận thông báo <em>"Chúc bạn may mắn lần sau"</em>.</li>
-              <li>Nếu vượt qua Quiz, hồ sơ sẽ chờ Trưởng nhóm xét duyệt. Trưởng nhóm nào duyệt đầu tiên thì bạn chính thức thuộc về nhóm đó.</li>
-            </ol>
-          </div>
-
-          <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-orange-200">
-            <span class="bg-orange-100 text-vibrant-orange text-xs font-extrabold px-3 py-1 rounded-full uppercase">Đối với Trưởng nhóm</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-3 mb-3">Quản lý thành viên & Phê duyệt ứng viên</h3>
-            <ol class="space-y-2 text-xs md:text-sm text-slate-700 list-decimal list-inside">
-              <li>Đăng nhập bằng tài khoản Trưởng nhóm hoặc đăng ký <strong>Tạo nhóm mới & làm Trưởng nhóm</strong>.</li>
-              <li>Giao diện Trưởng nhóm hiển thị 2 khu vực: <strong>Danh sách thành viên trong nhóm</strong> (bên trái) và <strong>Danh sách ứng viên đã vượt qua Quiz chờ phê duyệt</strong> (bên phải).</li>
-              <li>Xem hồ sơ năng lực của ứng viên và bấm <strong>Phê duyệt</strong> hoặc <strong>Từ chối</strong>. Nếu ứng viên đã được nhóm khác duyệt trước, hệ thống sẽ khóa nút tuyển dụng của người đó.</li>
-              <li>Xem xét và quyết định cho phép hoặc từ chối khi thành viên hiện tại trong nhóm gửi yêu cầu xin rời hoặc chuyển nhóm.</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- ===================================================================== -->
   <!-- VIEW 2: GIAO DIỆN DÀNH CHO NGƯỜI DÙNG TÌM NHÓM (MEMBER DASHBOARD)     -->
   <!-- ===================================================================== -->
-  <main id="view-member" class="hidden flex-1 max-w-7xl mx-auto w-full px-4 py-6">
+  <main id="view-member" class="hidden flex-1 max-w-7xl mx-auto w-full px-4 py-6 space-y-6">
     <!-- Thanh trạng thái nhóm hiện tại của người dùng -->
-    <div id="member-group-banner" class="mb-6"></div>
+    <div id="member-group-banner"></div>
+
+    <!-- KHU VỰC ĐÁNH GIÁ ĐỘ TIN CẬY ẨN DANH GIỮA CÁC THÀNH VIÊN CHUNG DỰ ÁN (HIỂN THỊ KHI ĐÃ VÀO NHÓM) -->
+    <div id="member-peer-review-section" class="hidden bg-white p-6 rounded-2xl shadow-sm border-2 border-orange-200 space-y-4">
+      <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <span class="bg-orange-100 text-vibrant-orange text-xs font-extrabold px-2.5 py-1 rounded-md uppercase">
+            ★ Đánh giá độ tin cậy đồng đội chung dự án (Ẩn danh - Thang điểm 10)
+          </span>
+          <h3 class="text-base font-bold text-slate-900 mt-1.5">
+            Đánh giá các thành viên cùng dự án với bạn
+          </h3>
+          <p class="text-xs text-slate-500">
+            Điểm số (1–10) và nhận xét của bạn được ẩn danh hoàn toàn và sẽ làm dữ liệu tham khảo cho các Trưởng nhóm ở các dự án sau này.
+          </p>
+        </div>
+      </div>
+      <div id="member-teammates-review-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      <!-- CỘT TRÁI (4 CỘT): THAY ĐỔI TRÌNH ĐỘ, MỤC TIÊU, VỊ TRÍ ỨNG TUYỂN -->
+      <!-- CỘT TRÁI (4 CỘT): THAY ĐỔI TRÌNH ĐỘ, MỤC TIÊU, VỊ TRÍ & XEM ĐIỂM TIN CẬY BẢN THÂN -->
       <div class="lg:col-span-4 space-y-5">
+        <!-- Thẻ Điểm tin cậy của bản thân -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-slate-500 uppercase">Hồ sơ Độ tin cậy của bạn</h3>
+            <span class="text-[11px] bg-blue-50 text-tech-blue font-bold px-2.5 py-0.5 rounded-full">Thang điểm 10</span>
+          </div>
+          <div id="member-own-trust-box"></div>
+        </div>
+
+        <!-- Thay đổi tiêu chí cá nhân -->
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
             <div>
-              <h2 class="text-base font-bold text-tech-blue uppercase">Hồ sơ & Tiêu chí cá nhân</h2>
+              <h2 class="text-base font-bold text-tech-blue uppercase">Tiêu chí tìm dự án</h2>
               <p class="text-xs text-slate-500">Thay đổi mục tiêu & vị trí ngay tại đây</p>
             </div>
             <span class="text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md font-semibold">
@@ -267,13 +261,13 @@
         </div>
       </div>
 
-      <!-- CỘT PHẢI (8 CỘT): DANH SÁCH CÁC NHÓM PHÙ HỢP -->
+      <!-- CỘT PHẢI (8 CỘT): DANH SÁCH CÁC NHÓM PHÙ HỢP KÈM KHUNG THỜI GIAN DỰ ÁN -->
       <div class="lg:col-span-8 space-y-4">
         <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white p-5 rounded-2xl shadow-sm">
-          <span class="text-xs uppercase font-bold text-orange-300">Đề xuất nhóm phù hợp với bản thân</span>
+          <span class="text-xs uppercase font-bold text-orange-300">Đề xuất dự án kèm Khung thời gian chi tiết</span>
           <h3 class="text-lg font-bold mt-0.5" id="member-match-header">Danh sách các nhóm đồ án</h3>
           <p class="text-xs text-blue-100 mt-0.5">
-            Bạn có thể làm Quiz để đăng ký ứng tuyển nhiều nhóm, nhiều vị trí cùng lúc. Khi vượt qua Quiz, chỉ có Trưởng nhóm của nhóm đó mới có quyền phê duyệt bạn vào nhóm.
+            Xem kỹ <strong>Khung thời gian & Lịch trình</strong> của từng dự án trước khi làm Quiz ứng tuyển. Khi vượt qua Quiz, Trưởng nhóm sẽ xem Hồ sơ năng lực và Điểm tin cậy (/10) của bạn để phê duyệt.
           </p>
         </div>
 
@@ -286,23 +280,23 @@
   <!-- VIEW 3: GIAO DIỆN DÀNH CHO TRƯỞNG NHÓM (2 CỘT RÕ RÀNG)                -->
   <!-- ===================================================================== -->
   <main id="view-leader" class="hidden flex-1 max-w-7xl mx-auto w-full px-4 py-6 space-y-6">
-    <!-- Thông tin tổng quan nhóm của Trưởng nhóm -->
+    <!-- Thông tin tổng quan nhóm & Khung thời gian của Trưởng nhóm -->
     <div id="leader-group-overview" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200"></div>
 
-    <!-- BỐ CỤC 2 BÊN: BÊN TRÁI (THÀNH VIÊN NHÓM) - BÊN PHẢI (ỨNG VIÊN QUA QUIZ CẦN PHÊ DUYỆT) -->
+    <!-- BỐ CỤC 2 BÊN: BÊN TRÁI (THÀNH VIÊN NHÓM & ĐÁNH GIÁ ĐỘ TIN CẬY) - BÊN PHẢI (ỨNG VIÊN QUA QUIZ CẦN PHÊ DUYỆT) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- BÊN TRÁI (5 CỘT): CÁC THÀNH VIÊN TRONG NHÓM & YÊU CẦU XIN RỜI/CHUYỂN NHÓM -->
+      <!-- BÊN TRÁI (5 CỘT): CÁC THÀNH VIÊN TRONG NHÓM (KÈM NÚT ĐÁNH GIÁ ẨN DANH /10) & YÊU CẦU RỜI/CHUYỂN NHÓM -->
       <div class="lg:col-span-5 space-y-6">
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
           <div class="flex justify-between items-center border-b border-slate-100 pb-3">
             <div>
-              <h3 class="text-base font-bold text-tech-blue uppercase">Thành viên chính thức trong nhóm</h3>
-              <p class="text-xs text-slate-500">Danh sách thành viên hiện tại đang đảm nhận vị trí</p>
+              <h3 class="text-base font-bold text-tech-blue uppercase">Thành viên trong dự án</h3>
+              <p class="text-xs text-slate-500">Bấm "Đánh giá độ tin cậy (/10)" để nhận xét ẩn danh thành viên</p>
             </div>
             <span id="leader-member-count-badge" class="bg-blue-100 text-tech-blue text-xs font-extrabold px-3 py-1 rounded-full">1 thành viên</span>
           </div>
-          <div id="leader-members-list" class="space-y-2.5 text-xs"></div>
+          <div id="leader-members-list" class="space-y-3 text-xs"></div>
         </div>
 
         <!-- Khung phê duyệt yêu cầu xin rời nhóm / chuyển sang nhóm khác -->
@@ -318,19 +312,19 @@
         </div>
       </div>
 
-      <!-- BÊN PHẢI (7 CỘT): DANH SÁCH ỨNG VIÊN ĐÃ VƯỢT QUA QUIZ CẦN PHÊ DUYỆT -->
+      <!-- BÊN PHẢI (7 CỘT): DANH SÁCH ỨNG VIÊN ĐÃ VƯỢT QUA QUIZ CẦN PHÊ DUYỆT (HIỂN THỊ ĐIỂM TIN CẬY /10 & COMMENT) -->
       <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
         <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
           <div>
             <h3 class="text-base font-bold text-vibrant-orange uppercase">Ứng viên đã vượt qua Quiz cần phê duyệt</h3>
             <p class="text-xs text-slate-500">
-              Lưu ý: Nếu ứng viên nộp đơn nhiều nơi và đã được một nhóm khác xác nhận trước, nhóm của bạn sẽ không thể tuyển người này nữa.
+              Xem <strong>Điểm độ tin cậy trung bình (thang điểm 10)</strong> và <strong>Comment đánh giá ẩn danh</strong> từ các dự án trước của ứng viên để quyết định duyệt hay không.
             </p>
           </div>
           <span id="leader-pending-badge" class="bg-orange-100 text-vibrant-orange text-xs font-extrabold px-3 py-1 rounded-full">0 ứng viên</span>
         </div>
 
-        <div id="leader-applicants-list" class="space-y-3.5"></div>
+        <div id="leader-applicants-list" class="space-y-4"></div>
       </div>
 
     </div>
@@ -402,7 +396,7 @@
               <input type="radio" name="reg-account-type" value="LEADER" onchange="toggleRegisterType()" class="hidden">
               <div class="p-3.5 rounded-xl border-2 border-slate-200 transition">
                 <p class="font-extrabold text-sm text-vibrant-orange">Lựa chọn 1: Tạo nhóm mới & Làm Trưởng nhóm</p>
-                <p class="text-[11px] text-slate-600 mt-1">Tạo nhóm đồ án mới do bạn làm Trưởng nhóm, đăng ký các vị trí cần tuyển và yêu cầu.</p>
+                <p class="text-[11px] text-slate-600 mt-1">Tạo dự án mới, thiết lập khung thời gian, đăng ký các vị trí cần tuyển và xét duyệt ứng viên.</p>
               </div>
             </label>
             <label class="role-card-radio cursor-pointer">
@@ -463,9 +457,9 @@
           </div>
         </div>
 
-        <!-- LỰA CHỌN 1: TẠO NHÓM MỚI & LÀM TRƯỞNG NHÓM -->
+        <!-- LỰA CHỌN 1: TẠO NHÓM MỚI & LÀM TRƯỞNG NHÓM (CÓ THÊM KHUNG THỜI GIAN DỰ ÁN) -->
         <div id="reg-section-leader" class="hidden p-4 bg-orange-50/60 rounded-xl border border-orange-200 space-y-3">
-          <h4 class="font-bold text-vibrant-orange uppercase">Thông tin Nhóm mới & Vị trí tuyển dụng</h4>
+          <h4 class="font-bold text-vibrant-orange uppercase">Thông tin Nhóm mới, Khung thời gian & Vị trí tuyển dụng</h4>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <label class="font-semibold text-slate-700">Tên đề tài / Dự án của nhóm</label>
@@ -480,6 +474,23 @@
                 <option value="IT004 - Cơ sở dữ liệu">IT004 - Cơ sở dữ liệu</option>
               </select>
             </div>
+          </div>
+
+          <!-- KHUNG THỜI GIAN DỰ ÁN KHI TẠO NHÓM MỚI -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="font-semibold text-slate-700">Khung thời gian dự án (Bắt đầu – Kết thúc)</label>
+              <input id="reg-grp-timeframe" type="text" value="15/10/2026 – 25/12/2026 (10 tuần)" placeholder="VD: 15/10/2026 – 25/12/2026 (10 tuần)" class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 bg-white">
+            </div>
+            <div>
+              <label class="font-semibold text-slate-700">Khung giờ họp nhóm & Cam kết tuần</label>
+              <input id="reg-grp-schedule" type="text" value="Họp 20h00 Thứ 4 & Chủ Nhật (Cam kết 6-8h/tuần)" placeholder="VD: Họp 20h00 Thứ 4 & CN" class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 bg-white">
+            </div>
+          </div>
+
+          <div>
+            <label class="font-semibold text-slate-700">Các mốc giai đoạn chính (Milestones)</label>
+            <input id="reg-grp-milestones" type="text" value="GĐ1 (Tuần 1-2): Khảo sát & BMC | GĐ2 (Tuần 3-7): Xây dựng MVP | GĐ3 (Tuần 8-10): Báo cáo & Demo" class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 bg-white">
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -556,7 +567,57 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 3: TRUNG TÂM ĐỒNG BỘ ĐA TRÌNH DUYỆT (CLOUD SYNC)                -->
+  <!-- MODAL 3: ĐÁNH GIÁ ĐỘ TIN CẬY ẨN DANH (THANG ĐIỂM 10 + COMMENT)         -->
+  <!-- ===================================================================== -->
+  <div id="modal-peer-review" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 my-8 space-y-4 text-xs">
+      <div class="flex justify-between items-start border-b border-slate-100 pb-3">
+        <div>
+          <span class="bg-orange-100 text-vibrant-orange text-xs font-extrabold px-2.5 py-1 rounded-md uppercase">
+            🔒 Đánh giá độ tin cậy ẩn danh (Thang điểm 10)
+          </span>
+          <h3 id="review-target-name" class="text-base font-bold text-slate-900 mt-1.5"></h3>
+          <p id="review-project-name" class="text-slate-500 mt-0.5"></p>
+        </div>
+        <button onclick="closePeerReviewModal()" class="text-slate-400 hover:text-slate-600 font-bold text-lg px-2">✕</button>
+      </div>
+
+      <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-slate-700">
+        💡 <strong>Bảo mật người đánh giá:</strong> Tên của bạn sẽ được ẩn danh hoàn toàn. Điểm số (trên thang 10) và nhận xét của bạn sẽ được tổng hợp vào hồ sơ của thành viên này để các Trưởng nhóm ở những dự án sau xem xét khi tuyển dụng.
+      </div>
+
+      <div>
+        <div class="flex justify-between items-center mb-1.5">
+          <label class="font-bold text-slate-700">Chấm điểm độ tin cậy (Thang điểm 1 – 10):</label>
+          <span id="review-score-label" class="text-base font-extrabold text-vibrant-orange brand-font">9.0 / 10 ★</span>
+        </div>
+        <input id="review-score-input" type="range" min="1" max="10" step="0.5" value="9.0" oninput="updateReviewScoreLabel(this.value)" class="w-full accent-orange-500 cursor-pointer">
+        <div class="flex justify-between text-[10px] text-slate-400 font-semibold mt-1">
+          <span>1.0 (Rất kém / Trốn việc)</span>
+          <span>5.0 (Trung bình)</span>
+          <span>8.0 (Tin cậy tốt)</span>
+          <span>10.0 (Xuất sắc)</span>
+        </div>
+      </div>
+
+      <div>
+        <label class="font-bold text-slate-700 block mb-1">Nhận xét (Comment) chi tiết về mức độ tin cậy & hợp tác:</label>
+        <textarea id="review-comment-input" rows="3" placeholder="VD: Đúng hạn deadline, chủ động nhận task khó, code sạch và hỗ trợ đồng đội nhiệt tình..." class="w-full border border-slate-300 rounded-xl p-3 focus:outline-none focus:border-blue-600"></textarea>
+      </div>
+
+      <div class="flex justify-end space-x-2 pt-2 border-t border-slate-100">
+        <button onclick="closePeerReviewModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-bold">
+          Hủy
+        </button>
+        <button onclick="submitPeerReview()" class="px-5 py-2 rounded-xl bg-vibrant-orange hover:bg-orange-600 text-white font-bold shadow">
+          Gửi đánh giá ẩn danh
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 4: TRUNG TÂM ĐỒNG BỘ ĐA TRÌNH DUYỆT (CLOUD SYNC)                -->
   <!-- ===================================================================== -->
   <div id="modal-sync" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 my-8 space-y-4 text-xs">
@@ -573,21 +634,19 @@
           <strong class="text-emerald-800">1. Đám mây HTTPS + Real-time SSE/MQTT:</strong>
           <span id="modal-sync-badge" class="font-bold text-emerald-700">Đang hoạt động</span>
         </div>
-        <p>Mỗi khi có tài khoản mới đăng ký hoặc nộp bài Quiz, dữ liệu Delta sẽ được lưu lên máy chủ Cloud để mọi trình duyệt Chrome khác tự động tải về.</p>
+        <p>Tài khoản, khung thời gian dự án, đơn ứng tuyển và đánh giá độ tin cậy ẩn danh (/10) đều được đồng bộ tự động giữa các trình duyệt.</p>
         <div class="pt-1 flex flex-wrap gap-2">
           <button onclick="pushStateToCloud(true)" class="px-3 py-1.5 bg-tech-blue text-white font-bold rounded-lg shadow-sm">
-            ⬆️ Đẩy dữ liệu từ trình duyệt này lên Cloud
+            ⬆️ Đẩy dữ liệu lên Cloud
           </button>
           <button onclick="pullCloudStateNow(true)" class="px-3 py-1.5 bg-emerald-600 text-white font-bold rounded-lg shadow-sm">
-            ⬇️ Tải dữ liệu mới nhất từ Cloud về
+            ⬇️ Tải dữ liệu mới nhất về
           </button>
         </div>
       </div>
 
-      <!-- Mã đồng bộ dự phòng khi mất mạng -->
       <div class="p-3.5 bg-orange-50/70 border border-orange-200 rounded-xl space-y-2">
         <strong class="text-vibrant-orange block">2. Sao chép / Dán Mã đồng bộ trực tiếp (Dùng khi Offline):</strong>
-        <p class="text-slate-600">Nếu máy tính đang ngắt kết nối Internet, bạn có thể sao chép Mã đồng bộ ở Chrome A và dán vào Chrome B:</p>
         <div class="flex gap-2">
           <button onclick="copySyncToken()" class="px-3 py-1.5 bg-vibrant-orange text-white font-bold rounded-lg shrink-0">
             📋 Copy Mã
@@ -608,21 +667,20 @@
         <strong class="text-white brand-font">TeamUp IT</strong> — Đồ án môn Kỹ năng nghề nghiệp (SS004)
       </div>
       <div class="text-emerald-400">
-        🔒 Đồng bộ đám mây bảo mật • Ẩn hoàn toàn thông tin nhạy cảm & lịch sử duyệt web.
+        🔒 Đồng bộ đám mây bảo mật • Đánh giá độ tin cậy ẩn danh (Thang điểm 10).
       </div>
     </div>
   </footer>
 
   <!-- ===================================================================== -->
-  <!-- JAVASCRIPT: HỆ THỐNG ĐỒNG BỘ CLOUD BỀN VỮNG (HTTPS + SSE + MQTT)       -->
+  <!-- JAVASCRIPT: HỆ THỐNG KHUNG THỜI GIAN DỰ ÁN & ĐÁNH GIÁ ĐỘ TIN CẬY (/10) -->
   <!-- ===================================================================== -->
   <script>
-    const STORAGE_KEY = 'TEAMUP_IT_SECURE_DATA_V9';
-    // Điểm cuối lưu trữ đám mây HTTPS (Hỗ trợ lưu trữ lịch sử bản ghi & SSE thời gian thực giữa các Chrome khác nhau)
-    const NTFY_TOPIC = 'uit_ss004_teamup_26521682_v9_sync';
+    const STORAGE_KEY = 'TEAMUP_IT_SECURE_DATA_V10';
+    const NTFY_TOPIC = 'uit_ss004_teamup_26521682_v10_sync';
     const NTFY_BASE_URL = `https://ntfy.sh/${NTFY_TOPIC}`;
-    const MQTT_STATE_TOPIC = 'uit/ss004/teamup_26521682_v9/state';
-    const MQTT_PING_TOPIC = 'uit/ss004/teamup_26521682_v9/ping';
+    const MQTT_STATE_TOPIC = 'uit/ss004/teamup_26521682_v10/state';
+    const MQTT_PING_TOPIC = 'uit/ss004/teamup_26521682_v10/ping';
     const MQTT_BROKERS = [
       'wss://broker.emqx.io:8084/mqtt',
       'wss://broker.hivemq.com:8884/mqtt'
@@ -737,10 +795,11 @@
         .replace(/^`|`$/g, '')
         .toLowerCase()
         .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[̀-ͯ]/g, '')
         .replace(/đ/g, 'd');
     }
 
+    // 6 Tài khoản Trưởng nhóm ban đầu
     const INITIAL_LEADERS = [
       {
         id: "LDR_26520786",
@@ -816,6 +875,7 @@
       }
     ];
 
+    // 6 Dự án ban đầu có đầy đủ KHUNG THỜI GIAN (Timeframe, Lịch họp & Các giai đoạn Milestones)
     const INITIAL_GROUPS = [
       {
         id: "GRP_01",
@@ -825,6 +885,9 @@
         course: "SS004 - Kỹ năng nghề nghiệp",
         targetGoal: 9.0,
         minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
+        timeframe: "01/10/2026 – 20/12/2026 (11 tuần)",
+        schedule: "Họp 20h00 Thứ 4 & Chủ Nhật (Cam kết 6–8 giờ/tuần)",
+        milestones: "GĐ1 (Tuần 1-3): Khảo sát & BMC | GĐ2 (Tuần 4-8): Thiết kế & Web MVP | GĐ3 (Tuần 9-11): Báo cáo & Video Demo",
         desc: "Xây dựng mô hình BMC, khảo sát nhu cầu sinh viên và phát triển nền tảng ghép nhóm đồ án chống free-rider.",
         recruitingRoles: ["Backend / Thuật toán", "UI/UX Designer", "Researcher / Báo cáo"],
         requiredSkills: ["C++ / Thuật toán", "Figma / UI/UX", "Viết báo cáo / BMC", "Git / GitHub"],
@@ -841,6 +904,9 @@
         course: "SE104 - Nhập môn CNPM",
         targetGoal: 9.0,
         minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
+        timeframe: "05/10/2026 – 25/12/2026 (12 tuần)",
+        schedule: "Họp 20h30 Thứ 3 & Thứ 7 (Cam kết 7 giờ/tuần)",
+        milestones: "GĐ1 (Tuần 1-3): User Research | GĐ2 (Tuần 4-8): Wireframe & Figma | GĐ3 (Tuần 9-12): Frontend UI & Kiểm thử",
         desc: "Thiết kế bộ nhận diện thương hiệu, wireframe, prototype tương tác và xây dựng giao diện chuẩn UX cho sinh viên.",
         recruitingRoles: ["UI/UX Designer", "Frontend / Web UI", "Researcher / Báo cáo"],
         requiredSkills: ["Figma / UI/UX", "ReactJS / HTML", "Viết báo cáo / BMC"],
@@ -857,6 +923,9 @@
         course: "IT003 - Cấu trúc dữ liệu & Giải thuật",
         targetGoal: 9.0,
         minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
+        timeframe: "10/10/2026 – 15/12/2026 (10 tuần)",
+        schedule: "Họp 19h30 Thứ 6 & Chủ Nhật (Cam kết 8 giờ/tuần)",
+        milestones: "GĐ1 (Tuần 1-3): Thiết kế cấu trúc dữ liệu | GĐ2 (Tuần 4-7): Code C++ Dijkstra/A* | GĐ3 (Tuần 8-10): Đo benchmark & Báo cáo",
         desc: "Cài đặt và tối ưu độ phức tạp các thuật toán đồ thị bằng C++, kết hợp phân tích dữ liệu thực nghiệm.",
         recruitingRoles: ["Backend / Thuật toán", "Data / Phân tích dữ liệu", "Frontend / Web UI"],
         requiredSkills: ["C++ / Thuật toán", "Python / Data", "Git / GitHub"],
@@ -873,6 +942,9 @@
         course: "IT004 - Cơ sở dữ liệu",
         targetGoal: 9.0,
         minLevel: "Từ Sinh viên Năm 2 trở lên",
+        timeframe: "01/10/2026 – 28/12/2026 (12 tuần)",
+        schedule: "Họp 20h00 Thứ 5 & Chủ Nhật (Cam kết 8–10 giờ/tuần)",
+        milestones: "GĐ1 (Tuần 1-3): Thiết kế ERD & Chuẩn hóa | GĐ2 (Tuần 4-8): ETL Pipeline & SQL Optimization | GĐ3 (Tuần 9-12): Dashboard & Nghiệm thu",
         desc: "Thiết kế kiến trúc dữ liệu, quy trình ETL, tối ưu truy vấn SQL và thuật toán gợi ý lộ trình học tập.",
         recruitingRoles: ["Data / Phân tích dữ liệu", "Backend / Thuật toán", "Researcher / Báo cáo"],
         requiredSkills: ["SQL / Database", "Python / Data", "C++ / Thuật toán", "Git / GitHub"],
@@ -889,6 +961,9 @@
         course: "SS004 - Kỹ năng nghề nghiệp",
         targetGoal: 8.0,
         minLevel: "Từ Sinh viên Năm 2 trở lên",
+        timeframe: "12/10/2026 – 22/12/2026 (10 tuần)",
+        schedule: "Họp 20h00 Thứ 7 hàng tuần (Cam kết 5–6 giờ/tuần)",
+        milestones: "GĐ1 (Tuần 1-3): Lập mô hình tài chính | GĐ2 (Tuần 4-7): Xây dựng Web Dashboard | GĐ3 (Tuần 8-10): Hoàn thiện báo cáo",
         desc: "Lập kế hoạch thực thi, dự phóng dòng tiền 12 tháng và xây dựng dashboard theo dõi KPI dự án khởi nghiệp.",
         recruitingRoles: ["Researcher / Báo cáo", "Data / Phân tích dữ liệu", "Frontend / Web UI"],
         requiredSkills: ["Viết báo cáo / BMC", "SQL / Database", "ReactJS / HTML"],
@@ -905,6 +980,9 @@
         course: "SE104 - Nhập môn CNPM",
         targetGoal: 8.0,
         minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
+        timeframe: "08/10/2026 – 20/12/2026 (11 tuần)",
+        schedule: "Họp 21h00 Thứ 4 & Chủ Nhật (Cam kết 6 giờ/tuần)",
+        milestones: "GĐ1 (Tuần 1-3): Kịch bản & Thiết kế UI | GĐ2 (Tuần 4-8): Lập trình Frontend/Backend | GĐ3 (Tuần 9-11): Sản xuất Video Demo",
         desc: "Xây dựng cổng kết nối sự kiện, sản xuất nội dung số và giao diện tương tác trực tuyến cho cộng đồng sinh viên.",
         recruitingRoles: ["Frontend / Web UI", "UI/UX Designer", "Backend / Thuật toán"],
         requiredSkills: ["ReactJS / HTML", "Figma / UI/UX", "Node.js / API"],
@@ -915,18 +993,51 @@
       }
     ];
 
+    // Dữ liệu đánh giá độ tin cậy ẩn danh khởi tạo sẵn (Thang điểm 10 kèm comment)
+    const INITIAL_REVIEWS = [
+      {
+        id: "REV_INIT_1",
+        targetUserId: "LDR_26520786",
+        reviewerHash: "sys_init_1",
+        projectTitle: "Đồ án Nhập môn Lập trình",
+        score: 9.5,
+        comment: "Phân công công việc rất rõ ràng, luôn hoàn thành phần việc trước hạn 1 ngày để cả nhóm kiểm tra chéo.",
+        updatedAt: 100
+      },
+      {
+        id: "REV_INIT_2",
+        targetUserId: "LDR_26521682",
+        reviewerHash: "sys_init_2",
+        projectTitle: "Đồ án Cấu trúc dữ liệu & Giải thuật",
+        score: 9.8,
+        comment: "Tư duy thuật toán C++ cực kỳ chắc chắn, tối ưu độ phức tạp tốt và hỗ trợ các thành viên trong nhóm rất nhiệt tình.",
+        updatedAt: 100
+      },
+      {
+        id: "REV_INIT_3",
+        targetUserId: "LDR_26521623",
+        reviewerHash: "sys_init_3",
+        projectTitle: "Đồ án Thiết kế Giao diện Người dùng",
+        score: 9.5,
+        comment: "Thiết kế Figma đẹp, đúng tiến độ từng giai đoạn và rất chịu khó lắng nghe góp ý từ đồng đội.",
+        updatedAt: 100
+      }
+    ];
+
     function getInitialState() {
       return {
         users: JSON.parse(JSON.stringify(INITIAL_LEADERS)),
         groups: JSON.parse(JSON.stringify(INITIAL_GROUPS)),
         applications: [],
-        leaveRequests: []
+        leaveRequests: [],
+        peerReviews: JSON.parse(JSON.stringify(INITIAL_REVIEWS))
       };
     }
 
     let appState = loadState();
     let currentUser = null;
     let activeQuizContext = null;
+    let activeReviewTarget = null; // { targetUserId, targetAlias, groupId, projectTitle }
     let mqttClients = [];
     let ntfyEventSource = null;
 
@@ -951,6 +1062,7 @@
       if (!stateObj.groups) stateObj.groups = [];
       if (!stateObj.applications) stateObj.applications = [];
       if (!stateObj.leaveRequests) stateObj.leaveRequests = [];
+      if (!stateObj.peerReviews) stateObj.peerReviews = [];
 
       INITIAL_LEADERS.forEach(initLeader => {
         const idx = stateObj.users.findIndex(u => u.id === initLeader.id || u.username === initLeader.username);
@@ -965,8 +1077,39 @@
         const idx = stateObj.groups.findIndex(g => g.id === initGrp.id);
         if (idx < 0) {
           stateObj.groups.push(JSON.parse(JSON.stringify(initGrp)));
+        } else {
+          if (!stateObj.groups[idx].timeframe) stateObj.groups[idx].timeframe = initGrp.timeframe;
+          if (!stateObj.groups[idx].schedule) stateObj.groups[idx].schedule = initGrp.schedule;
+          if (!stateObj.groups[idx].milestones) stateObj.groups[idx].milestones = initGrp.milestones;
         }
       });
+
+      INITIAL_REVIEWS.forEach(initRev => {
+        if (!stateObj.peerReviews.some(r => r.id === initRev.id)) {
+          stateObj.peerReviews.push({ ...initRev });
+        }
+      });
+    }
+
+    // =====================================================================
+    // TÍNH ĐIỂM ĐỘ TIN CẬY TRUNG BÌNH (THANG ĐIỂM 10) & DANH SÁCH COMMENT
+    // =====================================================================
+    function getTrustStatsForUser(userId) {
+      const reviews = (appState.peerReviews || []).filter(r => r.targetUserId === userId);
+      if (reviews.length === 0) {
+        return {
+          avgScore: null,
+          count: 0,
+          reviews: []
+        };
+      }
+      const sum = reviews.reduce((acc, item) => acc + parseFloat(item.score || 0), 0);
+      const avg = (sum / reviews.length).toFixed(1);
+      return {
+        avgScore: parseFloat(avg),
+        count: reviews.length,
+        reviews: reviews.slice().sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))
+      };
     }
 
     // =====================================================================
@@ -976,18 +1119,22 @@
       const initLeaderIds = new Set(INITIAL_LEADERS.map(l => l.id));
       const initGroupIds = new Set(INITIAL_GROUPS.map(g => g.id));
       return {
-        v: 9,
+        v: 10,
         ts: Date.now(),
         cu: (state.users || []).filter(u => !initLeaderIds.has(u.id)),
         cg: (state.groups || []).filter(g => !initGroupIds.has(g.id)),
         gu: (state.groups || []).filter(g => initGroupIds.has(g.id)).map(g => ({
           id: g.id,
+          timeframe: g.timeframe,
+          schedule: g.schedule,
+          milestones: g.milestones,
           recruitingRoles: g.recruitingRoles,
           members: g.members,
           updatedAt: g.updatedAt || 100
         })),
         ap: state.applications || [],
-        lr: state.leaveRequests || []
+        lr: state.leaveRequests || [],
+        pr: state.peerReviews || []
       };
     }
 
@@ -1008,17 +1155,14 @@
 
     function applyIncomingPayload(payload) {
       if (!payload) return false;
-      let changed = false;
 
-      // Hỗ trợ cả định dạng Compact Delta (v: 9) và Full State
       const incUsers = payload.cu || payload.users || [];
       const incCustomGroups = payload.cg || [];
       const incBaseGroupUpdates = payload.gu || [];
       const incFullGroups = payload.groups || [];
       const incApps = payload.ap || payload.applications || [];
       const incLeaves = payload.lr || payload.leaveRequests || [];
-
-      const beforeCount = appState.users.length + appState.applications.length + appState.leaveRequests.length;
+      const incReviews = payload.pr || payload.peerReviews || [];
 
       appState.users = mergeById(appState.users, incUsers);
       if (incFullGroups.length > 0) {
@@ -1033,6 +1177,9 @@
           if (idx >= 0) {
             const curG = appState.groups[idx];
             if ((uGrp.updatedAt || 0) >= (curG.updatedAt || 0)) {
+              if (uGrp.timeframe) curG.timeframe = uGrp.timeframe;
+              if (uGrp.schedule) curG.schedule = uGrp.schedule;
+              if (uGrp.milestones) curG.milestones = uGrp.milestones;
               curG.recruitingRoles = uGrp.recruitingRoles;
               curG.members = uGrp.members;
               curG.updatedAt = uGrp.updatedAt;
@@ -1043,6 +1190,7 @@
 
       appState.applications = mergeById(appState.applications, incApps);
       appState.leaveRequests = mergeById(appState.leaveRequests, incLeaves);
+      appState.peerReviews = mergeById(appState.peerReviews, incReviews);
       ensureInitialData(appState);
 
       try {
@@ -1076,12 +1224,10 @@
       }
     }
 
-    // Đẩy dữ liệu lên cả HTTPS Cloud (ntfy.sh) VÀ MQTT WebSockets
     async function pushStateToCloud(showMessage = false) {
       const delta = buildCompactDelta(appState);
       const deltaStr = JSON.stringify(delta);
 
-      // 1. Gửi qua MQTT WebSockets (Retained)
       mqttClients.forEach(c => {
         if (c && c.connected) {
           try {
@@ -1090,7 +1236,6 @@
         }
       });
 
-      // 2. Lưu trữ bền vững lên HTTPS Cloud (ntfy.sh) để Chrome Gmail khác tải về bất cứ lúc nào
       try {
         const res = await fetch(NTFY_BASE_URL, {
           method: 'POST',
@@ -1103,15 +1248,13 @@
       } catch (e) {}
 
       if (showMessage) {
-        alert("Đã đẩy toàn bộ tài khoản và dữ liệu lên Cloud thành công! Bạn có thể sang Chrome của Gmail khác để đăng nhập ngay.");
+        alert("Đã đẩy toàn bộ tài khoản, khung thời gian và dữ liệu đánh giá độ tin cậy lên Cloud thành công!");
       }
     }
 
-    // Tải lịch sử trạng thái từ HTTPS Cloud (ntfy.sh) + Yêu cầu đồng bộ MQTT
     async function pullCloudStateNow(showMessage = false) {
       updateCloudBadge(false, "Đang tải dữ liệu Cloud...");
 
-      // Yêu cầu các trình duyệt đang mở gửi bản mới nhất qua MQTT
       mqttClients.forEach(c => {
         if (c && c.connected) {
           try {
@@ -1126,7 +1269,8 @@
         });
         if (res.ok) {
           const text = await res.text();
-          const lines = text.split('\n').filter(Boolean);
+          const lines = text.split('
+').filter(Boolean);
           lines.forEach(line => {
             try {
               const evt = JSON.parse(line);
@@ -1143,15 +1287,13 @@
       }
 
       if (showMessage) {
-        alert(`Đã đồng bộ xong dữ liệu mới nhất từ Cloud!`);
+        alert("Đã đồng bộ xong dữ liệu mới nhất từ Cloud!");
       }
     }
 
     function initCloudSyncEngine() {
-      // 1. Tải toàn bộ dữ liệu đã lưu trên HTTPS Cloud ngay khi mở trang
       pullCloudStateNow(false);
 
-      // 2. Mở luồng Server-Sent Events (SSE) từ HTTPS Cloud để nhận cập nhật tức thời
       try {
         ntfyEventSource = new EventSource(`${NTFY_BASE_URL}/sse`);
         ntfyEventSource.onmessage = (event) => {
@@ -1166,12 +1308,11 @@
         };
       } catch (e) {}
 
-      // 3. Kết nối song song MQTT Brokers làm kênh phụ trợ tốc độ cao
       if (typeof mqtt !== 'undefined') {
         MQTT_BROKERS.forEach(url => {
           try {
             const client = mqtt.connect(url, {
-              clientId: 'tu_' + Math.random().toString(16).slice(2, 10),
+              clientId: 'tu10_' + Math.random().toString(16).slice(2, 10),
               clean: true,
               connectTimeout: 5000,
               reconnectPeriod: 4000
@@ -1188,8 +1329,7 @@
                   applyIncomingPayload(JSON.parse(message.toString()));
                 } catch (e) {}
               } else if (topic === MQTT_PING_TOPIC) {
-                // Nếu có trình duyệt khác vừa mở và hỏi dữ liệu, gửi trả ngay nếu trình duyệt này có dữ liệu mới
-                if (appState.users.length > INITIAL_LEADERS.length || appState.applications.length > 0) {
+                if (appState.users.length > INITIAL_LEADERS.length || appState.applications.length > 0 || appState.peerReviews.length > INITIAL_REVIEWS.length) {
                   const deltaStr = JSON.stringify(buildCompactDelta(appState));
                   client.publish(MQTT_STATE_TOPIC, deltaStr, { qos: 1, retain: true });
                 }
@@ -1236,7 +1376,7 @@
         saveState(true);
         document.getElementById('input-sync-token').value = '';
         closeSyncModal();
-        alert("Đã nhập và đồng bộ tài khoản thành công!");
+        alert("Đã nhập và đồng bộ dữ liệu thành công!");
       } catch (e) {
         alert("Mã đồng bộ không hợp lệ!");
       }
@@ -1345,7 +1485,6 @@
       btnReg.disabled = true;
       btnReg.textContent = "⏳ Đang đồng bộ tài khoản lên Cloud...";
 
-      // Đồng bộ trước khi kiểm tra trùng lặp
       await pullCloudStateNow(false);
 
       if (appState.users.some(u => u.username === username || u.altLogin === username)) {
@@ -1396,6 +1535,9 @@
       } else {
         const grpTitle = document.getElementById('reg-grp-title').value.trim();
         const grpCourse = document.getElementById('reg-grp-course').value;
+        const grpTimeframe = document.getElementById('reg-grp-timeframe').value.trim() || "15/10/2026 – 25/12/2026 (10 tuần)";
+        const grpSchedule = document.getElementById('reg-grp-schedule').value.trim() || "Họp định kỳ 20h00 Thứ 4 & Chủ Nhật";
+        const grpMilestones = document.getElementById('reg-grp-milestones').value.trim() || "GĐ1: Khảo sát | GĐ2: Phát triển MVP | GĐ3: Báo cáo & Demo";
         const grpGoal = parseFloat(document.getElementById('reg-grp-goal').value);
         const grpMinLevel = document.getElementById('reg-grp-minlevel').value;
         const grpDesc = document.getElementById('reg-grp-desc').value.trim() || "Làm việc nhóm nghiêm túc, đúng tiến độ và hỗ trợ nhau đạt điểm cao.";
@@ -1416,6 +1558,9 @@
           leaderAlias: displayName,
           title: grpTitle,
           course: grpCourse,
+          timeframe: grpTimeframe,
+          schedule: grpSchedule,
+          milestones: grpMilestones,
           targetGoal: grpGoal,
           minLevel: grpMinLevel,
           desc: grpDesc,
@@ -1490,13 +1635,11 @@
       btnLogin.disabled = true;
       btnLogin.textContent = "⏳ Đang đồng bộ tài khoản từ Cloud...";
 
-      // Kiểm tra trong bộ nhớ hiện tại trước, nếu chưa thấy sẽ tự động kéo từ Cloud về ngay lập tức
       let found = matchUserCredential(rawLogin, rawPass);
       if (!found) {
         await pullCloudStateNow(false);
         found = matchUserCredential(rawLogin, rawPass);
       } else {
-        // Vẫn đồng bộ ngầm trạng thái nhóm mới nhất
         pullCloudStateNow(false);
       }
 
@@ -1522,7 +1665,90 @@
     }
 
     // =====================================================================
-    // GIAO DIỆN NGƯỜI DÙNG TÌM NHÓM (MEMBER)
+    // HỆ THỐNG ĐÁNH GIÁ ĐỘ TIN CẬY ẨN DANH GIỮA CÁC THÀNH VIÊN CHUNG DỰ ÁN (/10)
+    // =====================================================================
+    function openPeerReviewModal(targetUserId, targetAlias, groupId, projectTitle) {
+      if (!currentUser) return;
+      if (targetUserId === currentUser.id) {
+        alert("Bạn không thể tự đánh giá độ tin cậy của chính mình!");
+        return;
+      }
+
+      activeReviewTarget = { targetUserId, targetAlias, groupId, projectTitle };
+      document.getElementById('review-target-name').textContent = `Đánh giá thành viên: ${targetAlias}`;
+      document.getElementById('review-project-name').textContent = `Chung dự án: ${projectTitle}`;
+
+      // Kiểm tra xem người dùng hiện tại đã từng đánh giá người này trong dự án này chưa (qua mã băm ẩn danh)
+      const reviewerHash = hashSecret(currentUser.id + "_" + groupId + "_" + targetUserId);
+      const existing = (appState.peerReviews || []).find(r => r.reviewerHash === reviewerHash);
+
+      if (existing) {
+        document.getElementById('review-score-input').value = existing.score;
+        updateReviewScoreLabel(existing.score);
+        document.getElementById('review-comment-input').value = existing.comment;
+      } else {
+        document.getElementById('review-score-input').value = 9.0;
+        updateReviewScoreLabel(9.0);
+        document.getElementById('review-comment-input').value = '';
+      }
+
+      document.getElementById('modal-peer-review').classList.remove('hidden');
+    }
+
+    function closePeerReviewModal() {
+      document.getElementById('modal-peer-review').classList.add('hidden');
+      activeReviewTarget = null;
+    }
+
+    function updateReviewScoreLabel(val) {
+      document.getElementById('review-score-label').textContent = `${parseFloat(val).toFixed(1)} / 10 ★`;
+    }
+
+    function submitPeerReview() {
+      if (!activeReviewTarget || !currentUser) return;
+      const scoreVal = parseFloat(document.getElementById('review-score-input').value);
+      const commentVal = document.getElementById('review-comment-input').value.trim();
+
+      if (!commentVal) {
+        alert("Vui lòng nhập nhận xét (comment) đánh giá mức độ tin cậy của thành viên này!");
+        return;
+      }
+
+      const { targetUserId, targetAlias, groupId, projectTitle } = activeReviewTarget;
+      const reviewerHash = hashSecret(currentUser.id + "_" + groupId + "_" + targetUserId);
+      const nowTs = Date.now();
+
+      const existingIdx = (appState.peerReviews || []).findIndex(r => r.reviewerHash === reviewerHash);
+      if (existingIdx >= 0) {
+        appState.peerReviews[existingIdx].score = scoreVal;
+        appState.peerReviews[existingIdx].comment = commentVal;
+        appState.peerReviews[existingIdx].updatedAt = nowTs;
+      } else {
+        appState.peerReviews.push({
+          id: "REV_" + nowTs.toString(36).toUpperCase(),
+          targetUserId,
+          reviewerHash,
+          projectTitle,
+          score: scoreVal,
+          comment: commentVal,
+          updatedAt: nowTs
+        });
+      }
+
+      saveState(true);
+      closePeerReviewModal();
+
+      if (currentUser.accountType === 'LEADER') {
+        renderLeaderDashboard();
+      } else {
+        renderMemberDashboard();
+      }
+
+      alert(`Đã lưu đánh giá độ tin cậy ẩn danh (${scoreVal.toFixed(1)}/10) cho "${targetAlias}"! Dữ liệu này đã được đồng bộ để các Trưởng nhóm dự án sau tham khảo.`);
+    }
+
+    // =====================================================================
+    // GIAO DIỆN NGƯỜI DÙNG TÌM NHÓM (MEMBER DASHBOARD)
     // =====================================================================
     function renderMemberDashboard() {
       if (!currentUser || currentUser.accountType !== 'MEMBER') return;
@@ -1543,9 +1769,93 @@
         `;
       }).join('');
 
+      renderMemberOwnTrustBox();
       renderMemberGroupBanner();
+      renderMemberPeerReviewSection();
       renderMemberApplications();
       renderMatchingGroupsForMember();
+    }
+
+    function renderMemberOwnTrustBox() {
+      const box = document.getElementById('member-own-trust-box');
+      const stats = getTrustStatsForUser(currentUser.id);
+      if (stats.count === 0) {
+        box.innerHTML = `
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-center">
+            <p class="text-lg font-extrabold text-slate-700 brand-font">Chưa có điểm / 10</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Khi bạn tham gia dự án, các thành viên cùng dự án sẽ đánh giá ẩn danh độ tin cậy của bạn tại đây.</p>
+          </div>
+        `;
+        return;
+      }
+
+      box.innerHTML = `
+        <div class="p-3.5 bg-orange-50/70 rounded-xl border border-orange-200">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-700">Điểm tin cậy trung bình:</span>
+            <span class="text-xl font-extrabold text-vibrant-orange brand-font">${stats.avgScore.toFixed(1)} / 10 ★</span>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-0.5">Tổng hợp từ ${stats.count} đánh giá ẩn danh của đồng đội:</p>
+          <div class="mt-2 space-y-1.5 max-h-36 overflow-y-auto pr-1">
+            ${stats.reviews.map(r => `
+              <div class="p-2 bg-white rounded-lg border border-orange-100 text-[11px]">
+                <div class="flex justify-between font-bold text-slate-700">
+                  <span>Đồng đội ẩn danh (${r.projectTitle})</span>
+                  <span class="text-vibrant-orange">${parseFloat(r.score).toFixed(1)}/10</span>
+                </div>
+                <p class="text-slate-600 italic mt-0.5">"${r.comment}"</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMemberPeerReviewSection() {
+      const sec = document.getElementById('member-peer-review-section');
+      const listEl = document.getElementById('member-teammates-review-list');
+
+      if (!currentUser.joinedGroupId) {
+        sec.classList.add('hidden');
+        return;
+      }
+
+      const grp = appState.groups.find(g => g.id === currentUser.joinedGroupId);
+      if (!grp) {
+        sec.classList.add('hidden');
+        return;
+      }
+
+      const teammates = (grp.members || []).filter(m => m.userId !== currentUser.id);
+      if (teammates.length === 0) {
+        sec.classList.add('hidden');
+        return;
+      }
+
+      sec.classList.remove('hidden');
+      listEl.innerHTML = teammates.map(tm => {
+        const stats = getTrustStatsForUser(tm.userId);
+        const reviewerHash = hashSecret(currentUser.id + "_" + grp.id + "_" + tm.userId);
+        const myPrevReview = (appState.peerReviews || []).find(r => r.reviewerHash === reviewerHash);
+
+        return `
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <strong class="text-sm text-slate-900">${tm.alias}</strong>
+                <span class="px-2 py-0.5 bg-blue-100 text-tech-blue rounded text-[11px] font-bold">${tm.role}</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">
+                Độ tin cậy hiện tại: <strong class="text-vibrant-orange">${stats.avgScore !== null ? stats.avgScore.toFixed(1) + '/10 ★ (' + stats.count + ' đánh giá)' : 'Chưa có đánh giá'}</strong>
+              </p>
+              ${myPrevReview ? `<p class="text-[11px] text-emerald-700 font-semibold mt-0.5">✓ Bạn đã chấm ẩn danh: ${parseFloat(myPrevReview.score).toFixed(1)}/10</p>` : ''}
+            </div>
+            <button onclick="openPeerReviewModal('${tm.userId}', '${tm.alias}', '${grp.id}', '${grp.title}')" class="px-3.5 py-2 rounded-xl bg-vibrant-orange hover:bg-orange-600 text-white text-xs font-bold shadow-sm shrink-0 transition">
+              ${myPrevReview ? 'Sửa đánh giá (/10)' : '★ Đánh giá (/10)'}
+            </button>
+          </div>
+        `;
+      }).join('');
     }
 
     function updateMemberPreferences() {
@@ -1565,7 +1875,7 @@
         banner.innerHTML = `
           <div class="bg-blue-50 border border-blue-200 p-4 rounded-2xl flex flex-wrap justify-between items-center gap-3">
             <div class="text-xs md:text-sm text-slate-700">
-              🎯 <strong>Trạng thái hiện tại:</strong> Bạn chưa thuộc nhóm chính thức nào. Bạn có thể làm Quiz ứng tuyển vào nhiều nhóm/vị trí. Trưởng nhóm nào phê duyệt bạn đầu tiên thì bạn sẽ thuộc về nhóm đó!
+              🎯 <strong>Trạng thái hiện tại:</strong> Bạn chưa thuộc nhóm chính thức nào. Hãy đối chiếu <strong>Khung thời gian dự án</strong> bên dưới và làm Quiz ứng tuyển!
             </div>
             <span class="text-xs bg-white text-tech-blue font-bold px-3 py-1 rounded-lg border border-blue-200">
               Đang tìm nhóm
@@ -1582,18 +1892,18 @@
 
       banner.innerHTML = `
         <div class="bg-emerald-50 border-2 border-emerald-400 p-5 rounded-2xl flex flex-wrap justify-between items-center gap-4">
-          <div>
+          <div class="space-y-1">
             <span class="bg-emerald-600 text-white text-xs font-extrabold px-2.5 py-1 rounded-md uppercase">
-              ✓ Đã được Trưởng nhóm phê duyệt chính thức
+              ✓ Đã tham gia dự án chính thức
             </span>
-            <h3 class="text-base md:text-lg font-bold text-slate-900 mt-2">
-              Nhóm của bạn: ${grp ? grp.title : ''} (${grp ? grp.course : ''})
+            <h3 class="text-base md:text-lg font-bold text-slate-900 pt-1">
+              Dự án: ${grp ? grp.title : ''} (${grp ? grp.course : ''})
             </h3>
-            <p class="text-xs text-slate-600 mt-0.5">
+            <p class="text-xs text-slate-700">
               Vị trí đảm nhận: <strong class="text-tech-blue">${currentUser.joinedRole}</strong> • Trưởng nhóm: <strong>${grp ? grp.leaderAlias : ''}</strong>
             </p>
-            <p class="text-[11px] text-slate-500 mt-1">
-              * Nếu bạn muốn rời nhóm hoặc chuyển sang nhóm khác, bắt buộc phải gửi yêu cầu và chờ Trưởng nhóm hiện tại (${grp ? grp.leaderAlias : ''}) đăng nhập phê duyệt.
+            <p class="text-xs text-slate-600">
+              ⏳ <strong>Khung thời gian dự án:</strong> ${grp ? grp.timeframe : ''} • <strong>Lịch họp:</strong> ${grp ? grp.schedule : ''}
             </p>
           </div>
           <div>
@@ -1684,16 +1994,17 @@
       }).sort((a, b) => b.matchScore - a.matchScore);
 
       document.getElementById('member-match-header').textContent =
-        `Đang hiển thị ${evaluated.length} nhóm được sắp xếp theo độ phù hợp với vị trí "${currentUser.desiredRole}"`;
+        `Đang hiển thị ${evaluated.length} dự án kèm Khung thời gian (Sắp xếp theo độ hợp với vị trí "${currentUser.desiredRole}")`;
 
       container.innerHTML = evaluated.map(g => {
         const isCurrentGroup = currentUser.joinedGroupId === g.id;
+        const leaderTrust = getTrustStatsForUser(g.leaderId);
         const badgeClass = g.matchScore >= 80
           ? 'bg-emerald-600 text-white'
           : (g.matchScore >= 60 ? 'bg-vibrant-orange text-white' : 'bg-slate-200 text-slate-700');
 
         return `
-          <div class="bg-white p-5 rounded-2xl shadow-sm border ${g.matchScore >= 80 ? 'border-2 border-emerald-500/70' : 'border-slate-200'} space-y-3">
+          <div class="bg-white p-5 rounded-2xl shadow-sm border ${g.matchScore >= 80 ? 'border-2 border-emerald-500/70' : 'border-slate-200'} space-y-3.5">
             <div class="flex flex-wrap justify-between items-start gap-2">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="bg-blue-100 text-tech-blue text-xs font-bold px-2.5 py-1 rounded-md">${g.course}</span>
@@ -1701,7 +2012,7 @@
                   Mục tiêu: ${g.targetGoal.toFixed(1)}+
                 </span>
                 <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-                  Trưởng nhóm: <strong>${g.leaderAlias}</strong>
+                  Trưởng nhóm: <strong>${g.leaderAlias}</strong> ${leaderTrust.avgScore !== null ? `<span class="text-vibrant-orange font-bold">(${leaderTrust.avgScore}/10 ★)</span>` : ''}
                 </span>
               </div>
               <span class="${badgeClass} px-3 py-1 rounded-full text-xs font-extrabold">
@@ -1712,6 +2023,17 @@
             <div>
               <h4 class="text-base md:text-lg font-bold text-slate-900">${g.title}</h4>
               <p class="text-xs md:text-sm text-slate-600 mt-1">${g.desc}</p>
+            </div>
+
+            <!-- KHUNG THỜI GIAN DỰ ÁN & CÁC CỘT MỐC (MILESTONES) -->
+            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5 text-xs">
+              <div class="flex flex-wrap justify-between items-center gap-2">
+                <span class="font-bold text-tech-blue">⏳ Khung thời gian: <span class="text-slate-900">${g.timeframe || 'Trong học kỳ hiện tại'}</span></span>
+                <span class="font-semibold text-slate-700 bg-white px-2.5 py-0.5 rounded border border-slate-200">🗓️ ${g.schedule || 'Họp định kỳ hàng tuần'}</span>
+              </div>
+              <p class="text-slate-600">
+                <strong class="text-slate-700">Lộ trình giai đoạn:</strong> ${g.milestones || 'Khảo sát -> Thiết kế & MVP -> Báo cáo'}
+              </p>
             </div>
 
             <div class="flex flex-wrap gap-2">
@@ -1769,7 +2091,7 @@
 
       activeQuizContext = { groupId, role };
       document.getElementById('quiz-role-badge').textContent = `Vị trí ứng tuyển: ${role}`;
-      document.getElementById('quiz-group-title').textContent = `${grp.title} (Trưởng nhóm: ${grp.leaderAlias})`;
+      document.getElementById('quiz-group-title').textContent = `${grp.title} (${grp.timeframe || ''})`;
       document.getElementById('quiz-result-box').classList.add('hidden');
       document.getElementById('btn-submit-quiz').classList.remove('hidden');
 
@@ -1841,7 +2163,7 @@
         resBox.innerHTML = `
           <p class="text-base font-extrabold text-emerald-700">🎉 Bạn đã vượt qua bài Quiz (${correct}/3 câu đúng)!</p>
           <p class="text-xs">
-            Hồ sơ ứng tuyển vị trí <strong>${role}</strong> của bạn đã được đồng bộ lên Cloud và chuyển sang giao diện của Trưởng nhóm <strong>${grp.leaderAlias}</strong> chờ phê duyệt.
+            Hồ sơ năng lực kèm Điểm độ tin cậy (/10) của bạn đã được chuyển sang giao diện của Trưởng nhóm <strong>${grp.leaderAlias}</strong> chờ phê duyệt.
           </p>
         `;
         renderMemberDashboard();
@@ -1856,7 +2178,6 @@
 
     // =====================================================================
     // QUY TẮC: NHÓM ĐẦU TIÊN PHÊ DUYỆT SẼ CÓ ĐƯỢC ỨNG VIÊN
-    // NHÓM THỨ 2, THỨ 3 ĐỀU KHÔNG THỂ TUYỂN NGƯỜI NÀY NỮA
     // =====================================================================
     function approveApplicantFirstWins(applicationId) {
       const app = appState.applications.find(a => a.id === applicationId);
@@ -1870,7 +2191,8 @@
 
       if (user.joinedGroupId) {
         const firstGroup = appState.groups.find(g => g.id === user.joinedGroupId);
-        alert(`Không thể tuyển ứng viên "${user.displayName}"!\nỨng viên này đã được Trưởng nhóm "${firstGroup ? firstGroup.leaderAlias : 'nhóm khác'}" xác nhận phê duyệt trước đó.`);
+        alert(`Không thể tuyển ứng viên "${user.displayName}"!
+Ứng viên này đã được Trưởng nhóm "${firstGroup ? firstGroup.leaderAlias : 'nhóm khác'}" xác nhận phê duyệt trước đó.`);
         app.status = 'LOCKED_BY_FIRST_APPROVAL';
         app.updatedAt = nowTs;
         saveState(true);
@@ -1909,7 +2231,9 @@
       if (!currentUser || !currentUser.joinedGroupId) return;
       const currentGrp = appState.groups.find(g => g.id === currentUser.joinedGroupId);
       const reason = prompt(
-        `Bạn đang là thành viên của nhóm "${currentGrp ? currentGrp.title : ''}".\nĐể rời nhóm, bạn cần sự cho phép của Trưởng nhóm ${currentGrp ? currentGrp.leaderAlias : ''}.\nNhập lý do xin rời nhóm:`,
+        `Bạn đang là thành viên của nhóm "${currentGrp ? currentGrp.title : ''}".
+Để rời nhóm, bạn cần sự cho phép của Trưởng nhóm ${currentGrp ? currentGrp.leaderAlias : ''}.
+Nhập lý do xin rời nhóm:`,
         "Em muốn xin phép điều chỉnh lại kế hoạch môn học trong kỳ này ạ."
       );
       if (reason === null) return;
@@ -1949,8 +2273,10 @@
       }
 
       const reason = prompt(
-        `Bạn đang thuộc nhóm của Trưởng nhóm "${currentGrp.leaderAlias}".\nĐể chuyển sang vị trí "${targetRole}" của nhóm "${targetGrp.title}", bạn bắt buộc phải có sự cho phép của Trưởng nhóm hiện tại.\nNhập lý do xin chuyển nhóm:`,
-        `Em xin phép chuyển sang vị trí ${targetRole} của nhóm mới phù hợp với hướng nghiên cứu của em ạ.`
+        `Bạn đang thuộc nhóm của Trưởng nhóm "${currentGrp.leaderAlias}".
+Để chuyển sang vị trí "${targetRole}" của nhóm "${targetGrp.title}", bạn bắt buộc phải có sự cho phép của Trưởng nhóm hiện tại.
+Nhập lý do xin chuyển nhóm:`,
+        `Em xin phép chuyển sang vị trí ${targetRole} của nhóm mới phù hợp với khung thời gian của em ạ.`
       );
       if (reason === null) return;
 
@@ -2001,8 +2327,29 @@
       saveState(true);
     }
 
+    // Cho phép Trưởng nhóm cập nhật Khung thời gian của dự án
+    function leaderEditTimeframe() {
+      if (!currentUser || currentUser.accountType !== 'LEADER') return;
+      const myGroup = appState.groups.find(g => g.id === currentUser.ownedGroupId);
+      if (!myGroup) return;
+
+      const newTf = prompt("Cập nhật Khung thời gian dự án (Bắt đầu – Kết thúc):", myGroup.timeframe || "01/10/2026 – 20/12/2026 (11 tuần)");
+      if (newTf === null) return;
+      const newSch = prompt("Cập nhật Lịch họp định kỳ & Cam kết tuần:", myGroup.schedule || "Họp 20h00 Thứ 4 & Chủ Nhật");
+      if (newSch === null) return;
+      const newMs = prompt("Cập nhật Các cột mốc giai đoạn (Milestones):", myGroup.milestones || "");
+      if (newMs === null) return;
+
+      myGroup.timeframe = newTf.trim() || myGroup.timeframe;
+      myGroup.schedule = newSch.trim() || myGroup.schedule;
+      myGroup.milestones = newMs.trim() || myGroup.milestones;
+      myGroup.updatedAt = Date.now();
+      saveState(true);
+      renderLeaderDashboard();
+    }
+
     // =====================================================================
-    // GIAO DIỆN TRƯỞNG NHÓM (BÊN TRÁI: THÀNH VIÊN | BÊN PHẢI: ỨNG VIÊN CẦN DUYỆT)
+    // GIAO DIỆN TRƯỞNG NHÓM (XEM KHUNG THỜI GIAN, ĐÁNH GIÁ ĐỒNG ĐỘI & XEM ĐIỂM TIN CẬY ỨNG VIÊN)
     // =====================================================================
     function renderLeaderDashboard() {
       if (!currentUser || currentUser.accountType !== 'LEADER') return;
@@ -2011,41 +2358,81 @@
 
       const overviewEl = document.getElementById('leader-group-overview');
       overviewEl.innerHTML = `
-        <div class="flex flex-wrap justify-between items-start gap-4">
-          <div>
-            <span class="bg-orange-100 text-vibrant-orange text-xs font-extrabold px-3 py-1 rounded-full uppercase">
-              Bảng điều khiển của Trưởng nhóm: ${currentUser.displayName}
-            </span>
-            <h2 class="text-xl font-extrabold text-slate-900 mt-2">${myGroup.title}</h2>
-            <p class="text-xs md:text-sm text-slate-600 mt-1">
-              Môn học: <strong>${myGroup.course}</strong> • Mục tiêu nhóm: <strong class="text-vibrant-orange">${myGroup.targetGoal.toFixed(1)}+</strong> • Yêu cầu: <strong>${myGroup.minLevel}</strong>
-            </p>
-          </div>
-          <div class="text-right">
-            <p class="text-xs font-semibold text-slate-500 uppercase">Các vị trí nhóm đang tuyển</p>
-            <div class="flex flex-wrap justify-end gap-1.5 mt-1">
-              ${myGroup.recruitingRoles.length === 0
-                ? `<span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-md">Đã tuyển đủ tất cả vị trí</span>`
-                : myGroup.recruitingRoles.map(r => `<span class="bg-blue-100 text-tech-blue text-xs font-bold px-2.5 py-1 rounded-md">${r}</span>`).join('')
-              }
+        <div class="space-y-4">
+          <div class="flex flex-wrap justify-between items-start gap-4">
+            <div>
+              <span class="bg-orange-100 text-vibrant-orange text-xs font-extrabold px-3 py-1 rounded-full uppercase">
+                Bảng điều khiển của Trưởng nhóm: ${currentUser.displayName}
+              </span>
+              <h2 class="text-xl font-extrabold text-slate-900 mt-2">${myGroup.title}</h2>
+              <p class="text-xs md:text-sm text-slate-600 mt-1">
+                Môn học: <strong>${myGroup.course}</strong> • Mục tiêu nhóm: <strong class="text-vibrant-orange">${myGroup.targetGoal.toFixed(1)}+</strong> • Yêu cầu: <strong>${myGroup.minLevel}</strong>
+              </p>
             </div>
+            <div class="text-right">
+              <p class="text-xs font-semibold text-slate-500 uppercase">Các vị trí nhóm đang tuyển</p>
+              <div class="flex flex-wrap justify-end gap-1.5 mt-1">
+                ${myGroup.recruitingRoles.length === 0
+                  ? `<span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-md">Đã tuyển đủ tất cả vị trí</span>`
+                  : myGroup.recruitingRoles.map(r => `<span class="bg-blue-100 text-tech-blue text-xs font-bold px-2.5 py-1 rounded-md">${r}</span>`).join('')
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Khung thời gian của dự án hiện tại -->
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap justify-between items-center gap-3 text-xs">
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="font-bold text-tech-blue">⏳ Khung thời gian dự án: <span class="text-slate-900">${myGroup.timeframe || ''}</span></span>
+                <span class="font-semibold text-slate-700">🗓️ ${myGroup.schedule || ''}</span>
+              </div>
+              <p class="text-slate-600"><strong>Các giai đoạn (Milestones):</strong> ${myGroup.milestones || ''}</p>
+            </div>
+            <button onclick="leaderEditTimeframe()" class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-tech-blue border border-slate-300 font-bold shadow-sm shrink-0">
+              ✏️ Chỉnh sửa Khung thời gian
+            </button>
           </div>
         </div>
       `;
 
+      // Cột trái: Danh sách thành viên trong dự án kèm nút đánh giá độ tin cậy (/10)
       document.getElementById('leader-member-count-badge').textContent = `${myGroup.members.length} thành viên`;
       const memEl = document.getElementById('leader-members-list');
-      memEl.innerHTML = myGroup.members.map((m, idx) => `
-        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-200">
-          <div>
-            <span class="font-bold text-slate-900">${idx + 1}. ${m.alias}</span>
-          </div>
-          <span class="px-2.5 py-1 ${m.userId === myGroup.leaderId ? 'bg-orange-100 text-vibrant-orange' : 'bg-blue-100 text-tech-blue'} rounded-lg font-bold">
-            ${m.role}
-          </span>
-        </div>
-      `).join('');
+      memEl.innerHTML = myGroup.members.map((m, idx) => {
+        const stats = getTrustStatsForUser(m.userId);
+        const isSelf = m.userId === currentUser.id;
+        const reviewerHash = hashSecret(currentUser.id + "_" + myGroup.id + "_" + m.userId);
+        const myPrevReview = (appState.peerReviews || []).find(r => r.reviewerHash === reviewerHash);
 
+        return `
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <div class="flex justify-between items-start gap-2">
+              <div>
+                <span class="font-bold text-slate-900 text-sm">${idx + 1}. ${m.alias}</span>
+                <p class="text-[11px] text-slate-500 mt-0.5">
+                  Điểm tin cậy tích lũy: <strong class="text-vibrant-orange">${stats.avgScore !== null ? stats.avgScore.toFixed(1) + '/10 ★ (' + stats.count + ' lượt)' : 'Chưa có đánh giá'}</strong>
+                </p>
+              </div>
+              <span class="px-2.5 py-1 ${m.userId === myGroup.leaderId ? 'bg-orange-100 text-vibrant-orange' : 'bg-blue-100 text-tech-blue'} rounded-lg font-bold">
+                ${m.role}
+              </span>
+            </div>
+            ${!isSelf ? `
+              <div class="pt-2 border-t border-slate-200/80 flex justify-between items-center">
+                <span class="text-[11px] text-slate-500">
+                  ${myPrevReview ? `✓ Bạn đã đánh giá ẩn danh: <strong>${parseFloat(myPrevReview.score).toFixed(1)}/10</strong>` : 'Chưa đánh giá thành viên này'}
+                </span>
+                <button onclick="openPeerReviewModal('${m.userId}', '${m.alias}', '${myGroup.id}', '${myGroup.title}')" class="px-3 py-1 rounded-lg bg-vibrant-orange hover:bg-orange-600 text-white font-bold shadow-sm transition">
+                  ${myPrevReview ? 'Sửa đánh giá (/10)' : '★ Đánh giá độ tin cậy (/10)'}
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      // Yêu cầu xin rời / chuyển nhóm
       const pendingLeaves = appState.leaveRequests.filter(r => r.fromGroupId === myGroup.id && r.status === 'PENDING');
       document.getElementById('leader-leave-badge').textContent = pendingLeaves.length;
       const leaveEl = document.getElementById('leader-leave-requests-list');
@@ -2075,6 +2462,7 @@
         `).join('');
       }
 
+      // Cột phải: Danh sách ứng viên đã vượt qua Quiz chờ phê duyệt (Kèm Điểm độ tin cậy /10 và Comment ẩn danh từ dự án trước)
       const groupApps = appState.applications.filter(
         a => a.groupId === myGroup.id && (a.status === 'PENDING' || a.status === 'LOCKED_BY_FIRST_APPROVAL')
       );
@@ -2095,13 +2483,18 @@
       } else {
         appListEl.innerHTML = groupApps.map(app => {
           const applicantUser = appState.users.find(u => u.id === app.userId);
+          const trustStats = getTrustStatsForUser(app.userId);
           const alreadyTakenByOtherGroup = (applicantUser && applicantUser.joinedGroupId && applicantUser.joinedGroupId !== myGroup.id) || app.status === 'LOCKED_BY_FIRST_APPROVAL';
           const takenGroup = alreadyTakenByOtherGroup && applicantUser
             ? appState.groups.find(g => g.id === applicantUser.joinedGroupId)
             : null;
 
+          const trustBadgeColor = trustStats.avgScore === null
+            ? 'bg-slate-200 text-slate-700'
+            : (trustStats.avgScore >= 8.0 ? 'bg-amber-500 text-white' : (trustStats.avgScore >= 6.0 ? 'bg-orange-500 text-white' : 'bg-rose-600 text-white'));
+
           return `
-            <div class="p-4 rounded-xl border ${alreadyTakenByOtherGroup ? 'bg-slate-100 border-slate-300 opacity-80' : 'bg-slate-50 border-slate-200'} space-y-2.5">
+            <div class="p-4 rounded-xl border ${alreadyTakenByOtherGroup ? 'bg-slate-100 border-slate-300 opacity-80' : 'bg-slate-50 border-slate-200'} space-y-3">
               <div class="flex flex-wrap justify-between items-start gap-2">
                 <div>
                   <span class="bg-blue-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-md">
@@ -2111,9 +2504,14 @@
                     Ứng viên: ${app.applicantAlias} <span class="text-xs font-normal text-slate-500">(${app.applicantLevel})</span>
                   </h4>
                 </div>
-                <span class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-extrabold px-2.5 py-1 rounded-lg">
-                  ✓ Đã vượt qua Quiz: ${app.quizScore}/3 câu
-                </span>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="${trustBadgeColor} text-xs font-extrabold px-2.5 py-1 rounded-lg shadow-sm">
+                    ★ Độ tin cậy: ${trustStats.avgScore !== null ? trustStats.avgScore.toFixed(1) + '/10 (' + trustStats.count + ' đánh giá)' : 'Chưa có đánh giá'}
+                  </span>
+                  <span class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-extrabold px-2.5 py-1 rounded-lg">
+                    ✓ Đỗ Quiz: ${app.quizScore}/3
+                  </span>
+                </div>
               </div>
 
               <div class="text-xs text-slate-600 flex flex-wrap gap-2">
@@ -2122,12 +2520,33 @@
                 <span>Kỹ năng: <strong>${app.applicantSkills.join(', ')}</strong></span>
               </div>
 
+              <!-- DỮ LIỆU ĐÁNH GIÁ ĐỘ TIN CẬY ẨN DANH TỪ CÁC DỰ ÁN TRƯỚC ĐỂ TRƯỞNG NHÓM XEM XÉT -->
+              <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5 text-xs">
+                <p class="font-bold text-slate-700 uppercase text-[11px]">
+                  📋 Lịch sử đánh giá độ tin cậy ẩn danh từ đồng đội các dự án:
+                </p>
+                ${trustStats.count === 0
+                  ? `<p class="text-slate-400 italic">Ứng viên này chưa có nhận xét từ dự án trước (Thành viên mới).</p>`
+                  : `<div class="space-y-1.5 max-h-32 overflow-y-auto pr-1">
+                      ${trustStats.reviews.map(rv => `
+                        <div class="p-2 bg-amber-50/60 border border-amber-200 rounded-lg">
+                          <div class="flex justify-between font-bold text-slate-800">
+                            <span>Ẩn danh — ${rv.projectTitle}</span>
+                            <span class="text-vibrant-orange">${parseFloat(rv.score).toFixed(1)} / 10 ★</span>
+                          </div>
+                          <p class="text-slate-600 italic mt-0.5">"${rv.comment}"</p>
+                        </div>
+                      `).join('')}
+                    </div>`
+                }
+              </div>
+
               <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
                 ${alreadyTakenByOtherGroup
                   ? `<span class="text-xs font-bold text-rose-600 bg-rose-50 border border-rose-200 px-3 py-1.5 rounded-lg w-full text-center">
                       🔒 Không thể tuyển ứng viên này (Đã được nhóm của Trưởng nhóm "${takenGroup ? takenGroup.leaderAlias : 'khác'}" xác nhận phê duyệt đầu tiên)
                     </span>`
-                  : `<span class="text-[11px] text-slate-500">Ứng viên đang sẵn sàng nhận vị trí</span>
+                  : `<span class="text-[11px] text-slate-500">Dựa trên Quiz & Độ tin cậy (/10), bạn có duyệt ứng viên này?</span>
                      <div class="flex space-x-2">
                        <button onclick="leaderRejectApplicant('${app.id}')" class="px-3.5 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold transition">
                          Từ chối
