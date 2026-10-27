@@ -1,0 +1,2823 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeamUp IT — Đúng đồng đội, trọn điểm mười | Cổng Ghép Nhóm Đồ Án UIT</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Montserrat & Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+    }
+    h1, h2, h3, h4, .brand-font {
+      font-family: 'Montserrat', sans-serif;
+    }
+    .bg-tech-blue { background-color: #1E40AF; }
+    .text-tech-blue { color: #1E40AF; }
+    .border-tech-blue { border-color: #1E40AF; }
+    .bg-vibrant-orange { background-color: #F97316; }
+    .text-vibrant-orange { color: #F97316; }
+    .border-vibrant-orange { border-color: #F97316; }
+
+    /* Custom Checkbox Chips */
+    .skill-chip input:checked + span {
+      background-color: #1E40AF;
+      color: #FFFFFF;
+      border-color: #1E40AF;
+      box-shadow: 0 2px 8px rgba(30, 64, 175, 0.25);
+    }
+    .role-chip input:checked + span {
+      background-color: #F97316;
+      color: #FFFFFF;
+      border-color: #F97316;
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
+    }
+    /* Smooth Modal Animation */
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.95) translateY(8px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-modal {
+      animation: modalPop 0.2s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+
+  <!-- ===================================================================== -->
+  <!-- THANH ĐỊA CHỈ TÊN MIỀN & TRẠNG THÁI ĐỒNG BỘ ĐÁM MÂY (CLOUD BAR)        -->
+  <!-- ===================================================================== -->
+  <div class="bg-slate-900 text-slate-300 text-xs border-b border-slate-800 px-4 py-1.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center space-x-2 bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1">
+        <i class="fa-solid fa-lock text-emerald-400 text-[11px]"></i>
+        <span class="text-slate-400">Tên miền truy cập:</span>
+        <span class="font-mono font-semibold text-white">https://teamup-it.uit.edu.vn</span>
+        <button onclick="copyDomainLink()" class="ml-2 text-blue-400 hover:text-blue-300 font-semibold flex items-center gap-1 transition">
+          <i class="fa-regular fa-copy"></i> <span>Copy Link</span>
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center space-x-1.5 bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 px-2.5 py-1 rounded-full text-[11px]">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Cloud Sync Active — Lưu trữ tài khoản, hồ sơ ứng tuyển & lịch sử</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- HEADER CHÍNH: LOGO BÊN TRÁI + ĐIỀU HƯỚNG + ĐĂNG KÝ/ĐĂNG NHẬP BÊN PHẢI  -->
+  <!-- ===================================================================== -->
+  <header class="bg-tech-blue text-white shadow-lg sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+      <!-- Brand Logo & Tagline -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateView('landing')">
+        <div class="bg-vibrant-orange text-white font-extrabold px-3 py-1.5 rounded-xl brand-font text-lg flex items-center shadow-md">
+          &lt;★&gt;
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="brand-font font-extrabold text-xl tracking-wide">TeamUp IT</span>
+            <span class="bg-blue-800 text-blue-200 text-[10px] font-bold px-2 py-0.5 rounded uppercase border border-blue-600">UIT Startup</span>
+          </div>
+          <p class="text-xs text-blue-200">Đúng đồng đội, trọn điểm mười.</p>
+        </div>
+      </div>
+
+      <!-- Menu Điều Hướng Trung Tâm -->
+      <nav class="flex flex-wrap items-center gap-1.5 bg-blue-950/50 p-1.5 rounded-xl text-xs font-semibold">
+        <button onclick="navigateView('landing')" id="nav-btn-landing" class="px-3.5 py-2 rounded-lg bg-vibrant-orange text-white transition flex items-center gap-1.5">
+          <i class="fa-solid fa-house"></i>
+          <span>Trang Chủ & Giới Thiệu</span>
+        </button>
+        <button onclick="handleGoToDashboard()" id="nav-btn-dashboard" class="px-3.5 py-2 rounded-lg text-blue-100 hover:bg-blue-800/60 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-layer-group"></i>
+          <span id="nav-dashboard-label">Bảng Điều Khiển (Tìm Nhóm / Quản Lý Nhóm)</span>
+        </button>
+        <button onclick="navigateView('history')" id="nav-btn-history" class="px-3.5 py-2 rounded-lg text-blue-100 hover:bg-blue-800/60 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Lịch Sử Hệ Thống (<span id="nav-history-count">0</span>)</span>
+        </button>
+      </nav>
+
+      <!-- GÓC TRÊN BÊN PHẢI: NÚT ĐĂNG KÝ & ĐĂNG NHẬP (HOẶC THÔNG TIN TÀI KHOẢN) -->
+      <div class="flex items-center gap-2">
+        <!-- Hiển thị khi CHƯA ĐĂNG NHẬP -->
+        <div id="header-guest-actions" class="flex items-center gap-2">
+          <button onclick="openAuthModal('login')" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>Đăng nhập</span>
+          </button>
+          <button onclick="openAuthModal('register')" class="bg-vibrant-orange hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-1.5">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Đăng ký</span>
+          </button>
+        </div>
+
+        <!-- Hiển thị khi ĐÃ ĐĂNG NHẬP -->
+        <div id="header-user-actions" class="hidden flex items-center gap-2">
+          <div onclick="handleGoToDashboard()" class="cursor-pointer flex items-center space-x-2 bg-blue-900/90 hover:bg-blue-800 border border-blue-600 px-3 py-1.5 rounded-xl transition">
+            <div id="header-avatar" class="w-7 h-7 rounded-full bg-vibrant-orange text-white font-bold text-xs flex items-center justify-center brand-font">
+              XQ
+            </div>
+            <div class="text-left">
+              <p id="header-name" class="text-xs font-bold leading-tight">Dương Xuân Quân</p>
+              <p id="header-role-badge" class="text-[10px] text-orange-300 font-semibold leading-tight">Thành viên tìm nhóm</p>
+            </div>
+          </div>
+          <button onclick="openAuthModal('login')" class="bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs font-semibold px-2.5 py-2 rounded-xl transition" title="Đổi tài khoản hoặc Đăng ký mới">
+            <i class="fa-solid fa-repeat"></i>
+          </button>
+          <button onclick="logoutUser()" class="bg-rose-600/90 hover:bg-rose-600 text-white text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1" title="Đăng xuất về Trang chính">
+            <i class="fa-solid fa-power-off"></i>
+            <span class="hidden sm:inline">Đăng xuất</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- THANH DEMO CHUYỂN NHANH TÀI KHOẢN (TIỆN QUAY VIDEO & KIỂM THỬ)        -->
+  <!-- ===================================================================== -->
+  <div class="bg-blue-50 border-b border-blue-200/80 px-4 py-2">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div class="flex items-center gap-2 text-slate-700 font-medium">
+        <span class="bg-tech-blue text-white px-2 py-0.5 rounded font-bold text-[11px]">Demo Nhanh</span>
+        <span>Bấm để đăng nhập thử dưới góc nhìn <strong>Trưởng nhóm (Duyệt hồ sơ / Duyệt rời nhóm)</strong> hoặc <strong>Người tìm nhóm (Làm Quiz / Xin chuyển nhóm)</strong>:</span>
+      </div>
+      <div id="quick-demo-bar" class="flex flex-wrap gap-1.5"></div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- NỘI DUNG CHÍNH CỦA WEB                                                -->
+  <!-- ===================================================================== -->
+  <main class="flex-1">
+
+    <!-- =================================================================== -->
+    <!-- VIEW 1: TRANG CHÍNH (LANDING PAGE - HIỆN LÊN KHI MỚI TRUY CẬP WEB)   -->
+    <!-- =================================================================== -->
+    <div id="view-landing" class="space-y-14 pb-14">
+
+      <!-- 1. HERO BANNER GIỚI THIỆU -->
+      <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-blue-900 text-white py-12 md:py-16 px-4 border-b border-blue-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-5">
+            <div class="inline-flex items-center gap-2 bg-blue-800/60 border border-blue-500/40 rounded-full px-3.5 py-1 text-xs font-semibold text-blue-200">
+              <span class="bg-vibrant-orange text-white font-extrabold px-2 py-0.5 rounded-full text-[10px]">SS004 PROJECT</span>
+              <span>Nền tảng Kết nối Đồng đội Làm Đồ án & Đánh giá Uy tín cho Sinh viên CNTT</span>
+            </div>
+
+            <h1 class="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight">
+              TeamUp <span class="text-vibrant-orange">IT</span> — Đúng đồng đội, trọn điểm mười.
+            </h1>
+
+            <p class="text-slate-200 text-sm md:text-base leading-relaxed max-w-2xl">
+              Giải pháp số hóa quy trình lập nhóm đồ án dành riêng cho sinh viên Trường Đại học Công nghệ Thông tin (UIT). Kết hợp <strong>Thuật toán gợi ý nhóm theo % độ phù hợp</strong>, <strong>Bài Quiz kiểm tra kiến thức đầu vào theo vị trí</strong> và <strong>Cơ chế Trưởng nhóm xét duyệt minh bạch</strong>.
+            </p>
+
+            <!-- Nút hành động nhanh -->
+            <div class="pt-2 flex flex-wrap gap-3">
+              <button onclick="openAuthModal('register', 'MEMBER')" class="bg-vibrant-orange hover:bg-orange-600 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition text-xs md:text-sm uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <span>Đăng Ký Tìm Nhóm Phù Hợp</span>
+              </button>
+              <button onclick="openAuthModal('register', 'LEADER')" class="bg-white text-tech-blue hover:bg-blue-50 font-bold px-6 py-3.5 rounded-xl shadow-lg transition text-xs md:text-sm uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-crown text-vibrant-orange"></i>
+                <span>Đăng Ký Tạo Nhóm Mới (Trưởng Nhóm)</span>
+              </button>
+              <button onclick="openAuthModal('login')" class="bg-blue-800/70 hover:bg-blue-800 border border-blue-500 text-white font-bold px-5 py-3.5 rounded-xl transition text-xs md:text-sm flex items-center gap-2">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>Đăng Nhập Tài Khoản Đã Lưu</span>
+              </button>
+            </div>
+
+            <!-- Số liệu nổi bật -->
+            <div class="pt-4 grid grid-cols-3 gap-4 border-t border-blue-800/80 text-left max-w-lg">
+              <div>
+                <p class="text-2xl font-extrabold text-vibrant-orange brand-font">84%</p>
+                <p class="text-[11px] text-blue-200">Giảm rủi ro gặp thành viên "free-rider"</p>
+              </div>
+              <div>
+                <p class="text-2xl font-extrabold text-emerald-400 brand-font">≥ 2/3</p>
+                <p class="text-[11px] text-blue-200">Chuẩn câu đúng Quiz đầu vào mỗi vị trí</p>
+              </div>
+              <div>
+                <p class="text-2xl font-extrabold text-white brand-font">100%</p>
+                <p class="text-[11px] text-blue-200">Minh bạch duyệt vào nhóm & rời nhóm</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Khung minh họa trực quan quy trình hoạt động -->
+          <div class="lg:col-span-5">
+            <div class="bg-white text-slate-800 rounded-2xl p-6 shadow-2xl border border-slate-200 space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                  <span class="bg-tech-blue text-white font-bold px-2.5 py-1 rounded-lg brand-font text-xs">&lt;★&gt;</span>
+                  <span class="font-bold text-sm text-tech-blue">Cơ chế Ghép nhóm & Xét duyệt Thực tế</span>
+                </div>
+                <span class="bg-emerald-100 text-emerald-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full">UIT Verified</span>
+              </div>
+
+              <div class="space-y-3 text-xs">
+                <div class="p-3 rounded-xl bg-blue-50/80 border border-blue-200 flex items-start gap-3">
+                  <div class="w-7 h-7 rounded-lg bg-tech-blue text-white font-bold flex items-center justify-center shrink-0">1</div>
+                  <div>
+                    <p class="font-bold text-slate-900">Phân luồng Đăng ký rõ ràng (2 lựa chọn)</p>
+                    <p class="text-slate-600 mt-0.5">Đăng ký làm <strong>Trưởng nhóm</strong> (tạo đề tài, mở vị trí tuyển) hoặc làm <strong>Người tìm nhóm</strong> (nhập trình độ, kỹ năng, mục tiêu, vị trí).</p>
+                  </div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-orange-50/80 border border-orange-200 flex items-start gap-3">
+                  <div class="w-7 h-7 rounded-lg bg-vibrant-orange text-white font-bold flex items-center justify-center shrink-0">2</div>
+                  <div>
+                    <p class="font-bold text-slate-900">Ứng tuyển nhiều nhóm, nhiều vị trí qua Quiz</p>
+                    <p class="text-slate-600 mt-0.5">Vượt qua Quiz chuyên môn (≥ 2/3 câu) để gửi hồ sơ vào hàng chờ của nhiều nhóm cùng lúc. Không đạt sẽ hiện <em>"Chúc bạn may mắn lần sau"</em>.</p>
+                  </div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-emerald-50/80 border border-emerald-200 flex items-start gap-3">
+                  <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center shrink-0">3</div>
+                  <div>
+                    <p class="font-bold text-slate-900">Trưởng nhóm duyệt đầu tiên & Quản lý rời nhóm</p>
+                    <p class="text-slate-600 mt-0.5">Trưởng nhóm nào duyệt trước thì ứng viên chính thức vào nhóm đó. Muốn rời hoặc chuyển nhóm phải được Trưởng nhóm hiện tại cho phép.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-2 flex gap-2">
+                <button onclick="quickDemoLogin('26521682')" class="flex-1 bg-tech-blue hover:bg-blue-800 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition">
+                  🎯 Thử giao diện Người Tìm Nhóm
+                </button>
+                <button onclick="quickDemoLogin('26520786')" class="flex-1 bg-vibrant-orange hover:bg-orange-600 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition">
+                  👑 Thử giao diện Trưởng Nhóm
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. MỤC ĐÍCH LÀM WEB (VÌ SAO TEAMUP IT RA ĐỜI?) -->
+      <section class="max-w-7xl mx-auto px-4 space-y-6">
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-vibrant-orange">1. Mục đích xây dựng nền tảng</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-tech-blue">Vì sao dự án TeamUp IT ra đời?</h2>
+          <p class="text-xs md:text-sm text-slate-600">
+            Mỗi học kỳ sinh viên CNTT phải thực hiện từ 3 đến 5 đồ án môn học. Việc tìm nhóm thủ công trên Facebook, Zalo hay điền file Excel ngẫu nhiên gây ra 3 vấn đề nghiêm trọng:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-user-slash"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-900">1. Nỗi ám ảnh "Free-rider" & Tự ý bỏ nhóm</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              84% sinh viên khảo sát từng gặp thành viên nhận việc đầu kỳ nhưng không đủ kiến thức nền tảng hoặc tự ý biến mất, bỏ sang nhóm khác sát ngày nộp bài khiến cả nhóm bị quá tải.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-tech-blue flex items-center justify-center text-xl">
+              <i class="fa-solid fa-puzzle-piece"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-900">2. Ghép nhóm ngẫu nhiên bị lệch kỹ năng</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              72% nhóm ghép ngẫu nhiên gặp tình trạng thừa người code Backend nhưng không có ai biết thiết kế UI/UX Figma, làm Frontend hay viết báo cáo phân tích mô hình BMC.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-vibrant-orange flex items-center justify-center text-xl">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-900">3. Bất đồng mục tiêu điểm số ngay từ đầu</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Hơn 65% xung đột nội bộ bắt nguồn từ việc ghép chung người muốn săn học bổng (9.0+) với người chỉ cần qua môn (5.0), dẫn đến sự chênh lệch về mức độ đầu tư thời gian.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. CÁCH SỬ DỤNG CHI TIẾT CHO 2 NHÓM ĐỐI TƯỢNG -->
+      <section class="max-w-7xl mx-auto px-4 space-y-6">
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-vibrant-orange">2. Hướng dẫn sử dụng hệ thống</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-tech-blue">Cách sử dụng TeamUp IT theo 2 vai trò</h2>
+          <p class="text-xs md:text-sm text-slate-600">
+            Khi bấm vào nút <strong>Đăng ký</strong> hoặc <strong>Đăng nhập</strong> ở góc trên bên phải màn hình, hệ thống phân chia luồng trải nghiệm chuyên biệt cho từng mục đích:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Luồng 1: Người dùng tìm nhóm -->
+          <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-blue-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="w-9 h-9 rounded-xl bg-tech-blue text-white flex items-center justify-center font-bold"><i class="fa-solid fa-user-graduate"></i></span>
+                <div>
+                  <h3 class="font-bold text-base text-tech-blue">Dành cho Người dùng tìm nhóm phù hợp</h3>
+                  <p class="text-xs text-slate-500">Tìm dự án hợp năng lực, làm Quiz & ứng tuyển nhiều nơi</p>
+                </div>
+              </div>
+              <button onclick="openAuthModal('register', 'MEMBER')" class="bg-blue-50 hover:bg-blue-100 text-tech-blue font-bold px-3 py-1.5 rounded-lg text-xs transition">
+                Đăng ký luồng này →
+              </button>
+            </div>
+
+            <ol class="space-y-3 text-xs text-slate-700">
+              <li class="flex gap-2.5">
+                <span class="font-extrabold text-tech-blue">Bước 1:</span>
+                <span>Khi đăng ký, chọn <strong>"Người dùng tìm nhóm phù hợp"</strong> và nhập thông tin cá nhân: <em>Trình độ (Năm học), Kỹ năng hiện có, Mục tiêu điểm số</em> và <em>Vị trí ứng tuyển mong muốn</em>.</span>
+              </li>
+              <li class="flex gap-2.5">
+                <span class="font-extrabold text-tech-blue">Bước 2:</span>
+                <span>Sau khi đăng nhập, hệ thống hiển thị danh sách nhóm xếp theo <strong>% Độ phù hợp</strong>. Bạn có thể thay đổi trực tiếp mục tiêu và vị trí ứng tuyển ngay tại bảng bên trái.</span>
+              </li>
+              <li class="flex gap-2.5">
+                <span class="font-extrabold text-tech-blue">Bước 3:</span>
+                <span>Bấm ứng tuyển vào vị trí mong muốn (có thể ứng tuyển <strong>nhiều nhóm, nhiều vị trí cùng lúc</strong>). Bạn cần làm bài Quiz 3 câu của vị trí đó: đạt <strong>≥ 2/3 câu</strong> hồ sơ sẽ gửi tới Trưởng nhóm chờ duyệt; nếu dưới 2/3 hệ thống báo <em>"Chúc bạn may mắn lần sau"</em>.</span>
+              </li>
+              <li class="flex gap-2.5">
+                <span class="font-extrabold text-tech-blue">Bước 4:</span>
+                <span>Nếu <strong>Trưởng nhóm nào xét duyệt bạn đầu tiên</strong>, bạn sẽ chính thức đảm nhận vị trí tại nhóm đó (các đơn chờ khác tự động đóng). Nếu muốn <strong>rời nhóm hoặc chuyển sang nhóm khác</strong>, bạn phải gửi yêu cầu và được Trưởng nhóm hiện tại cho phép.</span>
+              </li>
+            </ol>
+          </div>
+
+          <!-- Luồng 2: Trưởng nhóm tạo nhóm & xét duyệt -->
+          <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-orange-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="w-9 h-9 rounded-xl bg-vibrant-orange text-white flex items-center justify-center font-bold"><i class="fa-solid fa-crown"></i></span>
+                <div>
+                  <h3 class="font-bold text-base text-vibrant-orange">Dành cho Trưởng nhóm (Tạo nhóm & Xét duyệt)</h3>
+                  <p class="text-xs text-slate-500">Khởi tạo nhóm mới, mở vị trí tuyển dụng & duyệt hồ sơ ứng viên</p>
+                </div>
+              </div>
+              <button onclick="openAuthModal('register', 'LEADER')" class="bg-orange-50 hover:bg-orange-100 text-vibrant-orange font-bold px-3 py-1.5 rounded-lg text-xs transition">
+                Đăng ký luồng này →
+              </button>
+            </div>
+
+            <ol class="space-y-3 text-xs text-slate-700">
+              <li class="flex gap-2.5">
+                <span class="font-extrabold text-vibrant-orange">Bước 1:</span>
+                <span>Khi đăng ký, chọn <strong>"Tạo nhóm mới & Làm Trưởng nhóm"</strong>. Nhập thông tin của bạn kèm thông tin nhóm mới: <em>Tên đề tài, Môn học, Mục tiêu điểm, Các vị trí cần tuyển dụng</em> và <em>Yêu cầu cụ thể</em>.</span>
+              </li>
+              <li class="flex gap-2.5">
+                <span class="font-extrabold text-vibrant-orange">Bước 2:</span>
+                <span>Hệ thống tự động gắn bộ câu hỏi <strong>Quiz kiểm tra kiến thức đầu vào</strong> cho từng vị trí mà nhóm bạn đăng tuyển để sàng lọc ứng viên tự động.</span>
+              </li>
+              <li class="flex gap-2.5">
+                <span class="font-extrabold text-vibrant-orange">Bước 3:</span>
+                <span>Sau khi đăng nhập, Trưởng nhóm được quyền <strong>xem hồ sơ chi tiết của các người dùng đang đăng ký ứng tuyển</strong> vào nhóm (đã vượt qua Quiz) và quyết định bấm <strong>Duyệt vào nhóm</strong> hay <strong>Từ chối</strong>.</span>
+              </li>
+              <li class="flex gap-2.5">
+                <span class="font-extrabold text-vibrant-orange">Bước 4:</span>
+                <span>Quản lý quân số nhóm chặt chẽ: Khi có thành viên trong nhóm gửi đơn xin rời nhóm hoặc chuyển sang nhóm khác, Trưởng nhóm có quyền <strong>Cho phép</strong> hoặc <strong>Từ chối (Giữ lại nhóm)</strong>.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. ĐỘI NGŨ SÁNG LẬP DỰ ÁN TEAMUP IT (6 THÀNH VIÊN NHÓM) -->
+      <section class="max-w-7xl mx-auto px-4 space-y-6">
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-vibrant-orange">3. Đội ngũ thực hiện đồ án SS004</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-tech-blue">Nhóm Sáng Lập Dự Án TeamUp IT</h2>
+          <p class="text-xs md:text-sm text-slate-600">
+            Môn Kỹ năng nghề nghiệp — Giảng viên hướng dẫn: <strong>ThS. Lê Ngô Thục Vi</strong> • Trường Đại học Công nghệ Thông tin (ĐHQG TP.HCM)
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-tech-blue text-white font-bold flex items-center justify-center brand-font text-sm shrink-0">ĐK</div>
+            <div>
+              <p class="font-bold text-slate-900 text-sm">1. Trần Đức Khải</p>
+              <p class="text-slate-500">MSSV: 26520786</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-orange-100 text-vibrant-orange rounded font-bold text-[11px]">Nhóm trưởng (Leader & BMC)</span>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-tech-blue text-white font-bold flex items-center justify-center brand-font text-sm shrink-0">TP</div>
+            <div>
+              <p class="font-bold text-slate-900 text-sm">2. Lê Trần Thiên Phúc</p>
+              <p class="text-slate-500">MSSV: 26521623</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-blue-100 text-tech-blue rounded font-bold text-[11px]">Thiết kế UI/UX & Thương hiệu</span>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-tech-blue text-white font-bold flex items-center justify-center brand-font text-sm shrink-0">TĐ</div>
+            <div>
+              <p class="font-bold text-slate-900 text-sm">3. Phan Thanh Đạt</p>
+              <p class="text-slate-500">MSSV: 26520299</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-blue-100 text-tech-blue rounded font-bold text-[11px]">Nghiên cứu thị trường (Researcher)</span>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-tech-blue text-white font-bold flex items-center justify-center brand-font text-sm shrink-0">XQ</div>
+            <div>
+              <p class="font-bold text-slate-900 text-sm">4. Dương Xuân Quân</p>
+              <p class="text-slate-500">MSSV: 26521682</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-blue-100 text-tech-blue rounded font-bold text-[11px]">Đối ngoại & Nội dung</span>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-tech-blue text-white font-bold flex items-center justify-center brand-font text-sm shrink-0">ĐV</div>
+            <div>
+              <p class="font-bold text-slate-900 text-sm">5. Đoàn Đăng Vinh</p>
+              <p class="text-slate-500">MSSV: 24522010</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-orange-100 text-vibrant-orange rounded font-bold text-[11px]">Hoạch định Tài chính & Thực thi</span>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-tech-blue text-white font-bold flex items-center justify-center brand-font text-sm shrink-0">NN</div>
+            <div>
+              <p class="font-bold text-slate-900 text-sm">6. Trương Nam Nguyên</p>
+              <p class="text-slate-500">MSSV: 26521429</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-blue-100 text-tech-blue rounded font-bold text-[11px]">Sản xuất Media & Video Demo</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 2: GIAO DIỆN NGƯỜI DÙNG TÌM NHÓM SAU KHI ĐĂNG NHẬP (MEMBER)    -->
+    <!-- =================================================================== -->
+    <div id="view-member" class="hidden max-w-7xl mx-auto px-4 py-6 space-y-6">
+
+      <!-- KHUNG TRẠNG THÁI NHÓM HIỆN TẠI CỦA NGƯỜI DÙNG (VÀ XIN RỜI/CHUYỂN NHÓM) -->
+      <div id="member-current-group-banner"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- CỘT TRÁI (4 CỘT): THAY ĐỔI TRÌNH ĐỘ, MỤC TIÊU, VỊ TRÍ ỨNG TUYỂN & THEO DÕI ĐƠN -->
+        <div class="lg:col-span-4 space-y-5">
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <h2 class="text-sm font-bold text-tech-blue uppercase">Hồ sơ & Tiêu chí tìm nhóm</h2>
+                <p class="text-[11px] text-slate-500">Thay đổi mục tiêu & vị trí ứng tuyển ngay tại đây</p>
+              </div>
+              <span class="bg-orange-100 text-vibrant-orange text-[11px] font-bold px-2.5 py-1 rounded-lg">Cập nhật trực tiếp</span>
+            </div>
+
+            <div class="space-y-3.5 text-xs">
+              <!-- Thông tin người dùng -->
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <p class="text-[11px] text-slate-500">Tài khoản Người tìm nhóm:</p>
+                  <p id="member-info-name" class="font-bold text-slate-900">Dương Xuân Quân (26521682)</p>
+                </div>
+                <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded text-[10px]">✓ Verified</span>
+              </div>
+
+              <!-- 1. Trình độ hiện tại -->
+              <div>
+                <label class="font-semibold text-slate-700">1. Trình độ học vấn / Năm học:</label>
+                <select id="member-edit-level" onchange="handleMemberCriteriaUpdate()" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 focus:outline-none focus:border-blue-600">
+                  <option value="Sinh viên Năm 1">Sinh viên Năm 1 (Nền tảng cơ sở)</option>
+                  <option value="Sinh viên Năm 2">Sinh viên Năm 2 (Đã học CTDL & CSDL)</option>
+                  <option value="Sinh viên Năm 3">Sinh viên Năm 3 (Đồ án chuyên ngành)</option>
+                  <option value="Sinh viên Năm 4">Sinh viên Năm 4 (Đồ án tốt nghiệp)</option>
+                </select>
+              </div>
+
+              <!-- 2. Vị trí ứng tuyển mong muốn -->
+              <div>
+                <label class="font-semibold text-slate-700">2. Vị trí ứng tuyển mong muốn (45% trọng số):</label>
+                <select id="member-edit-role" onchange="handleMemberCriteriaUpdate()" class="mt-1 w-full border-2 border-blue-200 bg-blue-50/40 rounded-xl px-3 py-2 font-bold text-tech-blue focus:outline-none focus:border-blue-600">
+                  <option value="Backend / Thuật toán">Backend / Thuật toán & CSDL</option>
+                  <option value="Data / Phân tích dữ liệu">Data / Phân tích dữ liệu & AI</option>
+                  <option value="Frontend / Web UI">Frontend / Web UI (ReactJS)</option>
+                  <option value="UI/UX Designer">UI/UX Designer (Figma / Canva)</option>
+                  <option value="Researcher / Báo cáo">Researcher / Báo cáo & BMC</option>
+                </select>
+              </div>
+
+              <!-- 3. Mục tiêu điểm số -->
+              <div>
+                <label class="font-semibold text-slate-700">3. Mục tiêu điểm số của bản thân (20% trọng số):</label>
+                <select id="member-edit-goal" onchange="handleMemberCriteriaUpdate()" class="mt-1 w-full border-2 border-orange-200 bg-orange-50/40 rounded-xl px-3 py-2 font-bold text-vibrant-orange focus:outline-none focus:border-orange-500">
+                  <option value="9.0">Săn học bổng / Xuất sắc (9.0 - 10)</option>
+                  <option value="8.0">Đạt điểm Giỏi (8.0 - 8.5+)</option>
+                  <option value="7.0">Đạt điểm Khá (7.0 - 7.5+)</option>
+                  <option value="5.0">Qua môn an toàn (5.0+)</option>
+                </select>
+              </div>
+
+              <!-- 4. Lọc theo môn học -->
+              <div>
+                <label class="font-semibold text-slate-700">Lọc danh sách nhóm theo môn học:</label>
+                <select id="member-filter-course" onchange="renderMemberMatchingGroups()" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 focus:outline-none focus:border-blue-600">
+                  <option value="ALL">Tất cả môn học (All Courses)</option>
+                  <option value="SS004">SS004 - Kỹ năng nghề nghiệp</option>
+                  <option value="IT003">IT003 - Cấu trúc dữ liệu & Giải thuật</option>
+                  <option value="IT004">IT004 - Cơ sở dữ liệu</option>
+                  <option value="SE104">SE104 - Nhập môn Công nghệ phần mềm</option>
+                </select>
+              </div>
+
+              <!-- 5. Kỹ năng chuyên môn -->
+              <div>
+                <div class="flex justify-between items-center mb-1.5">
+                  <label class="font-semibold text-slate-700">4. Kỹ năng hiện có (35% trọng số):</label>
+                  <span class="text-[10px] text-slate-400">Tích chọn để cập nhật</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5" id="member-skills-container">
+                  <label class="skill-chip cursor-pointer">
+                    <input type="checkbox" value="C++ / Thuật toán" onchange="handleMemberCriteriaUpdate()" class="hidden">
+                    <span class="inline-block px-2.5 py-1 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 transition select-none">C++ / Thuật toán</span>
+                  </label>
+                  <label class="skill-chip cursor-pointer">
+                    <input type="checkbox" value="SQL / Database" onchange="handleMemberCriteriaUpdate()" class="hidden">
+                    <span class="inline-block px-2.5 py-1 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 transition select-none">SQL / Database</span>
+                  </label>
+                  <label class="skill-chip cursor-pointer">
+                    <input type="checkbox" value="Python / Data" onchange="handleMemberCriteriaUpdate()" class="hidden">
+                    <span class="inline-block px-2.5 py-1 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 transition select-none">Python / Data</span>
+                  </label>
+                  <label class="skill-chip cursor-pointer">
+                    <input type="checkbox" value="Git / GitHub" onchange="handleMemberCriteriaUpdate()" class="hidden">
+                    <span class="inline-block px-2.5 py-1 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 transition select-none">Git / GitHub</span>
+                  </label>
+                  <label class="skill-chip cursor-pointer">
+                    <input type="checkbox" value="ReactJS / HTML" onchange="handleMemberCriteriaUpdate()" class="hidden">
+                    <span class="inline-block px-2.5 py-1 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 transition select-none">ReactJS / HTML</span>
+                  </label>
+                  <label class="skill-chip cursor-pointer">
+                    <input type="checkbox" value="Node.js / API" onchange="handleMemberCriteriaUpdate()" class="hidden">
+                    <span class="inline-block px-2.5 py-1 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 transition select-none">Node.js / API</span>
+                  </label>
+                  <label class="skill-chip cursor-pointer">
+                    <input type="checkbox" value="Figma / UI/UX" onchange="handleMemberCriteriaUpdate()" class="hidden">
+                    <span class="inline-block px-2.5 py-1 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 transition select-none">Figma / UI/UX</span>
+                  </label>
+                  <label class="skill-chip cursor-pointer">
+                    <input type="checkbox" value="Viết báo cáo / BMC" onchange="handleMemberCriteriaUpdate()" class="hidden">
+                    <span class="inline-block px-2.5 py-1 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 transition select-none">Viết báo cáo / BMC</span>
+                  </label>
+                </div>
+              </div>
+
+              <button onclick="saveMemberProfileButton()" class="w-full bg-vibrant-orange hover:bg-orange-600 text-white font-bold py-2.5 px-4 rounded-xl shadow transition uppercase tracking-wider flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Lưu Thay Đổi Mục Tiêu & Vị Trí</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- DANH SÁCH ĐƠN ĐANG ỨNG TUYỂN CỦA NGƯỜI DÙNG (MULTI-GROUP APPLICATIONS) -->
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+              <h3 class="text-xs font-bold text-tech-blue uppercase flex items-center gap-1.5">
+                <i class="fa-solid fa-paper-plane text-vibrant-orange"></i>
+                <span>Đơn ứng tuyển của bạn (Nhiều nhóm/vị trí)</span>
+              </h3>
+              <span id="member-app-count" class="bg-blue-100 text-tech-blue font-bold px-2 py-0.5 rounded-full text-[11px]">0</span>
+            </div>
+            <p class="text-[11px] text-slate-500">
+              Bạn có thể vượt qua Quiz để nộp đơn vào nhiều nhóm cùng lúc. <strong>Trưởng nhóm nào duyệt bạn đầu tiên</strong> thì bạn sẽ chính thức vào nhóm đó!
+            </p>
+            <div id="member-applications-list" class="space-y-2 max-h-72 overflow-y-auto pr-1 text-xs"></div>
+          </div>
+        </div>
+
+        <!-- CỘT PHẢI (8 CỘT): DANH SÁCH CÁC NHÓM PHÙ HỢP VỚI BẢN THÂN -->
+        <div class="lg:col-span-8 space-y-4">
+          <div class="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 text-white p-5 rounded-2xl shadow-sm flex flex-wrap justify-between items-center gap-4">
+            <div class="max-w-xl">
+              <span class="bg-vibrant-orange text-white text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">Smart Matching Engine</span>
+              <h3 class="text-lg font-bold mt-1" id="member-match-headline">Các nhóm phù hợp với hồ sơ của bạn</h3>
+              <p class="text-xs text-blue-100 mt-1">
+                Bấm vào vị trí tuyển dụng để làm <strong>Bài Quiz kiểm tra kiến thức (≥ 2/3 câu đúng)</strong>. Sau khi vượt qua Quiz, hồ sơ của bạn sẽ được gửi tới Trưởng nhóm để xét duyệt!
+              </p>
+            </div>
+            <div class="flex items-center space-x-1.5 bg-blue-950/60 p-1.5 rounded-xl text-xs">
+              <button onclick="setMemberFilterMode('ALL')" id="mem-filter-all" class="px-3 py-1.5 rounded-lg font-semibold bg-white text-tech-blue transition">
+                Tất cả (<span id="mem-count-all">0</span>)
+              </button>
+              <button onclick="setMemberFilterMode('HIGH')" id="mem-filter-high" class="px-3 py-1.5 rounded-lg font-semibold text-blue-100 hover:bg-blue-800/50 transition">
+                Rất hợp ≥ 75% (<span id="mem-count-high">0</span>)
+              </button>
+            </div>
+          </div>
+
+          <div id="member-groups-container" class="space-y-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 3: GIAO DIỆN TRƯỞNG NHÓM SAU KHI ĐĂNG NHẬP (LEADER DASHBOARD)  -->
+    <!-- =================================================================== -->
+    <div id="view-leader" class="hidden max-w-7xl mx-auto px-4 py-6 space-y-6">
+
+      <!-- Banner Trưởng Nhóm -->
+      <div class="bg-gradient-to-r from-slate-900 via-blue-900 to-blue-800 text-white p-6 rounded-2xl shadow-md flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="bg-vibrant-orange text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">Bảng Điều Khiển Trưởng Nhóm (Leader Portal)</span>
+            <span id="leader-header-tag" class="text-xs text-blue-200 font-semibold">Trần Đức Khải (26520786)</span>
+          </div>
+          <h2 class="text-xl md:text-2xl font-extrabold mt-1">Quản Lý Tuyển Dụng, Duyệt Hồ Sơ Ứng Viên & Phê Duyệt Rời/Chuyển Nhóm</h2>
+          <p class="text-xs text-blue-100 mt-1">
+            Xem hồ sơ các ứng viên đã vượt qua bài Quiz đầu vào của nhóm bạn để quyết định <strong>Duyệt vào nhóm</strong> hoặc <strong>Từ chối</strong>; đồng thời xét duyệt yêu cầu xin rời/chuyển nhóm của thành viên.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="text-xs text-blue-200 font-semibold">Nhóm quản lý:</label>
+          <select id="leader-group-selector" onchange="renderLeaderDashboard()" class="bg-white text-slate-900 font-bold text-xs px-3.5 py-2.5 rounded-xl shadow focus:outline-none">
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- CỘT TRÁI (7 CỘT): DUYỆT HỒ SƠ ỨNG VIÊN (ĐÃ PASS QUIZ) & DUYỆT YÊU CẦU RỜI/CHUYỂN NHÓM -->
+        <div class="lg:col-span-7 space-y-6">
+
+          <!-- 1. HỒ SƠ ỨNG VIÊN ĐANG CHỜ TRƯỞNG NHÓM DUYỆT (ĐÃ VƯỢT QUA QUIZ) -->
+          <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-blue-200 space-y-4">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
+              <div>
+                <h3 class="text-base font-bold text-tech-blue uppercase flex items-center gap-2">
+                  <i class="fa-solid fa-user-check text-vibrant-orange"></i>
+                  <span>1. Hồ Sơ Ứng Viên Chờ Duyệt (Đã Vượt Qua Quiz)</span>
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  Lưu ý: Một ứng viên có thể nộp đơn ở nhiều nhóm. Nếu bạn bấm <strong>"Duyệt vào nhóm"</strong> đầu tiên, ứng viên sẽ chính thức thuộc về nhóm bạn!
+                </p>
+              </div>
+              <span id="leader-pending-app-badge" class="bg-vibrant-orange text-white font-extrabold px-3 py-1 rounded-full text-xs">0 hồ sơ chờ</span>
+            </div>
+
+            <div id="leader-applicants-container" class="space-y-3"></div>
+          </div>
+
+          <!-- 2. YÊU CẦU XIN RỜI NHÓM / CHUYỂN SANG NHÓM KHÁC TỪ THÀNH VIÊN HIỆN TẠI -->
+          <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-orange-200 space-y-4">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
+              <div>
+                <h3 class="text-base font-bold text-vibrant-orange uppercase flex items-center gap-2">
+                  <i class="fa-solid fa-right-left text-tech-blue"></i>
+                  <span>2. Yêu Cầu Xin Rời Nhóm / Chuyển Nhóm Của Thành Viên</span>
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  Thành viên muốn rời nhóm hoặc chuyển sang nhóm khác bắt buộc phải có sự cho phép của bạn (Trưởng nhóm hiện tại).
+                </p>
+              </div>
+              <span id="leader-leave-req-badge" class="bg-blue-100 text-tech-blue font-extrabold px-3 py-1 rounded-full text-xs">0 yêu cầu</span>
+            </div>
+
+            <div id="leader-leave-requests-container" class="space-y-3"></div>
+          </div>
+
+        </div>
+
+        <!-- CỘT PHẢI (5 CỘT): THÔNG TIN NHÓM HIỆN TẠI, THÀNH VIÊN & MỞ THÊM VỊ TRÍ TUYỂN DỤNG -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+              <span class="text-[11px] font-bold text-vibrant-orange uppercase">Thông tin nhóm của bạn</span>
+              <h3 id="leader-group-title" class="text-base font-bold text-slate-900 mt-0.5">Dự án TeamUp IT</h3>
+              <p id="leader-group-meta" class="text-xs text-slate-500 mt-0.5">Môn học: SS004 • Mục tiêu: 9.0+</p>
+            </div>
+
+            <!-- Danh sách thành viên chính thức -->
+            <div>
+              <p class="text-xs font-bold text-slate-700 uppercase mb-2">
+                Thành viên chính thức hiện tại (<span id="leader-member-count">0</span>):
+              </p>
+              <div id="leader-members-list" class="space-y-2 text-xs"></div>
+            </div>
+
+            <!-- Các vị trí đang mở tuyển & Thêm nhanh vị trí mới -->
+            <div class="pt-3 border-t border-slate-100 space-y-3 text-xs">
+              <p class="font-bold text-slate-700 uppercase">Vị trí đang mở cổng Quiz tuyển dụng:</p>
+              <div id="leader-open-roles-badges" class="flex flex-wrap gap-1.5"></div>
+
+              <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
+                <label class="font-bold text-slate-700 block">Bổ sung thêm vị trí cần tuyển cho nhóm:</label>
+                <div class="flex gap-2">
+                  <select id="leader-add-role-select" class="flex-1 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 bg-white">
+                    <option value="Backend / Thuật toán">+1 Backend / Thuật toán</option>
+                    <option value="Data / Phân tích dữ liệu">+1 Data / Phân tích dữ liệu</option>
+                    <option value="Frontend / Web UI">+1 Frontend / Web UI</option>
+                    <option value="UI/UX Designer">+1 UI/UX Designer</option>
+                    <option value="Researcher / Báo cáo">+1 Researcher / Báo cáo</option>
+                  </select>
+                  <button onclick="leaderAddOpenRole()" class="bg-tech-blue hover:bg-blue-800 text-white font-bold px-4 py-2 rounded-xl transition">
+                    Mở tuyển
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 4: LỊCH SỬ HOẠT ĐỘNG TOÀN HỆ THỐNG (CLOUD AUDIT LOG)           -->
+    <!-- =================================================================== -->
+    <div id="view-history" class="hidden max-w-5xl mx-auto px-4 py-6 space-y-4">
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+        <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-4">
+          <div>
+            <h2 class="text-lg font-bold text-tech-blue uppercase flex items-center gap-2">
+              <i class="fa-solid fa-clock-rotate-left text-vibrant-orange"></i>
+              <span>Nhật Ký Hoạt Động & Lịch Sử Xét Duyệt Trên Cloud</span>
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Lưu lại toàn bộ lịch sử Đăng ký, Tạo nhóm, Kết quả làm Quiz, Trưởng nhóm xét duyệt ứng viên và Phê duyệt rời/chuyển nhóm.
+            </p>
+          </div>
+          <button onclick="handleGoToDashboard()" class="bg-tech-blue text-white text-xs font-bold px-4 py-2 rounded-xl">
+            ← Quay lại Bảng điều khiển
+          </button>
+        </div>
+
+        <div id="history-logs-container" class="space-y-2.5 max-h-[540px] overflow-y-auto pr-1"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 1: ĐĂNG KÝ (2 LỰA CHỌN PHÂN BIỆT) & ĐĂNG NHẬP TÀI KHOẢN         -->
+  <!-- ===================================================================== -->
+  <div id="auth-modal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden animate-modal my-8">
+      <!-- Header -->
+      <div class="bg-tech-blue text-white px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2.5">
+          <div class="bg-vibrant-orange text-white font-bold px-2.5 py-1 rounded-lg brand-font text-sm">&lt;★&gt;</div>
+          <div>
+            <h3 class="font-bold text-base">Cổng Tài Khoản TeamUp IT — ĐH Công nghệ Thông tin (UIT)</h3>
+            <p class="text-[11px] text-blue-200">Đăng ký lưu lịch sử tự động hoặc đăng nhập vào tài khoản đã có</p>
+          </div>
+        </div>
+        <button onclick="closeAuthModal()" class="text-blue-200 hover:text-white text-lg px-2">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Tabs Chuyển Đổi: Đăng Ký / Đăng Nhập -->
+      <div class="flex border-b border-slate-200 bg-slate-50 text-xs font-bold">
+        <button onclick="switchAuthTab('register')" id="tab-btn-register" class="flex-1 py-3.5 text-vibrant-orange border-b-2 border-vibrant-orange bg-white">
+          <i class="fa-solid fa-user-plus mr-1"></i> ĐĂNG KÝ TÀI KHOẢN MỚI (2 LỰA CHỌN)
+        </button>
+        <button onclick="switchAuthTab('login')" id="tab-btn-login" class="flex-1 py-3.5 text-slate-500 hover:text-slate-800">
+          <i class="fa-solid fa-right-to-bracket mr-1"></i> ĐĂNG NHẬP TÀI KHOẢN ĐÃ ĐĂNG KÝ
+        </button>
+      </div>
+
+      <div class="p-6 max-h-[78vh] overflow-y-auto">
+        <!-- =============================================================== -->
+        <!-- PANEL ĐĂNG KÝ: PHÂN BIỆT RÕ 2 LỰA CHỌN THEO YÊU CẦU              -->
+        <!-- =============================================================== -->
+        <div id="auth-panel-register" class="space-y-5 text-xs">
+          <!-- Bước 1: Chọn 1 trong 2 lựa chọn đăng ký -->
+          <div>
+            <label class="font-bold text-slate-800 text-sm block mb-2">
+              Bước 1: Chọn mục đích đăng ký tài khoản của bạn (2 lựa chọn phân biệt): *
+            </label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <!-- LỰA CHỌN 1: TẠO NHÓM MỚI & LÀM TRƯỞNG NHÓM -->
+              <div onclick="selectRegisterRoleOption('LEADER')" id="reg-opt-leader" class="cursor-pointer p-4 rounded-2xl border-2 border-slate-200 hover:border-orange-400 transition">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-vibrant-orange text-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-crown"></i>
+                    <span>Lựa chọn 1: Tạo nhóm mới (Trưởng nhóm)</span>
+                  </span>
+                  <input type="radio" name="reg-role-opt" value="LEADER" class="accent-orange-600">
+                </div>
+                <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
+                  Nhập thông tin Trưởng nhóm, khởi tạo đề tài nhóm mới kèm các vị trí cần tuyển dụng & yêu cầu. Có quyền xét duyệt hồ sơ ứng viên đã qua Quiz.
+                </p>
+              </div>
+
+              <!-- LỰA CHỌN 2: NGƯỜI DÙNG TÌM NHÓM PHÙ HỢP -->
+              <div onclick="selectRegisterRoleOption('MEMBER')" id="reg-opt-member" class="cursor-pointer p-4 rounded-2xl border-2 border-tech-blue bg-blue-50/50 transition">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-tech-blue text-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    <span>Lựa chọn 2: Tìm nhóm phù hợp với bản thân</span>
+                  </span>
+                  <input type="radio" name="reg-role-opt" value="MEMBER" checked class="accent-blue-700">
+                </div>
+                <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
+                  Nhập trình độ, kỹ năng, mục tiêu điểm số & vị trí ứng tuyển để hệ thống gợi ý nhóm phù hợp, làm Quiz và đăng ký ứng tuyển nhiều nhóm.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bước 2: Thông tin tài khoản chung -->
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <p class="font-bold text-slate-800 uppercase text-[11px]">Bước 2: Thông tin đăng nhập tài khoản (Lưu lại cho lần đăng nhập sau)</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div>
+                <label class="font-bold text-slate-700">Họ và tên *</label>
+                <input id="reg-name" type="text" placeholder="VD: Nguyễn Minh Khôi" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-medium focus:outline-none focus:border-blue-600">
+              </div>
+              <div>
+                <label class="font-bold text-slate-700">MSSV / Tên đăng nhập *</label>
+                <input id="reg-mssv" type="text" placeholder="VD: 26528888" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-medium focus:outline-none focus:border-blue-600">
+              </div>
+              <div>
+                <label class="font-bold text-slate-700">Mật khẩu *</label>
+                <input id="reg-password" type="password" value="123456" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-medium focus:outline-none focus:border-blue-600">
+              </div>
+            </div>
+          </div>
+
+          <!-- FORM CHI TIẾT CHO LỰA CHỌN 2: NGƯỜI DÙNG TÌM NHÓM PHÙ HỢP -->
+          <div id="reg-form-member" class="p-4 bg-blue-50/50 rounded-2xl border border-blue-200 space-y-4">
+            <p class="font-bold text-tech-blue uppercase text-[11px]">
+              <i class="fa-solid fa-id-card-clip mr-1"></i> Bước 3: Hồ sơ cá nhân để tìm nhóm phù hợp (Trình độ, Mục tiêu & Vị trí ứng tuyển)
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div>
+                <label class="font-bold text-slate-700">Trình độ / Năm học *</label>
+                <select id="reg-mem-level" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-semibold text-slate-800">
+                  <option value="Sinh viên Năm 1">Sinh viên Năm 1</option>
+                  <option value="Sinh viên Năm 2" selected>Sinh viên Năm 2</option>
+                  <option value="Sinh viên Năm 3">Sinh viên Năm 3</option>
+                  <option value="Sinh viên Năm 4">Sinh viên Năm 4</option>
+                </select>
+              </div>
+              <div>
+                <label class="font-bold text-slate-700">Mục tiêu điểm số *</label>
+                <select id="reg-mem-goal" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-bold text-vibrant-orange">
+                  <option value="9.0">Săn học bổng / Xuất sắc (9.0+)</option>
+                  <option value="8.0">Đạt điểm Giỏi (8.0+)</option>
+                  <option value="7.0">Đạt điểm Khá (7.0+)</option>
+                  <option value="5.0">Qua môn an toàn (5.0+)</option>
+                </select>
+              </div>
+              <div>
+                <label class="font-bold text-slate-700">Vị trí ứng tuyển mong muốn *</label>
+                <select id="reg-mem-role" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-bold text-tech-blue">
+                  <option value="Backend / Thuật toán">Backend / Thuật toán</option>
+                  <option value="Data / Phân tích dữ liệu">Data / Phân tích dữ liệu</option>
+                  <option value="Frontend / Web UI">Frontend / Web UI</option>
+                  <option value="UI/UX Designer">UI/UX Designer</option>
+                  <option value="Researcher / Báo cáo">Researcher / Báo cáo</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1.5">Kỹ năng chuyên môn hiện có của bạn:</label>
+              <div class="flex flex-wrap gap-1.5" id="reg-mem-skills">
+                <label class="skill-chip cursor-pointer"><input type="checkbox" value="C++ / Thuật toán" checked class="hidden"><span class="inline-block px-2.5 py-1 rounded-lg border bg-white font-medium">C++ / Thuật toán</span></label>
+                <label class="skill-chip cursor-pointer"><input type="checkbox" value="SQL / Database" checked class="hidden"><span class="inline-block px-2.5 py-1 rounded-lg border bg-white font-medium">SQL / Database</span></label>
+                <label class="skill-chip cursor-pointer"><input type="checkbox" value="Python / Data" class="hidden"><span class="inline-block px-2.5 py-1 rounded-lg border bg-white font-medium">Python / Data</span></label>
+                <label class="skill-chip cursor-pointer"><input type="checkbox" value="ReactJS / HTML" class="hidden"><span class="inline-block px-2.5 py-1 rounded-lg border bg-white font-medium">ReactJS / HTML</span></label>
+                <label class="skill-chip cursor-pointer"><input type="checkbox" value="Node.js / API" class="hidden"><span class="inline-block px-2.5 py-1 rounded-lg border bg-white font-medium">Node.js / API</span></label>
+                <label class="skill-chip cursor-pointer"><input type="checkbox" value="Figma / UI/UX" class="hidden"><span class="inline-block px-2.5 py-1 rounded-lg border bg-white font-medium">Figma / UI/UX</span></label>
+                <label class="skill-chip cursor-pointer"><input type="checkbox" value="Viết báo cáo / BMC" checked class="hidden"><span class="inline-block px-2.5 py-1 rounded-lg border bg-white font-medium">Viết báo cáo / BMC</span></label>
+                <label class="skill-chip cursor-pointer"><input type="checkbox" value="Git / GitHub" checked class="hidden"><span class="inline-block px-2.5 py-1 rounded-lg border bg-white font-medium">Git / GitHub</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORM CHI TIẾT CHO LỰA CHỌN 1: TẠO NHÓM MỚI & LÀM TRƯỞNG NHÓM -->
+          <div id="reg-form-leader" class="hidden p-4 bg-orange-50/60 rounded-2xl border border-orange-200 space-y-4">
+            <p class="font-bold text-vibrant-orange uppercase text-[11px]">
+              <i class="fa-solid fa-crown mr-1"></i> Bước 3: Thông tin Nhóm mới khởi tạo do bạn làm Trưởng nhóm & Các vị trí cần tuyển
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="md:col-span-2">
+                <label class="font-bold text-slate-700">Tên nhóm / Đề tài dự án mới *</label>
+                <input id="reg-lead-title" type="text" placeholder="VD: Hệ thống AI gợi ý lộ trình học tập cho sinh viên UIT" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-medium">
+              </div>
+              <div>
+                <label class="font-bold text-slate-700">Môn học *</label>
+                <select id="reg-lead-course" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-semibold">
+                  <option value="SS004|SS004.O11 - Kỹ năng nghề nghiệp">SS004 - Kỹ năng nghề nghiệp</option>
+                  <option value="IT003|IT003.O21 - Cấu trúc dữ liệu & Giải thuật">IT003 - CTDL & Giải thuật</option>
+                  <option value="IT004|IT004.P12 - Cơ sở dữ liệu">IT004 - Cơ sở dữ liệu</option>
+                  <option value="SE104|SE104.P11 - Nhập môn CNPM">SE104 - Nhập môn CNPM</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label class="font-bold text-slate-700">Mục tiêu điểm số của nhóm *</label>
+                <select id="reg-lead-goal" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-bold text-vibrant-orange">
+                  <option value="9.0">Mục tiêu 9.0+ (Săn điểm A+ / Học bổng)</option>
+                  <option value="8.0">Mục tiêu 8.0+ (Đạt điểm Giỏi)</option>
+                  <option value="7.0">Mục tiêu 7.0+ (Đạt điểm Khá)</option>
+                </select>
+              </div>
+              <div>
+                <label class="font-bold text-slate-700">Yêu cầu cụ thể của nhóm đối với ứng viên *</label>
+                <input id="reg-lead-req" type="text" value="Vượt qua Quiz ≥ 2/3 câu, họp nhóm đúng giờ, không trễ deadline." class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 bg-white font-medium">
+              </div>
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1.5">Các vị trí cần đăng tuyển cho nhóm của bạn (Chọn ít nhất 1 vị trí): *</label>
+              <div class="flex flex-wrap gap-2" id="reg-lead-roles">
+                <label class="role-chip cursor-pointer"><input type="checkbox" value="Backend / Thuật toán" checked class="hidden"><span class="inline-block px-3 py-1.5 rounded-xl border bg-white font-semibold">+1 Backend / Thuật toán</span></label>
+                <label class="role-chip cursor-pointer"><input type="checkbox" value="Data / Phân tích dữ liệu" checked class="hidden"><span class="inline-block px-3 py-1.5 rounded-xl border bg-white font-semibold">+1 Data / Phân tích dữ liệu</span></label>
+                <label class="role-chip cursor-pointer"><input type="checkbox" value="Frontend / Web UI" class="hidden"><span class="inline-block px-3 py-1.5 rounded-xl border bg-white font-semibold">+1 Frontend / Web UI</span></label>
+                <label class="role-chip cursor-pointer"><input type="checkbox" value="UI/UX Designer" checked class="hidden"><span class="inline-block px-3 py-1.5 rounded-xl border bg-white font-semibold">+1 UI/UX Designer</span></label>
+                <label class="role-chip cursor-pointer"><input type="checkbox" value="Researcher / Báo cáo" class="hidden"><span class="inline-block px-3 py-1.5 rounded-xl border bg-white font-semibold">+1 Researcher / Báo cáo</span></label>
+              </div>
+            </div>
+          </div>
+
+          <div id="reg-error-box" class="hidden p-3 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl font-semibold"></div>
+
+          <button onclick="submitRegisterAccount()" class="w-full bg-vibrant-orange hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl shadow-md transition uppercase tracking-wider text-xs">
+            Hoàn Tất Đăng Ký & Đi Tới Bảng Điều Khiển
+          </button>
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- PANEL ĐĂNG NHẬP: ĐĂNG NHẬP TÀI KHOẢN ĐÃ LƯU                     -->
+        <!-- =============================================================== -->
+        <div id="auth-panel-login" class="hidden space-y-4 text-xs">
+          <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-slate-700">
+            Nhập <strong>MSSV / Tên đăng nhập</strong> và <strong>Mật khẩu</strong> đã đăng ký. Hệ thống sẽ tự động mở giao diện <strong>Người tìm nhóm</strong> hoặc <strong>Trưởng nhóm xét duyệt</strong> tương ứng với tài khoản của bạn.
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="font-bold text-slate-700">MSSV hoặc Email (.edu.vn) *</label>
+              <input id="login-mssv" type="text" value="26521682" class="mt-1 w-full border border-slate-300 rounded-xl px-3.5 py-2.5 font-semibold focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-700">Mật khẩu *</label>
+              <input id="login-password" type="password" value="123456" class="mt-1 w-full border border-slate-300 rounded-xl px-3.5 py-2.5 font-semibold focus:outline-none focus:border-blue-600">
+            </div>
+          </div>
+
+          <div id="login-error-box" class="hidden p-3 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl font-semibold"></div>
+
+          <button onclick="submitLoginAccount()" class="w-full bg-tech-blue hover:bg-blue-800 text-white font-bold py-3.5 rounded-xl shadow-md transition uppercase tracking-wider">
+            Đăng Nhập Vào Hệ Thống
+          </button>
+
+          <!-- Danh sách tài khoản đã lưu để chọn nhanh -->
+          <div class="pt-3 border-t border-slate-200 space-y-2">
+            <p class="font-bold text-slate-500 uppercase text-[11px]">Chọn nhanh tài khoản đã đăng ký trên hệ thống (Mật khẩu: 123456):</p>
+            <div id="modal-saved-accounts" class="flex flex-wrap gap-1.5"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 2: LÀM QUIZ KIỂM TRA KIẾN THỨC KHI ỨNG TUYỂN VỊ TRÍ              -->
+  <!-- ===================================================================== -->
+  <div id="quiz-modal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden animate-modal my-8">
+      <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white px-6 py-4 flex justify-between items-center">
+        <div>
+          <span class="bg-vibrant-orange text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">Bước Kiểm Tra Năng Lực Vị Trí</span>
+          <h3 id="quiz-modal-title" class="font-bold text-base mt-1">Ứng tuyển vị trí: Backend / Thuật toán</h3>
+          <p id="quiz-modal-subtitle" class="text-xs text-blue-200">Vượt qua ≥ 2/3 câu đúng để gửi Hồ sơ ứng tuyển cho Trưởng nhóm xét duyệt</p>
+        </div>
+        <button onclick="closeQuizModal()" class="text-blue-200 hover:text-white text-lg px-2">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="quiz-questions-body" class="p-6 space-y-4 text-xs max-h-[62vh] overflow-y-auto"></div>
+      <div id="quiz-result-body" class="hidden p-6 text-center space-y-4"></div>
+
+      <div id="quiz-modal-footer" class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex justify-between items-center">
+        <span class="text-xs text-slate-500"><i class="fa-solid fa-shield-halved text-tech-blue mr-1"></i> Yêu cầu đạt: <strong>≥ 2/3 câu đúng</strong></span>
+        <div class="flex gap-2">
+          <button onclick="closeQuizModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-100">Hủy</button>
+          <button onclick="submitQuizAndApply()" class="bg-vibrant-orange hover:bg-orange-600 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow transition">
+            Nộp Bài Quiz & Gửi Hồ Sơ Ứng Tuyển
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 3: XIN PHÉP TRƯỞNG NHÓM ĐỂ RỜI NHÓM HOẶC CHUYỂN NHÓM            -->
+  <!-- ===================================================================== -->
+  <div id="leave-modal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden animate-modal">
+      <div class="bg-vibrant-orange text-white px-6 py-4 flex justify-between items-center">
+        <div>
+          <h3 id="leave-modal-title" class="font-bold text-base">Gửi Yêu Cầu Xin Rời / Chuyển Nhóm</h3>
+          <p class="text-[11px] text-orange-100">Cần sự phê duyệt của Trưởng nhóm hiện tại trước khi rời hoặc chuyển nhóm</p>
+        </div>
+        <button onclick="closeLeaveModal()" class="text-orange-100 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div id="leave-modal-info" class="p-3.5 bg-orange-50 border border-orange-200 rounded-xl text-slate-700 leading-relaxed"></div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Lý do xin rời nhóm / chuyển nhóm gửi tới Trưởng nhóm hiện tại: *</label>
+          <textarea id="leave-reason-input" rows="3" class="w-full border border-slate-300 rounded-xl p-3 font-medium focus:outline-none focus:border-orange-500" placeholder="Nhập lý do cụ thể (VD: Em đổi lịch học phần hoặc muốn chuyển sang nhóm làm đề tài phù hợp với chuyên ngành hơn)...">Em muốn xin phép Trưởng nhóm cho em rời/chuyển nhóm để phù hợp hơn với lịch học và định hướng đề tài học kỳ này ạ.</textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button onclick="closeLeaveModal()" class="px-4 py-2 rounded-xl border border-slate-300 font-semibold text-slate-600">Hủy</button>
+          <button onclick="confirmSubmitLeaveRequest()" class="bg-vibrant-orange hover:bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl shadow transition">
+            Gửi Yêu Cầu Cho Trưởng Nhóm Duyệt
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 max-w-sm"></div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT LOGIC & FIREBASE FIRESTORE CLOUD SYNC                      -->
+  <!-- ===================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // ---------------------------------------------------------------------
+    // 1. NGÂN HÀNG CÂU HỎI QUIZ THEO TỪNG VỊ TRÍ ỨNG TUYỂN
+    // ---------------------------------------------------------------------
+    const ROLE_QUIZ_BANK = {
+      "Backend / Thuật toán": [
+        {
+          q: "Câu 1: Khi tìm kiếm một phần tử trên mảng đã sắp xếp có N phần tử bằng thuật toán Tìm kiếm nhị phân (Binary Search), độ phức tạp thời gian xấu nhất là?",
+          options: ["O(N)", "O(log N)", "O(N log N)", "O(1)"],
+          correct: 1
+        },
+        {
+          q: "Câu 2: Trong thiết kế Cơ sở dữ liệu & Backend, việc đánh chỉ mục (Index - B-Tree) trên cột MSSV giúp tăng tốc độ câu lệnh nào nhiều nhất?",
+          options: ["SELECT ... WHERE mssv = '26521682'", "INSERT INTO sinhvien VALUES (...)", "DELETE FROM sinhvien", "DROP TABLE sinhvien"],
+          correct: 0
+        },
+        {
+          q: "Câu 3: Để kiểm tra nhanh 2 đỉnh trong đồ thị có thuộc cùng một thành phần liên thông hay không (như thuật toán Kruskal), cấu trúc dữ liệu nào tối ưu nhất?",
+          options: ["Hàng đợi (Queue)", "Ngăn xếp (Stack)", "Disjoint Set Union (DSU / Union-Find)", "Danh sách liên kết đơn"],
+          correct: 2
+        }
+      ],
+      "Data / Phân tích dữ liệu": [
+        {
+          q: "Câu 1: Trong ngôn ngữ truy vấn SQL, mệnh đề nào được dùng để lọc kết quả SAU KHI đã gom nhóm bằng GROUP BY?",
+          options: ["WHERE", "HAVING", "ORDER BY", "DISTINCT"],
+          correct: 1
+        },
+        {
+          q: "Câu 2: Trong quy trình xây dựng đường ống dữ liệu (Data Pipeline), viết tắt ETL đại diện cho 3 bước nào?",
+          options: [
+            "Extract (Trích xuất) - Transform (Biến đổi) - Load (Tải vào kho)",
+            "Edit - Test - Launch",
+            "Evaluate - Train - Learn",
+            "Export - Transfer - Link"
+          ],
+          correct: 0
+        },
+        {
+          q: "Câu 3: Khi xử lý bảng dữ liệu khảo sát bằng Python (Pandas), phương thức nào dùng để đếm các giá trị bị khuyết thiếu (Missing Values / NaN)?",
+          options: ["df.sort_values()", "df.isna().sum()", "df.groupby()", "df.merge()"],
+          correct: 1
+        }
+      ],
+      "Frontend / Web UI": [
+        {
+          q: "Câu 1: Trong CSS Flexbox, thuộc tính nào dùng để căn giữa các phần tử con theo trục chính (Main Axis)?",
+          options: ["align-items: center", "justify-content: center", "display: block", "position: absolute"],
+          correct: 1
+        },
+        {
+          q: "Câu 2: Trong ReactJS, khái niệm nào dùng để lưu trữ trạng thái dữ liệu nội bộ có thể thay đổi và tự động cập nhật lại giao diện?",
+          options: ["Props", "State (useState)", "HTML Attribute", "CSS Class"],
+          correct: 1
+        },
+        {
+          q: "Câu 3: Trong JavaScript hiện đại, cặp từ khóa nào giúp xử lý các tác vụ bất đồng bộ (như gọi API) theo phong cách tuần tự, dễ đọc?",
+          options: ["for / while", "async / await", "switch / case", "try / finally"],
+          correct: 1
+        }
+      ],
+      "UI/UX Designer": [
+        {
+          q: "Câu 1: Trong công cụ thiết kế Figma, tính năng nào giúp khung nút bấm (Button) tự động co giãn kích thước khi thay đổi độ dài chữ bên trong?",
+          options: ["Auto Layout", "Boolean Groups", "Masking", "Pixel Grid"],
+          correct: 0
+        },
+        {
+          q: "Câu 2: Sự khác biệt chính giữa Wireframe và Interactive Prototype là gì?",
+          options: [
+            "Wireframe là bản phác thảo khung xương bố cục, còn Prototype có thể bấm tương tác chuyển màn hình như thật",
+            "Wireframe chỉ dùng cho điện thoại, Prototype chỉ dùng cho máy tính",
+            "Wireframe có đầy đủ âm thanh",
+            "Không có sự khác biệt nào"
+          ],
+          correct: 0
+        },
+        {
+          q: "Câu 3: Đảm bảo độ tương phản (Contrast Ratio) cao giữa chữ (#0F172A) và nền (#F8FAFC) giúp giải quyết vấn đề gì?",
+          options: [
+            "Tăng khả năng dễ đọc (Readability) và trải nghiệm người dùng trên mọi màn hình",
+            "Giảm dung lượng bộ nhớ máy chủ",
+            "Tự động dịch ngôn ngữ",
+            "Tăng tốc độ mạng"
+          ],
+          correct: 0
+        }
+      ],
+      "Researcher / Báo cáo": [
+        {
+          q: "Câu 1: Mô hình kinh doanh Business Model Canvas (BMC) tiêu chuẩn trong báo cáo đồ án Kỹ năng nghề nghiệp bao gồm bao nhiêu ô thành phần?",
+          options: ["4 ô", "6 ô", "9 ô", "12 ô"],
+          correct: 2
+        },
+        {
+          q: "Câu 2: Theo quy định báo cáo môn Kỹ năng nghề nghiệp, nhóm cần thu thập tối thiểu bao nhiêu phản hồi khảo sát hợp lệ và bao nhiêu cuộc phỏng vấn ngắn?",
+          options: [
+            "Tối thiểu 5 phản hồi và 1 phỏng vấn",
+            "Tối thiểu 15 phản hồi khảo sát hợp lệ và 02 cuộc phỏng vấn ngắn",
+            "Không cần khảo sát thực tế",
+            "Chỉ cần 1 bảng câu hỏi trống"
+          ],
+          correct: 1
+        },
+        {
+          q: "Câu 3: Mục đích cốt lõi của việc xây dựng Chân dung khách hàng (User Persona) và rút ra Insight từ khảo sát là gì?",
+          options: [
+            "Để điều chỉnh tính năng sản phẩm bám sát nỗi đau (Pain points) và nhu cầu thực tế của người dùng",
+            "Chỉ để trang trí cho báo cáo dài hơn",
+            "Để thay thế hoàn toàn phần kế hoạch tài chính",
+            "Để tăng chi phí vận hành"
+          ],
+          correct: 0
+        }
+      ]
+    };
+
+    // ---------------------------------------------------------------------
+    // 2. DỮ LIỆU KHỞI TẠO MẶC ĐỊNH (TÀI KHOẢN, NHÓM, ĐƠN ỨNG TUYỂN, YÊU CẦU RỜI NHÓM)
+    // ---------------------------------------------------------------------
+    const INITIAL_ACCOUNTS = [
+      {
+        mssv: "26520786",
+        name: "Trần Đức Khải",
+        password: "123456",
+        accountMode: "LEADER",
+        level: "Sinh viên Năm 2",
+        desiredRole: "Backend / Thuật toán",
+        targetGoal: 9.0,
+        skills: ["C++ / Thuật toán", "SQL / Database", "Viết báo cáo / BMC", "Git / GitHub"],
+        currentGroupId: "GRP-SS004-01",
+        currentRoleInGroup: "Trưởng nhóm (Leader & BMC)"
+      },
+      {
+        mssv: "26521682",
+        name: "Dương Xuân Quân",
+        password: "123456",
+        accountMode: "MEMBER",
+        level: "Sinh viên Năm 2",
+        desiredRole: "Backend / Thuật toán",
+        targetGoal: 9.0,
+        skills: ["C++ / Thuật toán", "SQL / Database", "Python / Data", "Git / GitHub", "Viết báo cáo / BMC"],
+        currentGroupId: null, // Đang tự do để test ứng tuyển nhiều nhóm & chờ Trưởng nhóm duyệt
+        currentRoleInGroup: null
+      },
+      {
+        mssv: "26521623",
+        name: "Lê Trần Thiên Phúc",
+        password: "123456",
+        accountMode: "MEMBER",
+        level: "Sinh viên Năm 2",
+        desiredRole: "UI/UX Designer",
+        targetGoal: 9.0,
+        skills: ["Figma / UI/UX", "ReactJS / HTML", "Viết báo cáo / BMC"],
+        currentGroupId: "GRP-SS004-01",
+        currentRoleInGroup: "UI/UX Designer"
+      },
+      {
+        mssv: "26520299",
+        name: "Phan Thanh Đạt",
+        password: "123456",
+        accountMode: "MEMBER",
+        level: "Sinh viên Năm 2",
+        desiredRole: "Researcher / Báo cáo",
+        targetGoal: 9.0,
+        skills: ["Python / Data", "SQL / Database", "Viết báo cáo / BMC"],
+        currentGroupId: "GRP-SS004-01",
+        currentRoleInGroup: "Researcher / Báo cáo"
+      },
+      {
+        mssv: "24522010",
+        name: "Đoàn Đăng Vinh",
+        password: "123456",
+        accountMode: "LEADER",
+        level: "Sinh viên Năm 3",
+        desiredRole: "Data / Phân tích dữ liệu",
+        targetGoal: 9.0,
+        skills: ["SQL / Database", "Python / Data", "Viết báo cáo / BMC", "Git / GitHub"],
+        currentGroupId: "GRP-IT004-02",
+        currentRoleInGroup: "Trưởng nhóm (Data Lead)"
+      },
+      {
+        mssv: "26521429",
+        name: "Trương Nam Nguyên",
+        password: "123456",
+        accountMode: "MEMBER",
+        level: "Sinh viên Năm 2",
+        desiredRole: "Frontend / Web UI",
+        targetGoal: 8.0,
+        skills: ["ReactJS / HTML", "Figma / UI/UX", "Git / GitHub"],
+        currentGroupId: "GRP-SS004-01",
+        currentRoleInGroup: "Frontend / Web UI"
+      }
+    ];
+
+    const INITIAL_GROUPS = [
+      {
+        id: "GRP-SS004-01",
+        courseCode: "SS004",
+        courseName: "SS004.O11 - Kỹ năng nghề nghiệp (ThS. Lê Ngô Thục Vi)",
+        title: "Dự án khởi nghiệp: Nền tảng ghép nhóm đồ án TeamUp IT",
+        desc: "Xây dựng kế hoạch kinh doanh BMC, khảo sát nhu cầu sinh viên và phát triển nền tảng ghép nhóm có Quiz kiểm tra đầu vào & Trưởng nhóm xét duyệt.",
+        requirements: "Đạt Quiz ≥ 2/3 câu, cam kết họp nhóm định kỳ tối Thứ 4 & Chủ Nhật, hoàn thành task trước hạn 24h.",
+        leaderMssv: "26520786",
+        leaderName: "Trần Đức Khải",
+        targetGoal: 9.0,
+        maxMembers: 6,
+        members: [
+          { mssv: "26520786", name: "Trần Đức Khải", role: "Trưởng nhóm (Leader & BMC)" },
+          { mssv: "26521623", name: "Lê Trần Thiên Phúc", role: "UI/UX Designer" },
+          { mssv: "26520299", name: "Phan Thanh Đạt", role: "Researcher / Báo cáo" },
+          { mssv: "26521429", name: "Trương Nam Nguyên", role: "Frontend / Web UI" }
+        ],
+        neededRoles: ["Backend / Thuật toán", "Data / Phân tích dữ liệu"],
+        requiredSkills: ["C++ / Thuật toán", "SQL / Database", "Python / Data", "Git / GitHub", "Viết báo cáo / BMC"]
+      },
+      {
+        id: "GRP-IT004-02",
+        courseCode: "IT004",
+        courseName: "IT004.P12 - Cơ sở dữ liệu & Quản trị dữ liệu",
+        title: "Xây dựng Data Pipeline & Hệ thống phân tích học vụ sinh viên UIT",
+        desc: "Thiết kế lược đồ CSDL chuẩn hóa 3NF, tối ưu hóa truy vấn SQL và xây dựng quy trình ETL phân tích điểm số học tập.",
+        requirements: "Nắm vững SQL (GROUP BY, HAVING, Index) và Python xử lý dữ liệu cơ bản.",
+        leaderMssv: "24522010",
+        leaderName: "Đoàn Đăng Vinh",
+        targetGoal: 9.0,
+        maxMembers: 5,
+        members: [
+          { mssv: "24522010", name: "Đoàn Đăng Vinh", role: "Trưởng nhóm (Data Lead)" }
+        ],
+        neededRoles: ["Data / Phân tích dữ liệu", "Backend / Thuật toán", "Frontend / Web UI"],
+        requiredSkills: ["SQL / Database", "Python / Data", "C++ / Thuật toán", "Git / GitHub"]
+      },
+      {
+        id: "GRP-IT003-03",
+        courseCode: "IT003",
+        courseName: "IT003.O21 - Cấu trúc dữ liệu & Giải thuật",
+        title: "Mô phỏng thuật toán tìm đường đi ngắn nhất Dijkstra, A* & DSU",
+        desc: "Cài đặt cấu trúc dữ liệu đồ thị bằng C++, đo lường độ phức tạp thuật toán và trực quan hóa trên bản đồ Làng Đại học.",
+        requirements: "Thành thạo C++ STL, hiểu rõ Binary Search, Dijkstra và Disjoint Set Union.",
+        leaderMssv: "26520786",
+        leaderName: "Trần Đức Khải",
+        targetGoal: 9.0,
+        maxMembers: 4,
+        members: [
+          { mssv: "26520786", name: "Trần Đức Khải", role: "Trưởng nhóm (Algorithm Lead)" }
+        ],
+        neededRoles: ["Backend / Thuật toán", "UI/UX Designer"],
+        requiredSkills: ["C++ / Thuật toán", "Git / GitHub", "Figma / UI/UX"]
+      },
+      {
+        id: "GRP-SE104-04",
+        courseCode: "SE104",
+        courseName: "SE104.P11 - Nhập môn Công nghệ phần mềm",
+        title: "Ứng dụng Web quản lý tiến độ đồ án & Đánh giá đồng đội",
+        desc: "Phát triển ứng dụng Web theo mô hình Agile/Scrum. Cần tuyển thành viên Frontend, UI/UX và Researcher viết đặc tả.",
+        requirements: "Biết sử dụng Git/GitHub cơ bản, giao tiếp tốt và chủ động cập nhật tiến độ.",
+        leaderMssv: "24522010",
+        leaderName: "Đoàn Đăng Vinh",
+        targetGoal: 8.0,
+        maxMembers: 5,
+        members: [
+          { mssv: "24522010", name: "Đoàn Đăng Vinh", role: "Trưởng nhóm (Project Manager)" }
+        ],
+        neededRoles: ["Frontend / Web UI", "UI/UX Designer", "Researcher / Báo cáo"],
+        requiredSkills: ["ReactJS / HTML", "Figma / UI/UX", "Viết báo cáo / BMC", "Git / GitHub"]
+      }
+    ];
+
+    // Danh sách hồ sơ ứng tuyển mẫu (Đã vượt qua Quiz, đang chờ Trưởng nhóm duyệt)
+    const INITIAL_APPLICATIONS = [
+      {
+        id: "APP-DEMO-1",
+        applicantMssv: "26521682",
+        applicantName: "Dương Xuân Quân",
+        applicantLevel: "Sinh viên Năm 2",
+        applicantGoal: 9.0,
+        applicantSkills: ["C++ / Thuật toán", "SQL / Database", "Python / Data", "Git / GitHub", "Viết báo cáo / BMC"],
+        groupId: "GRP-SS004-01",
+        groupTitle: "Dự án khởi nghiệp: Nền tảng ghép nhóm đồ án TeamUp IT",
+        roleName: "Backend / Thuật toán",
+        quizScore: "3/3",
+        status: "PENDING", // PENDING | APPROVED | REJECTED | LOCKED_JOINED_OTHER
+        createdAt: "Hôm nay, 09:20"
+      },
+      {
+        id: "APP-DEMO-2",
+        applicantMssv: "26521682",
+        applicantName: "Dương Xuân Quân",
+        applicantLevel: "Sinh viên Năm 2",
+        applicantGoal: 9.0,
+        applicantSkills: ["C++ / Thuật toán", "SQL / Database", "Python / Data", "Git / GitHub", "Viết báo cáo / BMC"],
+        groupId: "GRP-IT004-02",
+        groupTitle: "Xây dựng Data Pipeline & Hệ thống phân tích học vụ sinh viên UIT",
+        roleName: "Data / Phân tích dữ liệu",
+        quizScore: "3/3",
+        status: "PENDING",
+        createdAt: "Hôm nay, 09:25"
+      }
+    ];
+
+    // Danh sách yêu cầu xin rời nhóm / chuyển nhóm mẫu (Chờ Trưởng nhóm hiện tại duyệt)
+    const INITIAL_LEAVE_REQUESTS = [
+      {
+        id: "LEAVE-DEMO-1",
+        memberMssv: "26521429",
+        memberName: "Trương Nam Nguyên",
+        currentGroupId: "GRP-SS004-01",
+        currentGroupTitle: "Dự án khởi nghiệp: Nền tảng ghép nhóm đồ án TeamUp IT",
+        currentRole: "Frontend / Web UI",
+        requestType: "TRANSFER", // LEAVE | TRANSFER
+        targetGroupId: "GRP-SE104-04",
+        targetGroupTitle: "Ứng dụng Web quản lý tiến độ đồ án & Đánh giá đồng đội",
+        targetRole: "Frontend / Web UI",
+        reason: "Em muốn xin phép Trưởng nhóm chuyển sang nhóm SE104.P11 để trùng lịch học thực hành chiều Thứ 5 ạ.",
+        status: "PENDING", // PENDING | APPROVED | REJECTED
+        createdAt: "Hôm nay, 09:40"
+      }
+    ];
+
+    const INITIAL_HISTORY = [
+      {
+        id: "HIST-1",
+        time: "Hôm nay, 08:30",
+        actor: "Trần Đức Khải (26520786)",
+        badge: "TẠO NHÓM",
+        status: "SUCCESS",
+        detail: "Đã đăng ký với vai trò Trưởng nhóm và khởi tạo đề tài 'Nền tảng ghép nhóm đồ án TeamUp IT (SS004)'."
+      },
+      {
+        id: "HIST-2",
+        time: "Hôm nay, 09:20",
+        actor: "Dương Xuân Quân (26521682)",
+        badge: "VƯỢT QUA QUIZ",
+        status: "SUCCESS",
+        detail: "Vượt qua Quiz vị trí 'Backend / Thuật toán' (3/3 câu) và gửi hồ sơ chờ Trưởng nhóm 'TeamUp IT' xét duyệt."
+      },
+      {
+        id: "HIST-3",
+        time: "Hôm nay, 09:25",
+        actor: "Dương Xuân Quân (26521682)",
+        badge: "ỨNG TUYỂN ĐA NHÓM",
+        status: "SUCCESS",
+        detail: "Vượt qua Quiz vị trí 'Data / Phân tích dữ liệu' (3/3 câu) và nộp thêm hồ sơ vào nhóm 'Data Pipeline (IT004)'."
+      }
+    ];
+
+    // ---------------------------------------------------------------------
+    // 3. TRẠNG THÁI HỆ THỐNG & ĐỒNG BỘ FIREBASE FIRESTORE
+    // ---------------------------------------------------------------------
+    let appState = {
+      accounts: JSON.parse(JSON.stringify(INITIAL_ACCOUNTS)),
+      groups: JSON.parse(JSON.stringify(INITIAL_GROUPS)),
+      applications: JSON.parse(JSON.stringify(INITIAL_APPLICATIONS)),
+      leaveRequests: JSON.parse(JSON.stringify(INITIAL_LEAVE_REQUESTS)),
+      history: JSON.parse(JSON.stringify(INITIAL_HISTORY))
+    };
+
+    let currentUser = null; // Mặc định khi mới truy cập web là khách (hiển thị trang chính Landing Page)
+    let currentView = "landing"; // 'landing' | 'member' | 'leader' | 'history'
+    let selectedRegisterOpt = "MEMBER"; // 'LEADER' | 'MEMBER'
+    let memberFilterMode = "ALL";
+    let activeQuizTarget = null; // { groupId, roleName }
+    let activeLeaveContext = null; // { requestType: 'LEAVE' | 'TRANSFER', targetGroupId, targetRole }
+
+    let db = null;
+    let auth = null;
+    let firebaseReady = false;
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'teamup-it-uit-app';
+
+    async function initCloudSync() {
+      try {
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+          const firebaseConfig = JSON.parse(__firebase_config);
+          const app = initializeApp(firebaseConfig);
+          auth = getAuth(app);
+          db = getFirestore(app);
+
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+
+          if (!auth.currentUser) return;
+          firebaseReady = true;
+
+          const stateDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'teamup_state', 'v2_workflow_store');
+          onSnapshot(
+            stateDocRef,
+            (snapshot) => {
+              if (snapshot.exists()) {
+                const data = snapshot.data();
+                if (data.accountsJson) appState.accounts = JSON.parse(data.accountsJson);
+                if (data.groupsJson) appState.groups = JSON.parse(data.groupsJson);
+                if (data.applicationsJson) appState.applications = JSON.parse(data.applicationsJson);
+                if (data.leaveRequestsJson) appState.leaveRequests = JSON.parse(data.leaveRequestsJson);
+                if (data.historyJson) appState.history = JSON.parse(data.historyJson);
+
+                if (currentUser) {
+                  const updatedUser = appState.accounts.find(a => a.mssv === currentUser.mssv);
+                  if (updatedUser) currentUser = updatedUser;
+                }
+                refreshUI();
+              } else {
+                saveStateToCloud();
+              }
+            },
+            (err) => {
+              console.warn("Firestore listener notice:", err);
+            }
+          );
+        }
+      } catch (e) {
+        console.warn("Standalone mode:", e);
+      }
+    }
+
+    async function saveStateToCloud() {
+      refreshUI();
+      if (!firebaseReady || !db || !auth?.currentUser) return;
+      try {
+        const stateDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'teamup_state', 'v2_workflow_store');
+        await setDoc(stateDocRef, {
+          accountsJson: JSON.stringify(appState.accounts),
+          groupsJson: JSON.stringify(appState.groups),
+          applicationsJson: JSON.stringify(appState.applications),
+          leaveRequestsJson: JSON.stringify(appState.leaveRequests),
+          historyJson: JSON.stringify(appState.history),
+          updatedAt: Date.now()
+        });
+      } catch (e) {
+        console.warn("Cloud write notice:", e);
+      }
+    }
+
+    function addHistoryLog(badge, status, detail, actorUser = currentUser) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' - ' + now.toLocaleDateString('vi-VN');
+      const actorName = actorUser ? `${actorUser.name} (${actorUser.mssv})` : "Hệ thống TeamUp IT";
+      appState.history.unshift({
+        id: "HIST-" + Date.now() + "-" + Math.floor(Math.random() * 100),
+        time: timeStr,
+        actor: actorName,
+        badge,
+        status,
+        detail
+      });
+    }
+
+    // ---------------------------------------------------------------------
+    // 4. THÔNG BÁO TOAST (KHÔNG SỬ DỤNG ALERT)
+    // ---------------------------------------------------------------------
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toast-container");
+      const styles = {
+        success: "bg-emerald-600 text-white border-emerald-700",
+        warning: "bg-vibrant-orange text-white border-orange-600",
+        error: "bg-rose-600 text-white border-rose-700",
+        info: "bg-tech-blue text-white border-blue-800"
+      };
+      const el = document.createElement("div");
+      el.className = `${styles[type] || styles.info} px-4 py-3 rounded-xl shadow-xl border text-xs font-semibold flex items-start justify-between gap-3 animate-modal`;
+      el.innerHTML = `
+        <div class="leading-relaxed">${message}</div>
+        <button class="opacity-80 hover:opacity-100 font-bold" onclick="this.parentElement.remove()">✕</button>
+      `;
+      container.appendChild(el);
+      setTimeout(() => {
+        if (el.parentElement) el.remove();
+      }, 4800);
+    }
+
+    // ---------------------------------------------------------------------
+    // 5. ĐIỀU HƯỚNG GIỮA TRANG CHÍNH (LANDING) VÀ BẢNG ĐIỀU KHIỂN
+    // ---------------------------------------------------------------------
+    window.navigateView = function (viewName) {
+      currentView = viewName;
+      ["landing", "member", "leader", "history"].forEach(v => {
+        const el = document.getElementById("view-" + v);
+        if (el) el.classList.add("hidden");
+      });
+      const targetEl = document.getElementById("view-" + viewName);
+      if (targetEl) targetEl.classList.remove("hidden");
+
+      // Cập nhật nút active trên thanh menu
+      const btnLanding = document.getElementById("nav-btn-landing");
+      const btnDash = document.getElementById("nav-btn-dashboard");
+      const btnHist = document.getElementById("nav-btn-history");
+
+      [btnLanding, btnDash, btnHist].forEach(b => {
+        b.classList.remove("bg-vibrant-orange", "text-white");
+        b.classList.add("text-blue-100");
+      });
+
+      if (viewName === "landing") {
+        btnLanding.classList.add("bg-vibrant-orange", "text-white");
+        btnLanding.classList.remove("text-blue-100");
+      } else if (viewName === "history") {
+        btnHist.classList.add("bg-vibrant-orange", "text-white");
+        btnHist.classList.remove("text-blue-100");
+      } else {
+        btnDash.classList.add("bg-vibrant-orange", "text-white");
+        btnDash.classList.remove("text-blue-100");
+      }
+
+      refreshUI();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    window.handleGoToDashboard = function () {
+      if (!currentUser) {
+        showToast("Vui lòng Đăng nhập hoặc Đăng ký tài khoản ở góc trên bên phải để vào Bảng điều khiển!", "info");
+        openAuthModal("login");
+        return;
+      }
+      if (currentUser.accountMode === "LEADER") {
+        navigateView("leader");
+      } else {
+        syncMemberFormInputs();
+        navigateView("member");
+      }
+    };
+
+    // ---------------------------------------------------------------------
+    // 6. CẬP NHẬT GIAO DIỆN CHUNG (HEADER, DEMO BAR, VIEWS)
+    // ---------------------------------------------------------------------
+    function refreshUI() {
+      document.getElementById("nav-history-count").textContent = appState.history.length;
+
+      // Header trạng thái Đăng nhập / Chưa đăng nhập
+      const guestActions = document.getElementById("header-guest-actions");
+      const userActions = document.getElementById("header-user-actions");
+      const dashLabel = document.getElementById("nav-dashboard-label");
+
+      if (!currentUser) {
+        guestActions.classList.remove("hidden");
+        userActions.classList.add("hidden");
+        dashLabel.textContent = "Bảng Điều Khiển (Cần Đăng Nhập)";
+      } else {
+        guestActions.classList.add("hidden");
+        userActions.classList.remove("hidden");
+        const initials = currentUser.name.split(" ").slice(-2).map(w => w[0]).join("").toUpperCase();
+        document.getElementById("header-avatar").textContent = initials || "SV";
+        document.getElementById("header-name").textContent = `${currentUser.name} (${currentUser.mssv})`;
+        document.getElementById("header-role-badge").textContent =
+          currentUser.accountMode === "LEADER"
+            ? "👑 Trưởng nhóm (Xét duyệt hồ sơ)"
+            : "🎯 Người dùng tìm nhóm";
+        dashLabel.textContent =
+          currentUser.accountMode === "LEADER"
+            ? "Bảng Điều Khiển Trưởng Nhóm"
+            : "Tìm Nhóm Phù Hợp Với Bản Thân";
+      }
+
+      // Thanh Demo chuyển nhanh tài khoản
+      const demoBar = document.getElementById("quick-demo-bar");
+      demoBar.innerHTML = appState.accounts.map(acc => {
+        const isCurrent = currentUser && currentUser.mssv === acc.mssv;
+        const badge = acc.accountMode === "LEADER" ? "👑 Trưởng nhóm" : (acc.currentGroupId ? "🔒 Đã có nhóm" : "🎯 Đang tìm nhóm");
+        return `
+          <button onclick="quickDemoLogin('${acc.mssv}')" class="px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition ${
+            isCurrent
+              ? "bg-tech-blue text-white border-tech-blue shadow-sm"
+              : "bg-white text-slate-700 border-slate-300 hover:bg-blue-100"
+          }">
+            ${acc.name} <span class="opacity-80">(${badge})</span>
+          </button>
+        `;
+      }).join("");
+
+      if (currentView === "member" && currentUser) {
+        renderMemberDashboard();
+      } else if (currentView === "leader" && currentUser) {
+        renderLeaderDashboard();
+      } else if (currentView === "history") {
+        renderHistoryView();
+      }
+    }
+
+    // ---------------------------------------------------------------------
+    // 7. HỆ THỐNG ĐĂNG KÝ (2 LỰA CHỌN) & ĐĂNG NHẬP
+    // ---------------------------------------------------------------------
+    window.openAuthModal = function (tab = "register", rolePreset = null) {
+      document.getElementById("auth-modal").classList.remove("hidden");
+      switchAuthTab(tab);
+      if (rolePreset) {
+        selectRegisterRoleOption(rolePreset);
+      }
+      renderSavedAccountsInLoginModal();
+    };
+
+    window.closeAuthModal = function () {
+      document.getElementById("auth-modal").classList.add("hidden");
+    };
+
+    window.switchAuthTab = function (tab) {
+      const btnReg = document.getElementById("tab-btn-register");
+      const btnLog = document.getElementById("tab-btn-login");
+      const panelReg = document.getElementById("auth-panel-register");
+      const panelLog = document.getElementById("auth-panel-login");
+
+      if (tab === "register") {
+        btnReg.className = "flex-1 py-3.5 text-vibrant-orange border-b-2 border-vibrant-orange bg-white";
+        btnLog.className = "flex-1 py-3.5 text-slate-500 hover:text-slate-800";
+        panelReg.classList.remove("hidden");
+        panelLog.classList.add("hidden");
+      } else {
+        btnLog.className = "flex-1 py-3.5 text-tech-blue border-b-2 border-tech-blue bg-white";
+        btnReg.className = "flex-1 py-3.5 text-slate-500 hover:text-slate-800";
+        panelLog.classList.remove("hidden");
+        panelReg.classList.add("hidden");
+        renderSavedAccountsInLoginModal();
+      }
+    };
+
+    window.selectRegisterRoleOption = function (opt) {
+      selectedRegisterOpt = opt;
+      const cardLeader = document.getElementById("reg-opt-leader");
+      const cardMember = document.getElementById("reg-opt-member");
+      const formLeader = document.getElementById("reg-form-leader");
+      const formMember = document.getElementById("reg-form-member");
+
+      if (opt === "LEADER") {
+        cardLeader.className = "cursor-pointer p-4 rounded-2xl border-2 border-vibrant-orange bg-orange-50/50 transition";
+        cardMember.className = "cursor-pointer p-4 rounded-2xl border-2 border-slate-200 hover:border-blue-400 transition";
+        cardLeader.querySelector('input[type="radio"]').checked = true;
+        formLeader.classList.remove("hidden");
+        formMember.classList.add("hidden");
+      } else {
+        cardMember.className = "cursor-pointer p-4 rounded-2xl border-2 border-tech-blue bg-blue-50/50 transition";
+        cardLeader.className = "cursor-pointer p-4 rounded-2xl border-2 border-slate-200 hover:border-orange-400 transition";
+        cardMember.querySelector('input[type="radio"]').checked = true;
+        formMember.classList.remove("hidden");
+        formLeader.classList.add("hidden");
+      }
+    };
+
+    function renderSavedAccountsInLoginModal() {
+      const box = document.getElementById("modal-saved-accounts");
+      box.innerHTML = appState.accounts.map(a => `
+        <button onclick="fillLoginAccount('${a.mssv}', '${a.password}')" class="px-2.5 py-1.5 rounded-lg border border-slate-300 bg-slate-50 hover:bg-blue-50 text-xs font-semibold text-slate-700">
+          ${a.name} (${a.mssv}) — <span class="text-tech-blue">${a.accountMode === 'LEADER' ? '👑 Trưởng nhóm' : '🎯 Người tìm nhóm'}</span>
+        </button>
+      `).join("");
+    }
+
+    window.fillLoginAccount = function (mssv, pw) {
+      document.getElementById("login-mssv").value = mssv;
+      document.getElementById("login-password").value = pw;
+    };
+
+    window.submitRegisterAccount = function () {
+      const name = document.getElementById("reg-name").value.trim();
+      const rawMssv = document.getElementById("reg-mssv").value.trim().split("@")[0];
+      const password = document.getElementById("reg-password").value.trim() || "123456";
+      const errBox = document.getElementById("reg-error-box");
+
+      if (!name || !rawMssv) {
+        errBox.textContent = "Vui lòng nhập đầy đủ Họ tên và MSSV / Tên đăng nhập!";
+        errBox.classList.remove("hidden");
+        return;
+      }
+
+      if (appState.accounts.some(a => a.mssv.toLowerCase() === rawMssv.toLowerCase())) {
+        errBox.textContent = "MSSV / Tên đăng nhập này đã được đăng ký! Vui lòng chuyển sang tab Đăng nhập.";
+        errBox.classList.remove("hidden");
+        return;
+      }
+
+      if (selectedRegisterOpt === "LEADER") {
+        // LỰA CHỌN 1: TẠO NHÓM MỚI & LÀM TRƯỞNG NHÓM
+        const groupTitle = document.getElementById("reg-lead-title").value.trim();
+        const courseRaw = document.getElementById("reg-lead-course").value.split("|");
+        const groupGoal = parseFloat(document.getElementById("reg-lead-goal").value) || 9.0;
+        const groupReq = document.getElementById("reg-lead-req").value.trim() || "Vượt qua bài Quiz đầu vào >= 2/3 câu.";
+        const checkedRoles = Array.from(document.querySelectorAll('#reg-lead-roles input[type="checkbox"]:checked')).map(c => c.value);
+
+        if (!groupTitle) {
+          errBox.textContent = "Vui lòng nhập Tên nhóm / Đề tài dự án mới mà bạn làm Trưởng nhóm!";
+          errBox.classList.remove("hidden");
+          return;
+        }
+        if (checkedRoles.length === 0) {
+          errBox.textContent = "Vui lòng chọn ít nhất 1 vị trí cần tuyển dụng cho nhóm của bạn!";
+          errBox.classList.remove("hidden");
+          return;
+        }
+
+        errBox.classList.add("hidden");
+        const newGroupId = "GRP-" + Date.now();
+
+        const newLeaderAcc = {
+          mssv: rawMssv,
+          name,
+          password,
+          accountMode: "LEADER",
+          level: "Sinh viên Năm 3",
+          desiredRole: "Backend / Thuật toán",
+          targetGoal: groupGoal,
+          skills: ["C++ / Thuật toán", "SQL / Database", "Git / GitHub", "Viết báo cáo / BMC"],
+          currentGroupId: newGroupId,
+          currentRoleInGroup: "Trưởng nhóm (Project Leader)"
+        };
+
+        const newGroupObj = {
+          id: newGroupId,
+          courseCode: courseRaw[0],
+          courseName: courseRaw[1],
+          title: groupTitle,
+          desc: `Nhóm dự án do Trưởng nhóm ${name} (${rawMssv}) khởi tạo.`,
+          requirements: groupReq,
+          leaderMssv: rawMssv,
+          leaderName: name,
+          targetGoal: groupGoal,
+          maxMembers: checkedRoles.length + 1,
+          members: [
+            { mssv: rawMssv, name, role: "Trưởng nhóm (Project Leader)" }
+          ],
+          neededRoles: checkedRoles,
+          requiredSkills: ["C++ / Thuật toán", "SQL / Database", "ReactJS / HTML", "Figma / UI/UX", "Viết báo cáo / BMC"]
+        };
+
+        appState.accounts.push(newLeaderAcc);
+        appState.groups.unshift(newGroupObj);
+        currentUser = newLeaderAcc;
+
+        addHistoryLog(
+          "ĐĂNG KÝ TRƯỞNG NHÓM",
+          "SUCCESS",
+          `Đăng ký tài khoản Trưởng nhóm và tạo nhóm mới '${groupTitle}' (${courseRaw[0]}), mở tuyển: ${checkedRoles.join(', ')}.`,
+          newLeaderAcc
+        );
+
+        saveStateToCloud();
+        closeAuthModal();
+        navigateView("leader");
+        showToast(`Chào mừng Trưởng nhóm ${name}! Nhóm "${groupTitle}" đã được khởi tạo và mở cổng nhận hồ sơ ứng viên.`, "success");
+      } else {
+        // LỰA CHỌN 2: NGƯỜI DÙNG TÌM NHÓM PHÙ HỢP VỚI BẢN THÂN
+        const level = document.getElementById("reg-mem-level").value;
+        const goal = parseFloat(document.getElementById("reg-mem-goal").value) || 9.0;
+        const role = document.getElementById("reg-mem-role").value;
+        const skills = Array.from(document.querySelectorAll('#reg-mem-skills input[type="checkbox"]:checked')).map(c => c.value);
+
+        errBox.classList.add("hidden");
+
+        const newMemberAcc = {
+          mssv: rawMssv,
+          name,
+          password,
+          accountMode: "MEMBER",
+          level,
+          desiredRole: role,
+          targetGoal: goal,
+          skills: skills.length > 0 ? skills : ["C++ / Thuật toán", "Viết báo cáo / BMC"],
+          currentGroupId: null,
+          currentRoleInGroup: null
+        };
+
+        appState.accounts.push(newMemberAcc);
+        currentUser = newMemberAcc;
+
+        addHistoryLog(
+          "ĐĂNG KÝ TÌM NHÓM",
+          "SUCCESS",
+          `Đăng ký tài khoản Người tìm nhóm: Trình độ ${level}, Vị trí mong muốn '${role}', Mục tiêu ${goal.toFixed(1)}+.`,
+          newMemberAcc
+        );
+
+        saveStateToCloud();
+        closeAuthModal();
+        syncMemberFormInputs();
+        navigateView("member");
+        showToast(`Đăng ký thành công! Hệ thống đã lọc danh sách các nhóm phù hợp nhất với ${name}.`, "success");
+      }
+    };
+
+    window.submitLoginAccount = function () {
+      const rawMssv = document.getElementById("login-mssv").value.trim().split("@")[0];
+      const pw = document.getElementById("login-password").value.trim();
+      const errBox = document.getElementById("login-error-box");
+
+      const found = appState.accounts.find(a => a.mssv.toLowerCase() === rawMssv.toLowerCase() && a.password === pw);
+      if (!found) {
+        errBox.textContent = "Sai MSSV hoặc mật khẩu! Bạn có thể bấm chọn nhanh tài khoản đã lưu ở bên dưới.";
+        errBox.classList.remove("hidden");
+        return;
+      }
+
+      errBox.classList.add("hidden");
+      currentUser = found;
+      closeAuthModal();
+
+      if (currentUser.accountMode === "LEADER") {
+        navigateView("leader");
+        showToast(`Đã đăng nhập vào Bảng điều khiển Trưởng nhóm của ${currentUser.name}!`, "success");
+      } else {
+        syncMemberFormInputs();
+        navigateView("member");
+        showToast(`Đã đăng nhập! Đang hiển thị các nhóm phù hợp với ${currentUser.name}.`, "success");
+      }
+    };
+
+    window.quickDemoLogin = function (mssv) {
+      const found = appState.accounts.find(a => a.mssv === mssv);
+      if (!found) return;
+      currentUser = found;
+      if (currentUser.accountMode === "LEADER") {
+        navigateView("leader");
+        showToast(`Đang xem dưới góc nhìn Trưởng nhóm: ${currentUser.name} (${currentUser.mssv})`, "info");
+      } else {
+        syncMemberFormInputs();
+        navigateView("member");
+        showToast(`Đang xem dưới góc nhìn Người tìm nhóm: ${currentUser.name} (${currentUser.mssv})`, "info");
+      }
+    };
+
+    window.logoutUser = function () {
+      currentUser = null;
+      navigateView("landing");
+      showToast("Đã đăng xuất và quay về Trang chính (Landing Page).", "info");
+    };
+
+    // ---------------------------------------------------------------------
+    // 8. LOGIC GIAO DIỆN NGƯỜI DÙNG TÌM NHÓM (MEMBER VIEW)
+    // ---------------------------------------------------------------------
+    function syncMemberFormInputs() {
+      if (!currentUser) return;
+      document.getElementById("member-info-name").textContent = `${currentUser.name} (${currentUser.mssv})`;
+      document.getElementById("member-edit-level").value = currentUser.level || "Sinh viên Năm 2";
+      document.getElementById("member-edit-role").value = currentUser.desiredRole || "Backend / Thuật toán";
+      document.getElementById("member-edit-goal").value = String(currentUser.targetGoal || "9.0");
+
+      const cbs = document.querySelectorAll('#member-skills-container input[type="checkbox"]');
+      cbs.forEach(cb => {
+        cb.checked = (currentUser.skills || []).includes(cb.value);
+      });
+    }
+
+    window.handleMemberCriteriaUpdate = function () {
+      if (!currentUser) return;
+      currentUser.level = document.getElementById("member-edit-level").value;
+      currentUser.desiredRole = document.getElementById("member-edit-role").value;
+      currentUser.targetGoal = parseFloat(document.getElementById("member-edit-goal").value) || 9.0;
+      const cbs = document.querySelectorAll('#member-skills-container input[type="checkbox"]:checked');
+      currentUser.skills = Array.from(cbs).map(c => c.value);
+
+      renderMemberMatchingGroups();
+    };
+
+    window.saveMemberProfileButton = function () {
+      handleMemberCriteriaUpdate();
+      addHistoryLog(
+        "CẬP NHẬT MỤC TIÊU & VỊ TRÍ",
+        "SUCCESS",
+        `Cập nhật hồ sơ tìm nhóm: Trình độ '${currentUser.level}', Vị trí ứng tuyển '${currentUser.desiredRole}', Mục tiêu điểm ${currentUser.targetGoal.toFixed(1)}+.`,
+        currentUser
+      );
+      saveStateToCloud();
+      showToast("Đã lưu thay đổi mục tiêu, trình độ và vị trí ứng tuyển của bạn!", "success");
+    };
+
+    function calculateSmartMatch(group, userRole, userGoal, userSkills) {
+      let score = 0;
+      let reasons = [];
+
+      if (group.neededRoles.includes(userRole)) {
+        score += 45;
+        reasons.push(`✓ Đang tuyển đúng vị trí: ${userRole}`);
+      } else if (group.neededRoles.length > 0) {
+        score += 12;
+      }
+
+      const matchedSkills = (group.requiredSkills || []).filter(req => (userSkills || []).includes(req));
+      const ratio = group.requiredSkills?.length > 0 ? (matchedSkills.length / group.requiredSkills.length) : 0;
+      score += Math.round(ratio * 35);
+      if (matchedSkills.length > 0) {
+        reasons.push(`✓ Khớp ${matchedSkills.length}/${group.requiredSkills.length} kỹ năng (${matchedSkills.join(', ')})`);
+      }
+
+      const diff = Math.abs(group.targetGoal - userGoal);
+      if (diff === 0) {
+        score += 20;
+        reasons.push(`✓ Cùng mục tiêu điểm số: ${group.targetGoal.toFixed(1)}+`);
+      } else if (diff <= 1.0) {
+        score += 14;
+        reasons.push(`✓ Mục tiêu điểm tương đồng (${group.targetGoal.toFixed(1)}+)`);
+      } else {
+        score += 6;
+      }
+
+      return {
+        score: Math.min(99, Math.max(25, score)),
+        reasons
+      };
+    }
+
+    function renderMemberDashboard() {
+      if (!currentUser) return;
+      renderMemberCurrentGroupBanner();
+      renderMemberApplicationsTracker();
+      renderMemberMatchingGroups();
+    }
+
+    function renderMemberCurrentGroupBanner() {
+      const bannerEl = document.getElementById("member-current-group-banner");
+      if (!currentUser.currentGroupId) {
+        bannerEl.innerHTML = `
+          <div class="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 flex flex-wrap justify-between items-center gap-3 text-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-tech-blue text-white flex items-center justify-center text-base shrink-0">
+                <i class="fa-solid fa-paper-plane"></i>
+              </div>
+              <div>
+                <p class="font-bold text-tech-blue text-sm">Trạng thái: Bạn đang tự do ứng tuyển (Chưa chốt vào nhóm cố định)</p>
+                <p class="text-slate-600 mt-0.5">
+                  Bạn có thể làm Quiz và đăng ký ứng tuyển ở <strong>nhiều nhóm, nhiều vị trí cùng lúc</strong>. Trưởng nhóm nào xét duyệt bạn đầu tiên thì bạn sẽ chính thức đảm nhận vị trí ở nhóm đó!
+                </p>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const myGroup = appState.groups.find(g => g.id === currentUser.currentGroupId);
+      const pendingLeave = appState.leaveRequests.find(
+        r => r.memberMssv === currentUser.mssv && r.currentGroupId === currentUser.currentGroupId && r.status === "PENDING"
+      );
+
+      bannerEl.innerHTML = `
+        <div class="bg-emerald-50 border-2 border-emerald-400 rounded-2xl p-5 flex flex-wrap justify-between items-center gap-4 text-xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="bg-emerald-600 text-white font-extrabold px-2.5 py-0.5 rounded uppercase text-[10px]">Nhóm Chính Thức Hiện Tại Của Bạn</span>
+              <span class="font-bold text-emerald-800">${myGroup ? myGroup.courseName : ""}</span>
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900">${myGroup ? myGroup.title : "Nhóm đồ án"}</h3>
+            <p class="text-slate-700">
+              Vị trí đảm nhận: <strong class="text-tech-blue">${currentUser.currentRoleInGroup}</strong> •
+              Trưởng nhóm hiện tại: <strong>${myGroup ? myGroup.leaderName : ""}</strong>
+            </p>
+          </div>
+
+          <div>
+            ${pendingLeave ? `
+              <div class="p-3 bg-amber-100 border border-amber-300 text-amber-900 rounded-xl font-semibold">
+                ⏳ Đang chờ Trưởng nhóm <strong>${myGroup ? myGroup.leaderName : ""}</strong> phê duyệt yêu cầu ${
+                  pendingLeave.requestType === "TRANSFER"
+                    ? `chuyển sang nhóm "${pendingLeave.targetGroupTitle}"`
+                    : "rời nhóm"
+                }
+              </div>
+            ` : `
+              <button onclick="openLeaveOrTransferModal('LEAVE', null, null)" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Xin Phép Trưởng Nhóm Rời Nhóm</span>
+              </button>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMemberApplicationsTracker() {
+      const myApps = appState.applications.filter(a => a.applicantMssv === currentUser.mssv);
+      document.getElementById("member-app-count").textContent = myApps.length;
+      const listEl = document.getElementById("member-applications-list");
+
+      if (myApps.length === 0) {
+        listEl.innerHTML = `<div class="p-4 text-center text-slate-400 bg-slate-50 rounded-xl border">Bạn chưa gửi hồ sơ ứng tuyển nào. Hãy chọn vị trí ở danh sách bên phải để làm Quiz ứng tuyển!</div>`;
+        return;
+      }
+
+      listEl.innerHTML = myApps.map(app => {
+        let statusPill = "";
+        if (app.status === "PENDING") {
+          statusPill = `<span class="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-[10px]">⏳ Chờ Trưởng nhóm duyệt</span>`;
+        } else if (app.status === "APPROVED") {
+          statusPill = `<span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded text-[10px]">✓ Đã được duyệt đầu tiên</span>`;
+        } else if (app.status === "REJECTED") {
+          statusPill = `<span class="bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded text-[10px]">✕ Trưởng nhóm từ chối</span>`;
+        } else {
+          statusPill = `<span class="bg-slate-200 text-slate-600 font-bold px-2 py-0.5 rounded text-[10px]">🔒 Đã đóng (Do đã vào nhóm khác)</span>`;
+        }
+
+        return `
+          <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+            <div class="flex justify-between items-center gap-1">
+              <span class="font-bold text-tech-blue">${app.roleName}</span>
+              ${statusPill}
+            </div>
+            <p class="font-semibold text-slate-800 line-clamp-1">${app.groupTitle}</p>
+            <p class="text-[11px] text-slate-500">Điểm Quiz: <strong class="text-emerald-600">${app.quizScore}</strong> • ${app.createdAt}</p>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.renderMemberMatchingGroups = function () {
+      if (!currentUser) return;
+      const courseFilter = document.getElementById("member-filter-course").value;
+      const userRole = currentUser.desiredRole;
+      const userGoal = currentUser.targetGoal;
+      const userSkills = currentUser.skills || [];
+
+      let evaluated = appState.groups
+        .filter(g => courseFilter === "ALL" || g.courseCode === courseFilter)
+        .map(g => {
+          const match = calculateSmartMatch(g, userRole, userGoal, userSkills);
+          return { ...g, matchScore: match.score, matchReasons: match.reasons };
+        })
+        .sort((a, b) => b.matchScore - a.matchScore);
+
+      const highCount = evaluated.filter(g => g.matchScore >= 75).length;
+      document.getElementById("mem-count-all").textContent = evaluated.length;
+      document.getElementById("mem-count-high").textContent = highCount;
+
+      if (memberFilterMode === "HIGH") {
+        evaluated = evaluated.filter(g => g.matchScore >= 75);
+      }
+
+      document.getElementById("member-match-headline").textContent =
+        `Tìm thấy ${highCount} nhóm rất phù hợp (≥75%) với vị trí "${userRole}" & mục tiêu ${userGoal.toFixed(1)}+`;
+
+      const container = document.getElementById("member-groups-container");
+      if (evaluated.length === 0) {
+        container.innerHTML = `<div class="bg-white p-8 rounded-2xl border text-center text-slate-500 text-xs">Không có nhóm nào khớp bộ lọc hiện tại.</div>`;
+        return;
+      }
+
+      container.innerHTML = evaluated.map(g => {
+        const badgeColor = g.matchScore >= 80
+          ? "bg-emerald-600 text-white"
+          : (g.matchScore >= 65 ? "bg-vibrant-orange text-white" : "bg-slate-200 text-slate-700");
+        const isMyCurrentGroup = currentUser.currentGroupId === g.id;
+
+        return `
+          <div class="bg-white p-5 rounded-2xl shadow-sm border ${g.matchScore >= 80 ? 'border-2 border-emerald-500/70' : 'border-slate-200'} space-y-3">
+            <div class="flex flex-wrap justify-between items-start gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="bg-blue-100 text-tech-blue text-xs font-bold px-2.5 py-1 rounded-md">${g.courseName}</span>
+                <span class="bg-orange-50 text-vibrant-orange border border-orange-200 text-xs font-bold px-2.5 py-1 rounded-full">
+                  Mục tiêu nhóm: ${g.targetGoal.toFixed(1)}+
+                </span>
+              </div>
+              <div class="${badgeColor} px-3 py-1 rounded-full text-xs font-extrabold shadow-sm">
+                Độ phù hợp: ${g.matchScore}%
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-base md:text-lg font-bold text-slate-900">${g.title}</h3>
+              <p class="text-xs text-slate-600 mt-1">${g.desc}</p>
+              <p class="text-xs text-slate-700 mt-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+                <strong>Yêu cầu của Trưởng nhóm:</strong> ${g.requirements || "Vượt qua bài Quiz đầu vào >= 2/3 câu."}
+              </p>
+            </div>
+
+            <!-- Lý do phù hợp -->
+            <div class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl">
+              <p class="text-[11px] font-bold text-emerald-800 uppercase mb-1">Vì sao nhóm này phù hợp với bạn:</p>
+              <div class="flex flex-wrap gap-1.5">
+                ${g.matchReasons.map(r => `<span class="text-xs font-semibold text-emerald-700 bg-white px-2.5 py-0.5 rounded-md border border-emerald-200">${r}</span>`).join("")}
+              </div>
+            </div>
+
+            <!-- Danh sách thành viên hiện tại -->
+            <div class="flex flex-wrap items-center gap-1.5 text-xs">
+              <span class="font-semibold text-slate-500">Thành viên chính thức (${g.members.length}/${g.maxMembers}):</span>
+              ${g.members.map(m => `
+                <span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md font-medium">
+                  ${m.name} <em class="text-slate-500">(${m.role})</em>
+                </span>
+              `).join("")}
+            </div>
+
+            <!-- KHU VỰC NÚT ỨNG TUYỂN NHIỀU VỊ TRÍ HOẶC XIN CHUYỂN NHÓM -->
+            <div class="pt-3 border-t border-slate-100 flex flex-wrap justify-between items-center gap-3">
+              <div class="space-y-1.5">
+                <p class="text-xs font-bold text-slate-700">
+                  <i class="fa-solid fa-clipboard-question text-vibrant-orange mr-1"></i>
+                  Các vị trí nhóm đang tuyển dụng:
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  ${isMyCurrentGroup ? `
+                    <span class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold px-3.5 py-2 rounded-xl">
+                      ✓ Bạn đang là thành viên chính thức của nhóm này (${currentUser.currentRoleInGroup})
+                    </span>
+                  ` : (
+                    g.neededRoles.length > 0 ? g.neededRoles.map(roleName => {
+                      // Kiểm tra xem người dùng đã nộp đơn chờ duyệt cho (groupId, roleName) này chưa
+                      const existingApp = appState.applications.find(
+                        a => a.applicantMssv === currentUser.mssv && a.groupId === g.id && a.roleName === roleName && a.status === "PENDING"
+                      );
+
+                      if (currentUser.currentGroupId && currentUser.currentGroupId !== g.id) {
+                        // ĐÃ Ở TRONG NHÓM KHÁC -> Nút Xin chuyển sang nhóm này (Cần Trưởng nhóm hiện tại duyệt)
+                        return `
+                          <button onclick="openLeaveOrTransferModal('TRANSFER', '${g.id}', '${roleName}')" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-sm transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-right-left"></i>
+                            <span>Xin chuyển sang vị trí: ${roleName}</span>
+                          </button>
+                        `;
+                      }
+
+                      if (existingApp) {
+                        return `
+                          <span class="bg-amber-50 text-amber-800 border border-amber-300 text-xs font-bold px-3 py-1.5 rounded-xl">
+                            ⏳ Đã qua Quiz (${existingApp.quizScore}) — Chờ Trưởng nhóm duyệt: ${roleName}
+                          </span>
+                        `;
+                      }
+
+                      const isPreferred = roleName === userRole;
+                      return `
+                        <button onclick="openQuizForRoleApplication('${g.id}', '${roleName}')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-1.5 ${
+                          isPreferred
+                            ? "bg-vibrant-orange hover:bg-orange-600 text-white ring-2 ring-orange-300"
+                            : "bg-tech-blue hover:bg-blue-800 text-white"
+                        }">
+                          <i class="fa-solid fa-bolt"></i>
+                          <span>Ứng tuyển & Làm Quiz: ${roleName}</span>
+                        </button>
+                      `;
+                    }).join("") : `<span class="text-xs italic text-slate-400">Nhóm đã tuyển đủ thành viên</span>`
+                  )}
+                </div>
+              </div>
+
+              <div class="text-xs text-slate-500">
+                Trưởng nhóm: <strong class="text-slate-800">${g.leaderName}</strong>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    };
+
+    window.setMemberFilterMode = function (mode) {
+      memberFilterMode = mode;
+      const btnAll = document.getElementById("mem-filter-all");
+      const btnHigh = document.getElementById("mem-filter-high");
+      if (mode === "ALL") {
+        btnAll.className = "px-3 py-1.5 rounded-lg font-semibold bg-white text-tech-blue transition";
+        btnHigh.className = "px-3 py-1.5 rounded-lg font-semibold text-blue-100 hover:bg-blue-800/50 transition";
+      } else {
+        btnHigh.className = "px-3 py-1.5 rounded-lg font-semibold bg-white text-tech-blue transition";
+        btnAll.className = "px-3 py-1.5 rounded-lg font-semibold text-blue-100 hover:bg-blue-800/50 transition";
+      }
+      renderMemberMatchingGroups();
+    };
+
+    // ---------------------------------------------------------------------
+    // 9. LÀM QUIZ & ĐĂNG KÝ ỨNG TUYỂN NHIỀU NHÓM / NHIỀU VỊ TRÍ
+    // ---------------------------------------------------------------------
+    window.openQuizForRoleApplication = function (groupId, roleName) {
+      if (!currentUser) {
+        openAuthModal("login");
+        return;
+      }
+      if (currentUser.currentGroupId) {
+        showToast("Bạn đã có nhóm chính thức! Nếu muốn chuyển sang nhóm này, hãy bấm nút 'Xin chuyển sang vị trí' để xin phép Trưởng nhóm hiện tại.", "warning");
+        return;
+      }
+
+      const group = appState.groups.find(g => g.id === groupId);
+      if (!group) return;
+
+      activeQuizTarget = { groupId, roleName };
+      const questions = ROLE_QUIZ_BANK[roleName] || ROLE_QUIZ_BANK["Backend / Thuật toán"];
+
+      document.getElementById("quiz-modal-title").textContent = `Quiz Kiến Thức Vị Trí: ${roleName}`;
+      document.getElementById("quiz-modal-subtitle").textContent = `Nhóm ứng tuyển: ${group.title} • Ứng viên: ${currentUser.name} (${currentUser.mssv})`;
+
+      const qBody = document.getElementById("quiz-questions-body");
+      qBody.classList.remove("hidden");
+      document.getElementById("quiz-result-body").classList.add("hidden");
+      document.getElementById("quiz-modal-footer").classList.remove("hidden");
+
+      qBody.innerHTML = questions.map((item, qIdx) => `
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+          <p class="font-bold text-slate-900 text-xs md:text-sm">${item.q}</p>
+          <div class="space-y-1.5">
+            ${item.options.map((opt, oIdx) => `
+              <label class="flex items-center space-x-2.5 p-2.5 rounded-lg bg-white border border-slate-200 hover:border-blue-500 cursor-pointer transition">
+                <input type="radio" name="quiz-opt-${qIdx}" value="${oIdx}" class="accent-blue-700">
+                <span class="text-slate-700 font-medium">${opt}</span>
+              </label>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+
+      document.getElementById("quiz-modal").classList.remove("hidden");
+    };
+
+    window.closeQuizModal = function () {
+      document.getElementById("quiz-modal").classList.add("hidden");
+      activeQuizTarget = null;
+    };
+
+    window.submitQuizAndApply = function () {
+      if (!activeQuizTarget || !currentUser) return;
+      const { groupId, roleName } = activeQuizTarget;
+      const group = appState.groups.find(g => g.id === groupId);
+      const questions = ROLE_QUIZ_BANK[roleName] || ROLE_QUIZ_BANK["Backend / Thuật toán"];
+
+      let correctCount = 0;
+      let missing = false;
+      questions.forEach((item, idx) => {
+        const chosen = document.querySelector(`input[name="quiz-opt-${idx}"]:checked`);
+        if (!chosen) missing = true;
+        else if (parseInt(chosen.value, 10) === item.correct) correctCount++;
+      });
+
+      if (missing) {
+        showToast("Vui lòng trả lời đầy đủ cả 3 câu hỏi trước khi nộp bài!", "warning");
+        return;
+      }
+
+      const passed = correctCount >= 2;
+      document.getElementById("quiz-questions-body").classList.add("hidden");
+      document.getElementById("quiz-modal-footer").classList.add("hidden");
+      const resBody = document.getElementById("quiz-result-body");
+      resBody.classList.remove("hidden");
+
+      if (passed) {
+        // VƯỢT QUA QUIZ -> TẠO HỒ SƠ ỨNG TUYỂN CHỜ TRƯỞNG NHÓM XÉT DUYỆT
+        const nowStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        const newApp = {
+          id: "APP-" + Date.now(),
+          applicantMssv: currentUser.mssv,
+          applicantName: currentUser.name,
+          applicantLevel: currentUser.level || "Sinh viên Năm 2",
+          applicantGoal: currentUser.targetGoal || 9.0,
+          applicantSkills: [...(currentUser.skills || [])],
+          groupId: group.id,
+          groupTitle: group.title,
+          roleName,
+          quizScore: `${correctCount}/${questions.length}`,
+          status: "PENDING",
+          createdAt: `Hôm nay, ${nowStr}`
+        };
+
+        appState.applications.unshift(newApp);
+        addHistoryLog(
+          "VƯỢT QUA QUIZ & NỘP HỒ SƠ",
+          "SUCCESS",
+          `Đạt ${correctCount}/${questions.length} câu Quiz vị trí '${roleName}' và gửi hồ sơ ứng tuyển tới Trưởng nhóm '${group.title}' (${group.leaderName}) chờ duyệt.`,
+          currentUser
+        );
+        saveStateToCloud();
+
+        resBody.innerHTML = `
+          <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto">
+            <i class="fa-solid fa-paper-plane"></i>
+          </div>
+          <h4 class="text-xl font-extrabold text-emerald-700 brand-font">Vượt qua Quiz (${correctCount}/${questions.length} câu đúng)! Đã gửi Hồ sơ Ứng tuyển</h4>
+          <p class="text-xs md:text-sm text-slate-700 max-w-md mx-auto leading-relaxed">
+            Hồ sơ năng lực và kết quả Quiz của bạn cho vị trí <strong class="text-tech-blue">${roleName}</strong> đã được gửi tới Trưởng nhóm <strong>${group.leaderName}</strong> của dự án <strong>"${group.title}"</strong>.
+          </p>
+          <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-slate-700">
+            💡 <strong>Mẹo:</strong> Trong thời gian chờ duyệt, bạn có thể tiếp tục làm Quiz ứng tuyển thêm các vị trí hoặc nhóm khác. <strong>Trưởng nhóm nào bấm duyệt bạn đầu tiên</strong> thì bạn sẽ chính thức vào vị trí đó!
+          </div>
+          <div class="pt-2 flex justify-center gap-3">
+            <button onclick="closeQuizModal(); quickDemoLogin('${group.leaderMssv}');" class="bg-vibrant-orange hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow">
+              👑 Chuyển sang TK Trưởng nhóm (${group.leaderName}) để duyệt thử ngay
+            </button>
+            <button onclick="closeQuizModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-4 py-2.5 rounded-xl">
+              Tiếp tục tìm nhóm khác
+            </button>
+          </div>
+        `;
+      } else {
+        // KHÔNG ĐẠT NGƯỠNG -> "Chúc bạn may mắn lần sau"
+        addHistoryLog(
+          "CHƯA ĐẠT QUIZ",
+          "FAIL",
+          `Ứng tuyển vị trí '${roleName}' tại nhóm '${group.title}': Đạt ${correctCount}/${questions.length} câu đúng (< 2/3). Chúc bạn may mắn lần sau!`,
+          currentUser
+        );
+        saveStateToCloud();
+
+        resBody.innerHTML = `
+          <div class="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mx-auto">
+            <i class="fa-solid fa-rotate-left"></i>
+          </div>
+          <h4 class="text-2xl font-extrabold text-rose-600 brand-font">Chúc bạn may mắn lần sau</h4>
+          <p class="text-sm text-slate-700 max-w-md mx-auto">
+            Bạn trả lời đúng <strong>${correctCount}/${questions.length} câu</strong> (Yêu cầu tối thiểu của vị trí <strong>${roleName}</strong> là 2/3 câu đúng để gửi hồ sơ ứng tuyển).
+          </p>
+          <div class="pt-2 flex justify-center gap-3">
+            <button onclick="openQuizForRoleApplication('${groupId}', '${roleName}')" class="bg-vibrant-orange hover:bg-orange-600 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow">
+              Làm Lại Bài Quiz
+            </button>
+            <button onclick="closeQuizModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-4 py-2.5 rounded-xl">
+              Đóng
+            </button>
+          </div>
+        `;
+      }
+    };
+
+    // ---------------------------------------------------------------------
+    // 10. LOGIC XIN PHÉP TRƯỞNG NHÓM HIỆN TẠI ĐỂ RỜI NHÓM / CHUYỂN NHÓM
+    // ---------------------------------------------------------------------
+    window.openLeaveOrTransferModal = function (requestType, targetGroupId, targetRole) {
+      if (!currentUser || !currentUser.currentGroupId) return;
+      const myGroup = appState.groups.find(g => g.id === currentUser.currentGroupId);
+      const targetGroup = targetGroupId ? appState.groups.find(g => g.id === targetGroupId) : null;
+
+      activeLeaveContext = {
+        requestType,
+        targetGroupId,
+        targetGroupTitle: targetGroup ? targetGroup.title : null,
+        targetRole
+      };
+
+      const titleEl = document.getElementById("leave-modal-title");
+      const infoEl = document.getElementById("leave-modal-info");
+
+      if (requestType === "TRANSFER" && targetGroup) {
+        titleEl.textContent = "Xin Phép Trưởng Nhóm Hiện Tại Để Chuyển Nhóm";
+        infoEl.innerHTML = `
+          Bạn đang là thành viên của nhóm <strong>"${myGroup.title}"</strong> (Trưởng nhóm: <strong>${myGroup.leaderName}</strong>).<br>
+          Để chuyển sang vị trí <strong class="text-tech-blue">${targetRole}</strong> tại nhóm <strong>"${targetGroup.title}"</strong>, yêu cầu của bạn cần được Trưởng nhóm hiện tại (<strong>${myGroup.leaderName}</strong>) phê duyệt trước.
+        `;
+      } else {
+        titleEl.textContent = "Xin Phép Trưởng Nhóm Hiện Tại Để Rời Nhóm";
+        infoEl.innerHTML = `
+          Bạn đang đảm nhận vị trí <strong>${currentUser.currentRoleInGroup}</strong> tại nhóm <strong>"${myGroup.title}"</strong>.<br>
+          Yêu cầu xin rời nhóm sẽ được gửi tới Trưởng nhóm <strong>${myGroup.leaderName}</strong> xem xét và phê duyệt.
+        `;
+      }
+
+      document.getElementById("leave-modal").classList.remove("hidden");
+    };
+
+    window.closeLeaveModal = function () {
+      document.getElementById("leave-modal").classList.add("hidden");
+      activeLeaveContext = null;
+    };
+
+    window.confirmSubmitLeaveRequest = function () {
+      if (!currentUser || !currentUser.currentGroupId || !activeLeaveContext) return;
+      const myGroup = appState.groups.find(g => g.id === currentUser.currentGroupId);
+      const reason = document.getElementById("leave-reason-input").value.trim() || "Xin phép rời/chuyển nhóm theo nguyện vọng cá nhân.";
+
+      const newReq = {
+        id: "LEAVE-" + Date.now(),
+        memberMssv: currentUser.mssv,
+        memberName: currentUser.name,
+        currentGroupId: myGroup.id,
+        currentGroupTitle: myGroup.title,
+        currentRole: currentUser.currentRoleInGroup,
+        requestType: activeLeaveContext.requestType,
+        targetGroupId: activeLeaveContext.targetGroupId,
+        targetGroupTitle: activeLeaveContext.targetGroupTitle,
+        targetRole: activeLeaveContext.targetRole,
+        reason,
+        status: "PENDING",
+        createdAt: "Vừa xong"
+      };
+
+      appState.leaveRequests.unshift(newReq);
+      addHistoryLog(
+        "XIN RỜI / CHUYỂN NHÓM",
+        "SUCCESS",
+        `Gửi đơn xin phép Trưởng nhóm ${myGroup.leaderName} để ${
+          newReq.requestType === "TRANSFER"
+            ? `chuyển sang nhóm '${newReq.targetGroupTitle}' (Vị trí: ${newReq.targetRole})`
+            : `rời nhóm '${myGroup.title}'`
+        }. Lý do: "${reason}"`,
+        currentUser
+      );
+
+      saveStateToCloud();
+      closeLeaveModal();
+      showToast(`Đã gửi yêu cầu tới Trưởng nhóm ${myGroup.leaderName}! Vui lòng chờ Trưởng nhóm hiện tại phê duyệt.`, "info");
+    };
+
+    // ---------------------------------------------------------------------
+    // 11. LOGIC BẢNG ĐIỀU KHIỂN TRƯỞNG NHÓM (XÉT DUYỆT ỨNG VIÊN & RỜI NHÓM)
+    // ---------------------------------------------------------------------
+    window.renderLeaderDashboard = function () {
+      if (!currentUser) return;
+      document.getElementById("leader-header-tag").textContent = `Trưởng nhóm: ${currentUser.name} (${currentUser.mssv})`;
+
+      // Lấy các nhóm do currentUser làm Trưởng nhóm (hoặc tất cả nhóm nếu cần xem demo)
+      let myGroups = appState.groups.filter(g => g.leaderMssv === currentUser.mssv);
+      if (myGroups.length === 0) {
+        myGroups = appState.groups;
+      }
+
+      const selector = document.getElementById("leader-group-selector");
+      const currentSelectedId = selector.value;
+      selector.innerHTML = myGroups.map(g => `<option value="${g.id}">${g.courseCode} — ${g.title}</option>`).join("");
+      if (currentSelectedId && myGroups.some(g => g.id === currentSelectedId)) {
+        selector.value = currentSelectedId;
+      }
+
+      const activeGroup = appState.groups.find(g => g.id === selector.value) || myGroups[0];
+      if (!activeGroup) return;
+
+      // Thông tin nhóm cột phải
+      document.getElementById("leader-group-title").textContent = activeGroup.title;
+      document.getElementById("leader-group-meta").textContent = `${activeGroup.courseName} • Mục tiêu: ${activeGroup.targetGoal.toFixed(1)}+`;
+      document.getElementById("leader-member-count").textContent = `${activeGroup.members.length}/${activeGroup.maxMembers}`;
+
+      document.getElementById("leader-members-list").innerHTML = activeGroup.members.map((m, idx) => `
+        <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+          <span><strong>${idx + 1}. ${m.name}</strong> <span class="text-slate-400">(${m.mssv})</span></span>
+          <span class="px-2.5 py-0.5 bg-blue-100 text-tech-blue rounded-full font-bold text-[11px]">${m.role}</span>
+        </div>
+      `).join("");
+
+      const openRolesEl = document.getElementById("leader-open-roles-badges");
+      openRolesEl.innerHTML = activeGroup.neededRoles.length > 0
+        ? activeGroup.neededRoles.map(r => `<span class="px-2.5 py-1 bg-orange-100 text-vibrant-orange border border-orange-200 rounded-lg font-bold">${r}</span>`).join("")
+        : `<span class="text-emerald-600 font-bold">✓ Đã tuyển đủ tất cả vị trí</span>`;
+
+      // MỤC 1: DANH SÁCH HỒ SƠ ỨNG VIÊN ĐANG ĐĂNG KÝ ỨNG TUYỂN VÀO NHÓM NÀY
+      const groupApps = appState.applications.filter(a => a.groupId === activeGroup.id);
+      const pendingCount = groupApps.filter(a => a.status === "PENDING").length;
+      document.getElementById("leader-pending-app-badge").textContent = `${pendingCount} hồ sơ chờ duyệt`;
+
+      const appContainer = document.getElementById("leader-applicants-container");
+      if (groupApps.length === 0) {
+        appContainer.innerHTML = `
+          <div class="p-6 bg-slate-50 rounded-xl border border-slate-200 text-center text-xs text-slate-500">
+            Hiện chưa có hồ sơ ứng viên nào nộp vào nhóm này.
+          </div>`;
+      } else {
+        appContainer.innerHTML = groupApps.map(app => {
+          const applicantAcc = appState.accounts.find(a => a.mssv === app.applicantMssv);
+          const alreadyInAnotherGroup = applicantAcc && applicantAcc.currentGroupId && applicantAcc.currentGroupId !== activeGroup.id;
+
+          return `
+            <div class="p-4 rounded-2xl border ${app.status === 'PENDING' ? 'border-blue-300 bg-blue-50/40' : 'border-slate-200 bg-slate-50'} space-y-3 text-xs">
+              <div class="flex flex-wrap justify-between items-start gap-2">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-extrabold text-sm text-slate-900">${app.applicantName} (${app.applicantMssv})</span>
+                    <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded text-[10px]">
+                      ✓ Đã vượt qua Quiz: ${app.quizScore}
+                    </span>
+                  </div>
+                  <p class="text-slate-600 mt-0.5">
+                    Trình độ: <strong>${app.applicantLevel}</strong> • Mục tiêu cá nhân: <strong class="text-vibrant-orange">${app.applicantGoal.toFixed(1)}+</strong>
+                  </p>
+                </div>
+                <span class="bg-tech-blue text-white font-bold px-3 py-1 rounded-lg">
+                  Xin ứng tuyển: ${app.roleName}
+                </span>
+              </div>
+
+              <div>
+                <p class="font-semibold text-slate-600 mb-1">Kỹ năng trong hồ sơ ứng viên:</p>
+                <div class="flex flex-wrap gap-1.5">
+                  ${(app.applicantSkills || []).map(s => `<span class="px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-700 font-medium">${s}</span>`).join("")}
+                </div>
+              </div>
+
+              <div class="pt-2 border-t border-slate-200/80 flex flex-wrap justify-between items-center gap-2">
+                <span class="text-[11px] text-slate-400">Thời gian nộp: ${app.createdAt}</span>
+
+                ${app.status === "PENDING" ? (
+                  alreadyInAnotherGroup ? `
+                    <span class="text-rose-600 font-bold">🔒 Ứng viên đã được nhóm khác duyệt trước</span>
+                  ` : `
+                    <div class="flex gap-2">
+                      <button onclick="leaderDecideApplication('${app.id}', 'REJECT')" class="px-3.5 py-2 rounded-xl border border-rose-300 bg-white hover:bg-rose-50 text-rose-600 font-bold transition">
+                        ✕ Từ chối
+                      </button>
+                      <button onclick="leaderDecideApplication('${app.id}', 'APPROVE')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Duyệt vào vị trí "${app.roleName}"</span>
+                      </button>
+                    </div>
+                  `
+                ) : (
+                  app.status === "APPROVED"
+                    ? `<span class="bg-emerald-100 text-emerald-700 font-bold px-3 py-1 rounded-lg">✓ Đã duyệt vào nhóm</span>`
+                    : (app.status === "REJECTED"
+                        ? `<span class="bg-rose-100 text-rose-700 font-bold px-3 py-1 rounded-lg">✕ Đã từ chối</span>`
+                        : `<span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 rounded-lg">🔒 Tự động đóng (Đã vào nhóm khác)</span>`)
+                )}
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // MỤC 2: YÊU CẦU XIN RỜI NHÓM / CHUYỂN NHÓM CỦA THÀNH VIÊN TRONG NHÓM
+      const groupLeaveReqs = appState.leaveRequests.filter(r => r.currentGroupId === activeGroup.id);
+      const pendingLeaveCount = groupLeaveReqs.filter(r => r.status === "PENDING").length;
+      document.getElementById("leader-leave-req-badge").textContent = `${pendingLeaveCount} yêu cầu chờ`;
+
+      const leaveContainer = document.getElementById("leader-leave-requests-container");
+      if (groupLeaveReqs.length === 0) {
+        leaveContainer.innerHTML = `
+          <div class="p-6 bg-slate-50 rounded-xl border border-slate-200 text-center text-xs text-slate-500">
+            Không có thành viên nào gửi yêu cầu xin rời nhóm hoặc chuyển nhóm.
+          </div>`;
+      } else {
+        leaveContainer.innerHTML = groupLeaveReqs.map(req => `
+          <div class="p-4 rounded-2xl border ${req.status === 'PENDING' ? 'border-orange-300 bg-orange-50/50' : 'border-slate-200 bg-slate-50'} space-y-2.5 text-xs">
+            <div class="flex flex-wrap justify-between items-start gap-2">
+              <div>
+                <span class="font-extrabold text-sm text-slate-900">${req.memberName} (${req.memberMssv})</span>
+                <p class="text-slate-600">Vị trí hiện tại trong nhóm: <strong>${req.currentRole}</strong></p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg font-bold ${req.requestType === 'TRANSFER' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-700'}">
+                ${req.requestType === 'TRANSFER' ? `Xin chuyển sang: ${req.targetGroupTitle}` : 'Xin rời khỏi nhóm'}
+              </span>
+            </div>
+
+            <div class="p-3 bg-white rounded-xl border border-slate-200 text-slate-700">
+              <strong>Lý do trình bày:</strong> "${req.reason}"
+            </div>
+
+            <div class="flex justify-between items-center pt-1">
+              <span class="text-[11px] text-slate-400">${req.createdAt}</span>
+              ${req.status === "PENDING" ? `
+                <div class="flex gap-2">
+                  <button onclick="leaderDecideLeaveRequest('${req.id}', 'REJECT')" class="px-3.5 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold">
+                    ✕ Từ chối (Giữ lại nhóm)
+                  </button>
+                  <button onclick="leaderDecideLeaveRequest('${req.id}', 'APPROVE')" class="px-4 py-2 rounded-xl bg-vibrant-orange hover:bg-orange-600 text-white font-bold shadow">
+                    ✓ Cho phép ${req.requestType === 'TRANSFER' ? 'chuyển nhóm' : 'rời nhóm'}
+                  </button>
+                </div>
+              ` : (
+                req.status === "APPROVED"
+                  ? `<span class="text-emerald-700 font-bold">✓ Trưởng nhóm đã cho phép rời/chuyển nhóm</span>`
+                  : `<span class="text-rose-600 font-bold">✕ Trưởng nhóm đã từ chối yêu cầu</span>`
+              )}
+            </div>
+          </div>
+        `).join("");
+      }
+    };
+
+    // QUY TẮC TRƯỞNG NHÓM XÉT DUYỆT HỒ SƠ ĐẦU TIÊN (FIRST-APPROVED LOCK)
+    window.leaderDecideApplication = function (appId, decision) {
+      const app = appState.applications.find(a => a.id === appId);
+      if (!app || app.status !== "PENDING") return;
+
+      const group = appState.groups.find(g => g.id === app.groupId);
+      const applicant = appState.accounts.find(u => u.mssv === app.applicantMssv);
+      if (!group || !applicant) return;
+
+      if (decision === "REJECT") {
+        app.status = "REJECTED";
+        addHistoryLog(
+          "TỪ CHỐI HỒ SƠ",
+          "FAIL",
+          `Trưởng nhóm ${group.leaderName} đã từ chối hồ sơ ứng tuyển vị trí '${app.roleName}' của ${app.applicantName}.`,
+          currentUser
+        );
+        saveStateToCloud();
+        showToast(`Đã từ chối hồ sơ của ${app.applicantName}.`, "info");
+        return;
+      }
+
+      // Kiểm tra nếu ứng viên đã được nhóm khác duyệt trước đó
+      if (applicant.currentGroupId) {
+        app.status = "LOCKED_JOINED_OTHER";
+        saveStateToCloud();
+        showToast(`Ứng viên ${applicant.name} vừa được một Trưởng nhóm khác duyệt trước đó!`, "warning");
+        return;
+      }
+
+      // DUYỆT THÀNH CÔNG ĐẦU TIÊN:
+      app.status = "APPROVED";
+      applicant.currentGroupId = group.id;
+      applicant.currentRoleInGroup = app.roleName;
+
+      // Thêm vào danh sách thành viên chính thức của nhóm
+      if (!group.members.some(m => m.mssv === applicant.mssv)) {
+        group.members.push({
+          mssv: applicant.mssv,
+          name: applicant.name,
+          role: app.roleName
+        });
+      }
+
+      // Giảm vị trí trống tương ứng
+      const roleIdx = group.neededRoles.indexOf(app.roleName);
+      if (roleIdx !== -1) {
+        group.neededRoles.splice(roleIdx, 1);
+      }
+
+      // Khóa tự động tất cả các đơn ứng tuyển đang chờ khác của ứng viên này ở mọi nhóm/vị trí khác
+      appState.applications.forEach(otherApp => {
+        if (otherApp.applicantMssv === applicant.mssv && otherApp.id !== app.id && otherApp.status === "PENDING") {
+          otherApp.status = "LOCKED_JOINED_OTHER";
+        }
+      });
+
+      addHistoryLog(
+        "TRƯỞNG NHÓM DUYỆT ĐẦU TIÊN",
+        "SUCCESS",
+        `Trưởng nhóm ${group.leaderName} đã duyệt hồ sơ của ${applicant.name} (${applicant.mssv}) vào vị trí '${app.roleName}' tại nhóm '${group.title}'. Các đơn chờ khác của ứng viên tự động đóng!`,
+        currentUser
+      );
+
+      saveStateToCloud();
+      showToast(`Đã duyệt ${applicant.name} vào vị trí "${app.roleName}"! Các đơn ứng tuyển ở nhóm khác của bạn ấy đã tự động khóa.`, "success");
+    };
+
+    // QUY TẮC TRƯỞNG NHÓM HIỆN TẠI PHÊ DUYỆT YÊU CẦU RỜI / CHUYỂN NHÓM
+    window.leaderDecideLeaveRequest = function (reqId, decision) {
+      const req = appState.leaveRequests.find(r => r.id === reqId);
+      if (!req || req.status !== "PENDING") return;
+
+      const currentGroup = appState.groups.find(g => g.id === req.currentGroupId);
+      const memberAcc = appState.accounts.find(a => a.mssv === req.memberMssv);
+      if (!currentGroup || !memberAcc) return;
+
+      if (decision === "REJECT") {
+        req.status = "REJECTED";
+        addHistoryLog(
+          "TỪ CHỐI RỜI NHÓM",
+          "FAIL",
+          `Trưởng nhóm ${currentGroup.leaderName} không đồng ý yêu cầu rời/chuyển nhóm của thành viên ${req.memberName}.`,
+          currentUser
+        );
+        saveStateToCloud();
+        showToast(`Đã từ chối yêu cầu rời/chuyển nhóm. Thành viên ${req.memberName} tiếp tục ở lại nhóm.`, "info");
+        return;
+      }
+
+      // CHO PHÉP RỜI / CHUYỂN NHÓM:
+      req.status = "APPROVED";
+
+      // Xóa thành viên khỏi nhóm hiện tại và mở lại vị trí tuyển dụng đó
+      currentGroup.members = currentGroup.members.filter(m => m.mssv !== memberAcc.mssv);
+      if (req.currentRole && !currentGroup.neededRoles.includes(req.currentRole)) {
+        currentGroup.neededRoles.push(req.currentRole);
+      }
+
+      if (req.requestType === "TRANSFER" && req.targetGroupId) {
+        const targetGroup = appState.groups.find(g => g.id === req.targetGroupId);
+        // Giải phóng khỏi nhóm cũ và tự động tạo hồ sơ ứng tuyển sang nhóm mới chờ Trưởng nhóm mới duyệt
+        memberAcc.currentGroupId = null;
+        memberAcc.currentRoleInGroup = null;
+
+        if (targetGroup) {
+          appState.applications.unshift({
+            id: "APP-TRANS-" + Date.now(),
+            applicantMssv: memberAcc.mssv,
+            applicantName: memberAcc.name,
+            applicantLevel: memberAcc.level || "Sinh viên Năm 2",
+            applicantGoal: memberAcc.targetGoal || 8.0,
+            applicantSkills: [...(memberAcc.skills || [])],
+            groupId: targetGroup.id,
+            groupTitle: targetGroup.title,
+            roleName: req.targetRole || "Frontend / Web UI",
+            quizScore: "Đã xác thực",
+            status: "PENDING",
+            createdAt: "Vừa chuyển sang"
+          });
+        }
+
+        addHistoryLog(
+          "CHO PHÉP CHUYỂN NHÓM",
+          "SUCCESS",
+          `Trưởng nhóm ${currentGroup.leaderName} đã cho phép ${memberAcc.name} rời nhóm '${currentGroup.title}' để chuyển hồ sơ sang nhóm '${req.targetGroupTitle}'.`,
+          currentUser
+        );
+        showToast(`Đã cho phép ${memberAcc.name} rời nhóm và chuyển hồ sơ sang nhóm "${req.targetGroupTitle}"!`, "success");
+      } else {
+        memberAcc.currentGroupId = null;
+        memberAcc.currentRoleInGroup = null;
+        addHistoryLog(
+          "CHO PHÉP RỜI NHÓM",
+          "SUCCESS",
+          `Trưởng nhóm ${currentGroup.leaderName} đã phê duyệt cho phép ${memberAcc.name} rời khỏi nhóm '${currentGroup.title}'.`,
+          currentUser
+        );
+        showToast(`Đã phê duyệt cho ${memberAcc.name} rời nhóm. Vị trí "${req.currentRole}" đã được mở tuyển lại!`, "success");
+      }
+
+      saveStateToCloud();
+    };
+
+    window.leaderAddOpenRole = function () {
+      const selector = document.getElementById("leader-group-selector");
+      const activeGroup = appState.groups.find(g => g.id === selector.value);
+      if (!activeGroup) return;
+
+      const newRole = document.getElementById("leader-add-role-select").value;
+      activeGroup.neededRoles.push(newRole);
+      activeGroup.maxMembers = Math.max(activeGroup.maxMembers, activeGroup.members.length + activeGroup.neededRoles.length);
+
+      addHistoryLog(
+        "MỞ THÊM VỊ TRÍ TUYỂN",
+        "SUCCESS",
+        `Trưởng nhóm ${activeGroup.leaderName} đã mở tuyển thêm vị trí '${newRole}' cho nhóm '${activeGroup.title}'.`,
+        currentUser
+      );
+      saveStateToCloud();
+      showToast(`Đã mở tuyển thêm vị trí "${newRole}" kèm bài Quiz đầu vào!`, "success");
+    };
+
+    // ---------------------------------------------------------------------
+    // 12. HIỂN THỊ LỊCH SỬ HỆ THỐNG & COPY LINK TÊN MIỀN
+    // ---------------------------------------------------------------------
+    function renderHistoryView() {
+      const container = document.getElementById("history-logs-container");
+      if (appState.history.length === 0) {
+        container.innerHTML = `<div class="p-6 text-center text-slate-400 text-xs">Chưa có lịch sử hoạt động.</div>`;
+        return;
+      }
+
+      container.innerHTML = appState.history.map(h => {
+        const pillClass = h.status === "SUCCESS"
+          ? "bg-emerald-100 text-emerald-700"
+          : "bg-rose-100 text-rose-700";
+        return `
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 flex flex-col gap-1 text-xs">
+            <div class="flex flex-wrap justify-between items-center gap-2">
+              <div class="flex items-center gap-2">
+                <span class="${pillClass} font-bold px-2 py-0.5 rounded text-[10px]">${h.badge}</span>
+                <strong class="text-slate-900">${h.actor}</strong>
+              </div>
+              <span class="text-[11px] text-slate-400">${h.time}</span>
+            </div>
+            <p class="text-slate-700 mt-0.5">${h.detail}</p>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.copyDomainLink = function () {
+      const tempInput = document.createElement("input");
+      tempInput.value = "https://teamup-it.uit.edu.vn";
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+      showToast("Đã sao chép tên miền truy cập: https://teamup-it.uit.edu.vn", "success");
+    };
+
+    // Khởi chạy ứng dụng ở Trang chính (Landing Page) khi mới truy cập
+    window.onload = () => {
+      navigateView("landing");
+      initCloudSync();
+    };
+  </script>
+</body>
+</html>
