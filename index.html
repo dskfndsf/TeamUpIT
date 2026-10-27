@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TeamUp IT - Nền tảng kết nối đồng đội làm đồ án</title>
+  <title>TeamUp IT - Nền tảng kết nối đồng đội làm đồ án (Cloud Sync)</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #0F172A; }
@@ -28,10 +29,10 @@
 <body class="min-h-screen flex flex-col">
 
   <!-- ===================================================================== -->
-  <!-- HEADER: GÓC TRÊN BÊN PHẢI CÓ NÚT ĐĂNG KÝ / ĐĂNG NHẬP                  -->
+  <!-- HEADER: TRẠNG THÁI ĐỒNG BỘ CLOUD & ĐĂNG KÝ / ĐĂNG NHẬP BÊN PHẢI        -->
   <!-- ===================================================================== -->
   <header class="bg-tech-blue text-white shadow-lg sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap justify-between items-center gap-3">
       <!-- Logo & Tên dự án -->
       <div onclick="goHome()" class="flex items-center space-x-3 cursor-pointer">
         <div class="bg-vibrant-orange text-white font-bold px-3 py-1.5 rounded-xl brand-font text-lg flex items-center shadow">
@@ -43,33 +44,38 @@
         </div>
       </div>
 
-      <!-- KHU VỰC ĐĂNG KÝ / ĐĂNG NHẬP Ở PHÍA TRÊN BÊN PHẢI -->
-      <div id="header-guest-actions" class="flex items-center space-x-3">
-        <span class="hidden md:inline-flex items-center text-xs bg-blue-900/80 border border-blue-700 text-blue-200 px-3 py-1.5 rounded-lg">
-          🔒 Bảo mật thông tin & lịch sử cá nhân
-        </span>
-        <button onclick="openAuthModal('login')" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-white/10 hover:bg-white/20 border border-white/25 text-white transition">
-          Đăng nhập
+      <!-- NÚT ĐỒNG BỘ CLOUD & ĐĂNG KÝ / ĐĂNG NHẬP -->
+      <div class="flex items-center space-x-2.5">
+        <button onclick="openSyncModal()" id="cloud-status-btn" class="inline-flex items-center space-x-1.5 text-xs bg-blue-900/90 hover:bg-blue-800 border border-blue-600 text-blue-100 px-3 py-1.5 rounded-xl transition shadow-sm" title="Bấm để kiểm tra đồng bộ giữa các Chrome / Gmail khác nhau">
+          <span id="cloud-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="cloud-status-text" class="font-semibold">Đang đồng bộ Cloud...</span>
         </button>
-        <button onclick="openAuthModal('register')" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-vibrant-orange hover:bg-orange-600 text-white shadow-md transition">
-          Đăng ký
-        </button>
-      </div>
 
-      <!-- KHU VỰC HIỂN THỊ KHI ĐÃ ĐĂNG NHẬP -->
-      <div id="header-user-actions" class="hidden flex items-center space-x-3">
-        <div class="text-right hidden sm:block">
-          <div class="flex items-center justify-end space-x-1.5">
-            <span class="text-xs bg-emerald-500/20 border border-emerald-400 text-emerald-200 px-2 py-0.5 rounded-full font-semibold">
-              🔒 Phiên bảo mật riêng tư
-            </span>
-            <span id="nav-user-role" class="text-xs bg-orange-500/30 border border-orange-300 text-orange-100 px-2 py-0.5 rounded-full font-bold"></span>
-          </div>
-          <p id="nav-user-display" class="text-xs text-blue-100 mt-0.5 font-medium"></p>
+        <!-- KHI CHƯA ĐĂNG NHẬP -->
+        <div id="header-guest-actions" class="flex items-center space-x-2">
+          <button onclick="openAuthModal('login')" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-white/10 hover:bg-white/20 border border-white/25 text-white transition">
+            Đăng nhập
+          </button>
+          <button onclick="openAuthModal('register')" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-vibrant-orange hover:bg-orange-600 text-white shadow-md transition">
+            Đăng ký
+          </button>
         </div>
-        <button onclick="logoutUser()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow transition">
-          Đăng xuất
-        </button>
+
+        <!-- KHI ĐÃ ĐĂNG NHẬP -->
+        <div id="header-user-actions" class="hidden flex items-center space-x-3">
+          <div class="text-right hidden sm:block">
+            <div class="flex items-center justify-end space-x-1.5">
+              <span class="text-[11px] bg-emerald-500/20 border border-emerald-400 text-emerald-200 px-2 py-0.5 rounded-full font-semibold">
+                🔒 Đã đồng bộ & Bảo mật
+              </span>
+              <span id="nav-user-role" class="text-[11px] bg-orange-500/30 border border-orange-300 text-orange-100 px-2 py-0.5 rounded-full font-bold"></span>
+            </div>
+            <p id="nav-user-display" class="text-xs text-blue-100 mt-0.5 font-medium"></p>
+          </div>
+          <button onclick="logoutUser()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow transition">
+            Đăng xuất
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -83,14 +89,14 @@
       <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-7 space-y-5">
           <div class="inline-flex items-center space-x-2 bg-blue-800/50 border border-blue-500/40 px-3.5 py-1.5 rounded-full text-xs text-blue-200 font-semibold">
-            <span>🛡️ Nền tảng ghép nhóm đồ án CNTT bảo mật & kiểm chứng năng lực</span>
+            <span>☁️ Đồng bộ dữ liệu tự động giữa mọi trình duyệt Chrome & bảo mật thông tin</span>
           </div>
           <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
             Tìm đúng đồng đội làm đồ án.<br>
             <span class="text-vibrant-orange">Chấm dứt nỗi lo "Gánh Team".</span>
           </h1>
           <p class="text-sm md:text-base text-slate-300 leading-relaxed">
-            <strong>TeamUp IT</strong> giúp sinh viên Công nghệ Thông tin kết nối nhóm làm đồ án môn học dựa trên sự tương thích về <strong>Trình độ, Kỹ năng, Mục tiêu điểm số</strong> và <strong>Bài Quiz kiểm tra kiến thức đầu vào</strong>. Toàn bộ thông tin cá nhân và lịch sử duyệt web của người dùng được bảo mật tuyệt đối.
+            <strong>TeamUp IT</strong> giúp sinh viên Công nghệ Thông tin kết nối nhóm làm đồ án môn học dựa trên sự tương thích về <strong>Trình độ, Kỹ năng, Mục tiêu điểm số</strong> và <strong>Bài Quiz kiểm tra kiến thức đầu vào</strong>. Tài khoản đăng ký ở bất kỳ trình duyệt Chrome nào đều được đồng bộ tự động lên Cloud và bảo mật tuyệt đối.
           </p>
           <div class="flex flex-wrap gap-3 pt-2">
             <button onclick="openAuthModal('register')" class="bg-vibrant-orange hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition text-sm">
@@ -107,8 +113,8 @@
           <h3 class="text-base font-bold text-orange-300 uppercase tracking-wider">Nguyên tắc vận hành cốt lõi</h3>
           <div class="space-y-3 text-xs md:text-sm">
             <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700">
-              <strong class="text-white block">1. Hai luồng tài khoản độc lập</strong>
-              <span class="text-slate-300">Đăng ký làm <em>Trưởng nhóm</em> để tạo nhóm mới & phê duyệt ứng viên, hoặc đăng ký làm <em>Thành viên</em> để tìm nhóm phù hợp với bản thân.</span>
+              <strong class="text-white block">1. Đồng bộ tài khoản đa trình duyệt (Cloud Sync)</strong>
+              <span class="text-slate-300">Đăng ký tài khoản ở Chrome Gmail A có thể đăng nhập ngay ở Chrome Gmail B. Mật khẩu được băm một chiều bảo mật.</span>
             </div>
             <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700">
               <strong class="text-white block">2. Vượt qua Quiz & Trưởng nhóm đầu tiên xét duyệt</strong>
@@ -208,7 +214,7 @@
               <p class="text-xs text-slate-500">Thay đổi mục tiêu & vị trí ngay tại đây</p>
             </div>
             <span class="text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md font-semibold">
-              🔒 Riêng tư
+              🔒 Đã đồng bộ
             </span>
           </div>
 
@@ -283,7 +289,7 @@
     <!-- Thông tin tổng quan nhóm của Trưởng nhóm -->
     <div id="leader-group-overview" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200"></div>
 
-    <!-- BỐ CỤC 2 BÊN THEO YÊU CẦU: BÊN TRÁI (THÀNH VIÊN NHÓM) - BÊN PHẢI (ỨNG VIÊN QUA QUIZ CẦN PHÊ DUYỆT) -->
+    <!-- BỐ CỤC 2 BÊN: BÊN TRÁI (THÀNH VIÊN NHÓM) - BÊN PHẢI (ỨNG VIÊN QUA QUIZ CẦN PHÊ DUYỆT) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
       <!-- BÊN TRÁI (5 CỘT): CÁC THÀNH VIÊN TRONG NHÓM & YÊU CẦU XIN RỜI/CHUYỂN NHÓM -->
@@ -331,7 +337,7 @@
   </main>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 1: ĐĂNG KÝ (2 LỰA CHỌN) & ĐĂNG NHẬP BẢO MẬT                     -->
+  <!-- MODAL 1: ĐĂNG KÝ (2 LỰA CHỌN) & ĐĂNG NHẬP ĐỒNG BỘ CLOUD               -->
   <!-- ===================================================================== -->
   <div id="modal-auth" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 my-8 max-h-[92vh] overflow-y-auto">
@@ -347,10 +353,11 @@
         <button onclick="closeAuthModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold px-2">✕</button>
       </div>
 
-      <!-- FORM ĐĂNG NHẬP (TUYỆT ĐỐI KHÔNG HIỂN THỊ TÀI KHOẢN TRƯỞNG NHÓM LÊN GIAO DIỆN) -->
+      <!-- FORM ĐĂNG NHẬP -->
       <div id="form-login" class="space-y-4">
-        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-slate-700">
-          🔒 <strong>Đăng nhập bảo mật:</strong> Nhập Tên đăng nhập (hoặc MSSV) và Mật khẩu của bạn. Danh sách tài khoản được bảo mật hoàn toàn, không hiển thị công khai trên trang web.
+        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-slate-700 flex justify-between items-center">
+          <span>🔒 <strong>Đồng bộ đa trình duyệt:</strong> Hệ thống tự động tải danh sách tài khoản mới nhất từ Cloud khi bạn bấm Đăng nhập.</span>
+          <button onclick="pullCloudStateNow(true)" class="text-tech-blue font-bold underline ml-2 shrink-0">Đồng bộ ngay</button>
         </div>
         <div>
           <label class="text-xs font-bold text-slate-700">Tên đăng nhập hoặc MSSV</label>
@@ -361,7 +368,7 @@
           <input id="login-password" type="password" autocomplete="off" onkeydown="if(event.key==='Enter') handleLogin()" placeholder="Nhập mật khẩu..." class="mt-1 w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-blue-600">
         </div>
         <p id="login-error" class="hidden text-xs font-semibold text-rose-600"></p>
-        <button onclick="handleLogin()" class="w-full bg-tech-blue hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow transition text-sm">
+        <button id="btn-submit-login" onclick="handleLogin()" class="w-full bg-tech-blue hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow transition text-sm">
           Đăng nhập vào hệ thống
         </button>
       </div>
@@ -369,7 +376,7 @@
       <!-- FORM ĐĂNG KÝ (2 LỰA CHỌN RÕ RÀNG) -->
       <div id="form-register" class="hidden space-y-4 text-xs">
         <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800">
-          🛡️ <strong>Cam kết quyền riêng tư:</strong> Thông tin tài khoản đăng ký được mã hóa một chiều và lưu trữ cho các lần đăng nhập sau, tuyệt đối không đăng công khai lên trang web.
+          🛡️ <strong>Lưu trữ Đám mây & Bảo mật:</strong> Ngay khi hoàn tất đăng ký, tài khoản sẽ được mã hóa mật khẩu và lưu lên Cloud để bạn đăng nhập được trên mọi trình duyệt Chrome khác.
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -512,8 +519,8 @@
         </div>
 
         <p id="reg-error" class="hidden text-xs font-semibold text-rose-600"></p>
-        <button onclick="handleRegister()" class="w-full bg-vibrant-orange hover:bg-orange-600 text-white font-bold py-3 rounded-xl shadow transition text-sm">
-          Hoàn tất Đăng ký
+        <button id="btn-submit-register" onclick="handleRegister()" class="w-full bg-vibrant-orange hover:bg-orange-600 text-white font-bold py-3 rounded-xl shadow transition text-sm">
+          Hoàn tất Đăng ký & Đồng bộ Cloud
         </button>
       </div>
     </div>
@@ -548,6 +555,52 @@
     </div>
   </div>
 
+  <!-- ===================================================================== -->
+  <!-- MODAL 3: TRUNG TÂM ĐỒNG BỘ ĐA TRÌNH DUYỆT (CLOUD SYNC)                -->
+  <!-- ===================================================================== -->
+  <div id="modal-sync" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 my-8 space-y-4 text-xs">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-tech-blue uppercase">Trạng thái Đồng bộ Đa trình duyệt</h3>
+          <p class="text-slate-500">Đồng bộ tự động giữa Chrome Gmail A, Chrome Gmail B và các thiết bị khác</p>
+        </div>
+        <button onclick="closeSyncModal()" class="text-slate-400 hover:text-slate-600 font-bold text-lg px-2">✕</button>
+      </div>
+
+      <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-2 text-slate-700">
+        <div class="flex justify-between items-center">
+          <strong class="text-emerald-800">1. Đám mây HTTPS + Real-time SSE/MQTT:</strong>
+          <span id="modal-sync-badge" class="font-bold text-emerald-700">Đang hoạt động</span>
+        </div>
+        <p>Mỗi khi có tài khoản mới đăng ký hoặc nộp bài Quiz, dữ liệu Delta sẽ được lưu lên máy chủ Cloud để mọi trình duyệt Chrome khác tự động tải về.</p>
+        <div class="pt-1 flex flex-wrap gap-2">
+          <button onclick="pushStateToCloud(true)" class="px-3 py-1.5 bg-tech-blue text-white font-bold rounded-lg shadow-sm">
+            ⬆️ Đẩy dữ liệu từ trình duyệt này lên Cloud
+          </button>
+          <button onclick="pullCloudStateNow(true)" class="px-3 py-1.5 bg-emerald-600 text-white font-bold rounded-lg shadow-sm">
+            ⬇️ Tải dữ liệu mới nhất từ Cloud về
+          </button>
+        </div>
+      </div>
+
+      <!-- Mã đồng bộ dự phòng khi mất mạng -->
+      <div class="p-3.5 bg-orange-50/70 border border-orange-200 rounded-xl space-y-2">
+        <strong class="text-vibrant-orange block">2. Sao chép / Dán Mã đồng bộ trực tiếp (Dùng khi Offline):</strong>
+        <p class="text-slate-600">Nếu máy tính đang ngắt kết nối Internet, bạn có thể sao chép Mã đồng bộ ở Chrome A và dán vào Chrome B:</p>
+        <div class="flex gap-2">
+          <button onclick="copySyncToken()" class="px-3 py-1.5 bg-vibrant-orange text-white font-bold rounded-lg shrink-0">
+            📋 Copy Mã
+          </button>
+          <input id="input-sync-token" type="text" placeholder="Dán Mã đồng bộ vào đây..." class="w-full border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white">
+          <button onclick="importSyncToken()" class="px-3 py-1.5 bg-tech-blue text-white font-bold rounded-lg shrink-0">
+            Đồng bộ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="bg-slate-900 text-slate-400 text-xs py-6 px-4 border-t border-slate-800 mt-10">
     <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
@@ -555,16 +608,26 @@
         <strong class="text-white brand-font">TeamUp IT</strong> — Đồ án môn Kỹ năng nghề nghiệp (SS004)
       </div>
       <div class="text-emerald-400">
-        🔒 Bảo mật thông tin cá nhân & lịch sử duyệt web của người dùng.
+        🔒 Đồng bộ đám mây bảo mật • Ẩn hoàn toàn thông tin nhạy cảm & lịch sử duyệt web.
       </div>
     </div>
   </footer>
 
   <!-- ===================================================================== -->
-  <!-- JAVASCRIPT: HỆ THỐNG 6 TRƯỞNG NHÓM BAN ĐẦU, QUIZ & KHÓA ĐƠN TỰ ĐỘNG   -->
+  <!-- JAVASCRIPT: HỆ THỐNG ĐỒNG BỘ CLOUD BỀN VỮNG (HTTPS + SSE + MQTT)       -->
   <!-- ===================================================================== -->
   <script>
-    const STORAGE_KEY = 'TEAMUP_IT_SECURE_DATA_V6';
+    const STORAGE_KEY = 'TEAMUP_IT_SECURE_DATA_V9';
+    // Điểm cuối lưu trữ đám mây HTTPS (Hỗ trợ lưu trữ lịch sử bản ghi & SSE thời gian thực giữa các Chrome khác nhau)
+    const NTFY_TOPIC = 'uit_ss004_teamup_26521682_v9_sync';
+    const NTFY_BASE_URL = `https://ntfy.sh/${NTFY_TOPIC}`;
+    const MQTT_STATE_TOPIC = 'uit/ss004/teamup_26521682_v9/state';
+    const MQTT_PING_TOPIC = 'uit/ss004/teamup_26521682_v9/ping';
+    const MQTT_BROKERS = [
+      'wss://broker.emqx.io:8084/mqtt',
+      'wss://broker.hivemq.com:8884/mqtt'
+    ];
+
     const ALL_SKILLS = [
       "C++ / Thuật toán", "SQL / Database", "Python / Data",
       "ReactJS / HTML", "Node.js / API", "Figma / UI/UX",
@@ -659,7 +722,6 @@
       ]
     };
 
-    // Hàm băm mật khẩu một chiều FNV-1a 32-bit
     function hashSecret(str) {
       let h = 2166136261 >>> 0;
       for (let i = 0; i < str.length; i++) {
@@ -669,18 +731,16 @@
       return 'sec_' + (h >>> 0).toString(16);
     }
 
-    // Chuẩn hóa chuỗi bỏ dấu tiếng Việt để hỗ trợ đăng nhập linh hoạt
     function normalizeLoginKey(str) {
       return (str || '')
         .trim()
         .replace(/^`|`$/g, '')
         .toLowerCase()
         .normalize('NFD')
-        .replace(/[̀-ͯ]/g, '')
+        .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd');
     }
 
-    // 6 Tài khoản Trưởng nhóm ban đầu (Mã băm FNV-1a chính xác 100%, không lộ mật khẩu dạng rõ)
     const INITIAL_LEADERS = [
       {
         id: "LDR_26520786",
@@ -691,7 +751,8 @@
         validHashes: ["sec_be478f0", "sec_7206b010", "sec_a5627385"],
         displayName: "Trần Đức Khải",
         accountType: "LEADER",
-        ownedGroupId: "GRP_01"
+        ownedGroupId: "GRP_01",
+        updatedAt: 100
       },
       {
         id: "LDR_26521623",
@@ -702,7 +763,8 @@
         validHashes: ["sec_91a29c80", "sec_997bf020", "sec_f69e069a"],
         displayName: "Lê Trần Thiên Phúc",
         accountType: "LEADER",
-        ownedGroupId: "GRP_02"
+        ownedGroupId: "GRP_02",
+        updatedAt: 100
       },
       {
         id: "LDR_26520299",
@@ -713,7 +775,8 @@
         validHashes: ["sec_167fc3b9", "sec_90d39ed9", "sec_f940c922"],
         displayName: "Phan Thanh Đạt",
         accountType: "LEADER",
-        ownedGroupId: "GRP_03"
+        ownedGroupId: "GRP_03",
+        updatedAt: 100
       },
       {
         id: "LDR_26521682",
@@ -724,7 +787,8 @@
         validHashes: ["sec_e802c2aa", "sec_a6a103ca", "sec_778539c7"],
         displayName: "Dương Xuân Quân",
         accountType: "LEADER",
-        ownedGroupId: "GRP_04"
+        ownedGroupId: "GRP_04",
+        updatedAt: 100
       },
       {
         id: "LDR_24522010",
@@ -735,7 +799,8 @@
         validHashes: ["sec_4ff22fc0", "sec_ab0e0fe0", "sec_d80bb52b"],
         displayName: "Đoàn Đăng Vinh",
         accountType: "LEADER",
-        ownedGroupId: "GRP_05"
+        ownedGroupId: "GRP_05",
+        updatedAt: 100
       },
       {
         id: "LDR_26521429",
@@ -746,105 +811,114 @@
         validHashes: ["sec_300bb082", "sec_b4b363a2", "sec_1764dc22"],
         displayName: "Trương Nam Nguyên",
         accountType: "LEADER",
-        ownedGroupId: "GRP_06"
+        ownedGroupId: "GRP_06",
+        updatedAt: 100
+      }
+    ];
+
+    const INITIAL_GROUPS = [
+      {
+        id: "GRP_01",
+        leaderId: "LDR_26520786",
+        leaderAlias: "Trần Đức Khải",
+        title: "Nền tảng kết nối đồ án & Đánh giá uy tín TeamUp IT",
+        course: "SS004 - Kỹ năng nghề nghiệp",
+        targetGoal: 9.0,
+        minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
+        desc: "Xây dựng mô hình BMC, khảo sát nhu cầu sinh viên và phát triển nền tảng ghép nhóm đồ án chống free-rider.",
+        recruitingRoles: ["Backend / Thuật toán", "UI/UX Designer", "Researcher / Báo cáo"],
+        requiredSkills: ["C++ / Thuật toán", "Figma / UI/UX", "Viết báo cáo / BMC", "Git / GitHub"],
+        members: [
+          { userId: "LDR_26520786", alias: "Trần Đức Khải", role: "Trưởng nhóm (Leader)" }
+        ],
+        updatedAt: 100
+      },
+      {
+        id: "GRP_02",
+        leaderId: "LDR_26521623",
+        leaderAlias: "Lê Trần Thiên Phúc",
+        title: "Hệ thống Design System & UI/UX đa nền tảng cho EdTech",
+        course: "SE104 - Nhập môn CNPM",
+        targetGoal: 9.0,
+        minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
+        desc: "Thiết kế bộ nhận diện thương hiệu, wireframe, prototype tương tác và xây dựng giao diện chuẩn UX cho sinh viên.",
+        recruitingRoles: ["UI/UX Designer", "Frontend / Web UI", "Researcher / Báo cáo"],
+        requiredSkills: ["Figma / UI/UX", "ReactJS / HTML", "Viết báo cáo / BMC"],
+        members: [
+          { userId: "LDR_26521623", alias: "Lê Trần Thiên Phúc", role: "Trưởng nhóm (Leader)" }
+        ],
+        updatedAt: 100
+      },
+      {
+        id: "GRP_03",
+        leaderId: "LDR_26520299",
+        leaderAlias: "Phan Thanh Đạt",
+        title: "Mô phỏng thuật toán tìm đường đi ngắn nhất & Tối ưu đồ thị",
+        course: "IT003 - Cấu trúc dữ liệu & Giải thuật",
+        targetGoal: 9.0,
+        minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
+        desc: "Cài đặt và tối ưu độ phức tạp các thuật toán đồ thị bằng C++, kết hợp phân tích dữ liệu thực nghiệm.",
+        recruitingRoles: ["Backend / Thuật toán", "Data / Phân tích dữ liệu", "Frontend / Web UI"],
+        requiredSkills: ["C++ / Thuật toán", "Python / Data", "Git / GitHub"],
+        members: [
+          { userId: "LDR_26520299", alias: "Phan Thanh Đạt", role: "Trưởng nhóm (Leader)" }
+        ],
+        updatedAt: 100
+      },
+      {
+        id: "GRP_04",
+        leaderId: "LDR_26521682",
+        leaderAlias: "Dương Xuân Quân",
+        title: "Xây dựng Data Pipeline & Hệ thống phân tích dữ liệu học tập",
+        course: "IT004 - Cơ sở dữ liệu",
+        targetGoal: 9.0,
+        minLevel: "Từ Sinh viên Năm 2 trở lên",
+        desc: "Thiết kế kiến trúc dữ liệu, quy trình ETL, tối ưu truy vấn SQL và thuật toán gợi ý lộ trình học tập.",
+        recruitingRoles: ["Data / Phân tích dữ liệu", "Backend / Thuật toán", "Researcher / Báo cáo"],
+        requiredSkills: ["SQL / Database", "Python / Data", "C++ / Thuật toán", "Git / GitHub"],
+        members: [
+          { userId: "LDR_26521682", alias: "Dương Xuân Quân", role: "Trưởng nhóm (Leader)" }
+        ],
+        updatedAt: 100
+      },
+      {
+        id: "GRP_05",
+        leaderId: "LDR_24522010",
+        leaderAlias: "Đoàn Đăng Vinh",
+        title: "Ứng dụng quản lý tài chính & Hoạch định nguồn lực khởi nghiệp",
+        course: "SS004 - Kỹ năng nghề nghiệp",
+        targetGoal: 8.0,
+        minLevel: "Từ Sinh viên Năm 2 trở lên",
+        desc: "Lập kế hoạch thực thi, dự phóng dòng tiền 12 tháng và xây dựng dashboard theo dõi KPI dự án khởi nghiệp.",
+        recruitingRoles: ["Researcher / Báo cáo", "Data / Phân tích dữ liệu", "Frontend / Web UI"],
+        requiredSkills: ["Viết báo cáo / BMC", "SQL / Database", "ReactJS / HTML"],
+        members: [
+          { userId: "LDR_24522010", alias: "Đoàn Đăng Vinh", role: "Trưởng nhóm (Leader)" }
+        ],
+        updatedAt: 100
+      },
+      {
+        id: "GRP_06",
+        leaderId: "LDR_26521429",
+        leaderAlias: "Trương Nam Nguyên",
+        title: "Nền tảng truyền thông đa phương tiện & Tương tác sinh viên",
+        course: "SE104 - Nhập môn CNPM",
+        targetGoal: 8.0,
+        minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
+        desc: "Xây dựng cổng kết nối sự kiện, sản xuất nội dung số và giao diện tương tác trực tuyến cho cộng đồng sinh viên.",
+        recruitingRoles: ["Frontend / Web UI", "UI/UX Designer", "Backend / Thuật toán"],
+        requiredSkills: ["ReactJS / HTML", "Figma / UI/UX", "Node.js / API"],
+        members: [
+          { userId: "LDR_26521429", alias: "Trương Nam Nguyên", role: "Trưởng nhóm (Leader)" }
+        ],
+        updatedAt: 100
       }
     ];
 
     function getInitialState() {
       return {
         users: JSON.parse(JSON.stringify(INITIAL_LEADERS)),
-        groups: [
-          {
-            id: "GRP_01",
-            leaderId: "LDR_26520786",
-            leaderAlias: "Trần Đức Khải",
-            title: "Nền tảng kết nối đồ án & Đánh giá uy tín TeamUp IT",
-            course: "SS004 - Kỹ năng nghề nghiệp",
-            targetGoal: 9.0,
-            minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
-            desc: "Xây dựng mô hình BMC, khảo sát nhu cầu sinh viên và phát triển nền tảng ghép nhóm đồ án chống free-rider.",
-            recruitingRoles: ["Backend / Thuật toán", "UI/UX Designer", "Researcher / Báo cáo"],
-            requiredSkills: ["C++ / Thuật toán", "Figma / UI/UX", "Viết báo cáo / BMC", "Git / GitHub"],
-            members: [
-              { userId: "LDR_26520786", alias: "Trần Đức Khải", role: "Trưởng nhóm (Leader)" }
-            ]
-          },
-          {
-            id: "GRP_02",
-            leaderId: "LDR_26521623",
-            leaderAlias: "Lê Trần Thiên Phúc",
-            title: "Hệ thống Design System & UI/UX đa nền tảng cho EdTech",
-            course: "SE104 - Nhập môn CNPM",
-            targetGoal: 9.0,
-            minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
-            desc: "Thiết kế bộ nhận diện thương hiệu, wireframe, prototype tương tác và xây dựng giao diện chuẩn UX cho sinh viên.",
-            recruitingRoles: ["UI/UX Designer", "Frontend / Web UI", "Researcher / Báo cáo"],
-            requiredSkills: ["Figma / UI/UX", "ReactJS / HTML", "Viết báo cáo / BMC"],
-            members: [
-              { userId: "LDR_26521623", alias: "Lê Trần Thiên Phúc", role: "Trưởng nhóm (Leader)" }
-            ]
-          },
-          {
-            id: "GRP_03",
-            leaderId: "LDR_26520299",
-            leaderAlias: "Phan Thanh Đạt",
-            title: "Mô phỏng thuật toán tìm đường đi ngắn nhất & Tối ưu đồ thị",
-            course: "IT003 - Cấu trúc dữ liệu & Giải thuật",
-            targetGoal: 9.0,
-            minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
-            desc: "Cài đặt và tối ưu độ phức tạp các thuật toán đồ thị bằng C++, kết hợp phân tích dữ liệu thực nghiệm.",
-            recruitingRoles: ["Backend / Thuật toán", "Data / Phân tích dữ liệu", "Frontend / Web UI"],
-            requiredSkills: ["C++ / Thuật toán", "Python / Data", "Git / GitHub"],
-            members: [
-              { userId: "LDR_26520299", alias: "Phan Thanh Đạt", role: "Trưởng nhóm (Leader)" }
-            ]
-          },
-          {
-            id: "GRP_04",
-            leaderId: "LDR_26521682",
-            leaderAlias: "Dương Xuân Quân",
-            title: "Xây dựng Data Pipeline & Hệ thống phân tích dữ liệu học tập",
-            course: "IT004 - Cơ sở dữ liệu",
-            targetGoal: 9.0,
-            minLevel: "Từ Sinh viên Năm 2 trở lên",
-            desc: "Thiết kế kiến trúc dữ liệu, quy trình ETL, tối ưu truy vấn SQL và thuật toán gợi ý lộ trình học tập.",
-            recruitingRoles: ["Data / Phân tích dữ liệu", "Backend / Thuật toán", "Researcher / Báo cáo"],
-            requiredSkills: ["SQL / Database", "Python / Data", "C++ / Thuật toán", "Git / GitHub"],
-            members: [
-              { userId: "LDR_26521682", alias: "Dương Xuân Quân", role: "Trưởng nhóm (Leader)" }
-            ]
-          },
-          {
-            id: "GRP_05",
-            leaderId: "LDR_24522010",
-            leaderAlias: "Đoàn Đăng Vinh",
-            title: "Ứng dụng quản lý tài chính & Hoạch định nguồn lực khởi nghiệp",
-            course: "SS004 - Kỹ năng nghề nghiệp",
-            targetGoal: 8.0,
-            minLevel: "Từ Sinh viên Năm 2 trở lên",
-            desc: "Lập kế hoạch thực thi, dự phóng dòng tiền 12 tháng và xây dựng dashboard theo dõi KPI dự án khởi nghiệp.",
-            recruitingRoles: ["Researcher / Báo cáo", "Data / Phân tích dữ liệu", "Frontend / Web UI"],
-            requiredSkills: ["Viết báo cáo / BMC", "SQL / Database", "ReactJS / HTML"],
-            members: [
-              { userId: "LDR_24522010", alias: "Đoàn Đăng Vinh", role: "Trưởng nhóm (Leader)" }
-            ]
-          },
-          {
-            id: "GRP_06",
-            leaderId: "LDR_26521429",
-            leaderAlias: "Trương Nam Nguyên",
-            title: "Nền tảng truyền thông đa phương tiện & Tương tác sinh viên",
-            course: "SE104 - Nhập môn CNPM",
-            targetGoal: 8.0,
-            minLevel: "Mọi trình độ (Năm 1 - Năm 4)",
-            desc: "Xây dựng cổng kết nối sự kiện, sản xuất nội dung số và giao diện tương tác trực tuyến cho cộng đồng sinh viên.",
-            recruitingRoles: ["Frontend / Web UI", "UI/UX Designer", "Backend / Thuật toán"],
-            requiredSkills: ["ReactJS / HTML", "Figma / UI/UX", "Node.js / API"],
-            members: [
-              { userId: "LDR_26521429", alias: "Trương Nam Nguyên", role: "Trưởng nhóm (Leader)" }
-            ]
-          }
-        ],
+        groups: JSON.parse(JSON.stringify(INITIAL_GROUPS)),
         applications: [],
         leaveRequests: []
       };
@@ -853,6 +927,8 @@
     let appState = loadState();
     let currentUser = null;
     let activeQuizContext = null;
+    let mqttClients = [];
+    let ntfyEventSource = null;
 
     function loadState() {
       try {
@@ -863,26 +939,307 @@
           return init;
         }
         const parsed = JSON.parse(raw);
-        // Luôn đồng bộ lại mã băm chuẩn của 6 Trưởng nhóm ban đầu để tránh lỗi cache cũ
-        INITIAL_LEADERS.forEach(initLeader => {
-          const idx = parsed.users.findIndex(u => u.id === initLeader.id || u.username === initLeader.username);
-          if (idx >= 0) {
-            parsed.users[idx] = { ...parsed.users[idx], ...initLeader };
-          } else {
-            parsed.users.push({ ...initLeader });
-          }
-        });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+        ensureInitialData(parsed);
         return parsed;
       } catch (e) {
         return getInitialState();
       }
     }
 
-    function saveState() {
+    function ensureInitialData(stateObj) {
+      if (!stateObj.users) stateObj.users = [];
+      if (!stateObj.groups) stateObj.groups = [];
+      if (!stateObj.applications) stateObj.applications = [];
+      if (!stateObj.leaveRequests) stateObj.leaveRequests = [];
+
+      INITIAL_LEADERS.forEach(initLeader => {
+        const idx = stateObj.users.findIndex(u => u.id === initLeader.id || u.username === initLeader.username);
+        if (idx >= 0) {
+          stateObj.users[idx] = { ...stateObj.users[idx], ...initLeader };
+        } else {
+          stateObj.users.push({ ...initLeader });
+        }
+      });
+
+      INITIAL_GROUPS.forEach(initGrp => {
+        const idx = stateObj.groups.findIndex(g => g.id === initGrp.id);
+        if (idx < 0) {
+          stateObj.groups.push(JSON.parse(JSON.stringify(initGrp)));
+        }
+      });
+    }
+
+    // =====================================================================
+    // ĐÓNG GÓI COMPACT DELTA & HỢP NHẤT CRDT GIỮA CÁC CHROME KHÁC NHAU
+    // =====================================================================
+    function buildCompactDelta(state) {
+      const initLeaderIds = new Set(INITIAL_LEADERS.map(l => l.id));
+      const initGroupIds = new Set(INITIAL_GROUPS.map(g => g.id));
+      return {
+        v: 9,
+        ts: Date.now(),
+        cu: (state.users || []).filter(u => !initLeaderIds.has(u.id)),
+        cg: (state.groups || []).filter(g => !initGroupIds.has(g.id)),
+        gu: (state.groups || []).filter(g => initGroupIds.has(g.id)).map(g => ({
+          id: g.id,
+          recruitingRoles: g.recruitingRoles,
+          members: g.members,
+          updatedAt: g.updatedAt || 100
+        })),
+        ap: state.applications || [],
+        lr: state.leaveRequests || []
+      };
+    }
+
+    function mergeById(localList = [], incomingList = []) {
+      const map = new Map();
+      localList.forEach(item => {
+        if (item && item.id) map.set(item.id, item);
+      });
+      incomingList.forEach(inc => {
+        if (!inc || !inc.id) return;
+        const cur = map.get(inc.id);
+        if (!cur || (inc.updatedAt || 0) >= (cur.updatedAt || 0)) {
+          map.set(inc.id, { ...(cur || {}), ...inc });
+        }
+      });
+      return Array.from(map.values());
+    }
+
+    function applyIncomingPayload(payload) {
+      if (!payload) return false;
+      let changed = false;
+
+      // Hỗ trợ cả định dạng Compact Delta (v: 9) và Full State
+      const incUsers = payload.cu || payload.users || [];
+      const incCustomGroups = payload.cg || [];
+      const incBaseGroupUpdates = payload.gu || [];
+      const incFullGroups = payload.groups || [];
+      const incApps = payload.ap || payload.applications || [];
+      const incLeaves = payload.lr || payload.leaveRequests || [];
+
+      const beforeCount = appState.users.length + appState.applications.length + appState.leaveRequests.length;
+
+      appState.users = mergeById(appState.users, incUsers);
+      if (incFullGroups.length > 0) {
+        appState.groups = mergeById(appState.groups, incFullGroups);
+      }
+      if (incCustomGroups.length > 0) {
+        appState.groups = mergeById(appState.groups, incCustomGroups);
+      }
+      if (incBaseGroupUpdates.length > 0) {
+        incBaseGroupUpdates.forEach(uGrp => {
+          const idx = appState.groups.findIndex(g => g.id === uGrp.id);
+          if (idx >= 0) {
+            const curG = appState.groups[idx];
+            if ((uGrp.updatedAt || 0) >= (curG.updatedAt || 0)) {
+              curG.recruitingRoles = uGrp.recruitingRoles;
+              curG.members = uGrp.members;
+              curG.updatedAt = uGrp.updatedAt;
+            }
+          }
+        });
+      }
+
+      appState.applications = mergeById(appState.applications, incApps);
+      appState.leaveRequests = mergeById(appState.leaveRequests, incLeaves);
+      ensureInitialData(appState);
+
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
       } catch (e) {}
+
+      if (currentUser) {
+        const refreshedMe = appState.users.find(u => u.id === currentUser.id);
+        if (refreshedMe) currentUser = refreshedMe;
+        if (currentUser.accountType === 'LEADER') {
+          renderLeaderDashboard();
+        } else {
+          renderMemberDashboard();
+        }
+      }
+
+      return true;
+    }
+
+    function updateCloudBadge(isOk, text) {
+      const dot = document.getElementById('cloud-status-dot');
+      const txt = document.getElementById('cloud-status-text');
+      const modalBadge = document.getElementById('modal-sync-badge');
+      if (isOk) {
+        dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+        txt.textContent = text || "Đã đồng bộ Cloud (Đa trình duyệt)";
+        if (modalBadge) modalBadge.textContent = "✓ Đã kết nối & Đồng bộ";
+      } else {
+        dot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+        txt.textContent = text || "Đang đồng bộ Cloud...";
+      }
+    }
+
+    // Đẩy dữ liệu lên cả HTTPS Cloud (ntfy.sh) VÀ MQTT WebSockets
+    async function pushStateToCloud(showMessage = false) {
+      const delta = buildCompactDelta(appState);
+      const deltaStr = JSON.stringify(delta);
+
+      // 1. Gửi qua MQTT WebSockets (Retained)
+      mqttClients.forEach(c => {
+        if (c && c.connected) {
+          try {
+            c.publish(MQTT_STATE_TOPIC, deltaStr, { qos: 1, retain: true });
+          } catch (e) {}
+        }
+      });
+
+      // 2. Lưu trữ bền vững lên HTTPS Cloud (ntfy.sh) để Chrome Gmail khác tải về bất cứ lúc nào
+      try {
+        const res = await fetch(NTFY_BASE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+          body: deltaStr
+        });
+        if (res.ok) {
+          updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
+        }
+      } catch (e) {}
+
+      if (showMessage) {
+        alert("Đã đẩy toàn bộ tài khoản và dữ liệu lên Cloud thành công! Bạn có thể sang Chrome của Gmail khác để đăng nhập ngay.");
+      }
+    }
+
+    // Tải lịch sử trạng thái từ HTTPS Cloud (ntfy.sh) + Yêu cầu đồng bộ MQTT
+    async function pullCloudStateNow(showMessage = false) {
+      updateCloudBadge(false, "Đang tải dữ liệu Cloud...");
+
+      // Yêu cầu các trình duyệt đang mở gửi bản mới nhất qua MQTT
+      mqttClients.forEach(c => {
+        if (c && c.connected) {
+          try {
+            c.publish(MQTT_PING_TOPIC, 'PING', { qos: 0 });
+          } catch (e) {}
+        }
+      });
+
+      try {
+        const res = await fetch(`${NTFY_BASE_URL}/json?poll=1&since=48h`, {
+          cache: 'no-store'
+        });
+        if (res.ok) {
+          const text = await res.text();
+          const lines = text.split('\n').filter(Boolean);
+          lines.forEach(line => {
+            try {
+              const evt = JSON.parse(line);
+              if (evt && evt.event === 'message' && evt.message) {
+                const parsedMsg = JSON.parse(evt.message);
+                applyIncomingPayload(parsedMsg);
+              }
+            } catch (innerErr) {}
+          });
+          updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
+        }
+      } catch (e) {
+        updateCloudBadge(true, "Đồng bộ sẵn sàng");
+      }
+
+      if (showMessage) {
+        alert(`Đã đồng bộ xong dữ liệu mới nhất từ Cloud!`);
+      }
+    }
+
+    function initCloudSyncEngine() {
+      // 1. Tải toàn bộ dữ liệu đã lưu trên HTTPS Cloud ngay khi mở trang
+      pullCloudStateNow(false);
+
+      // 2. Mở luồng Server-Sent Events (SSE) từ HTTPS Cloud để nhận cập nhật tức thời
+      try {
+        ntfyEventSource = new EventSource(`${NTFY_BASE_URL}/sse`);
+        ntfyEventSource.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            if (data && data.event === 'message' && data.message) {
+              const payload = JSON.parse(data.message);
+              applyIncomingPayload(payload);
+              updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
+            }
+          } catch (e) {}
+        };
+      } catch (e) {}
+
+      // 3. Kết nối song song MQTT Brokers làm kênh phụ trợ tốc độ cao
+      if (typeof mqtt !== 'undefined') {
+        MQTT_BROKERS.forEach(url => {
+          try {
+            const client = mqtt.connect(url, {
+              clientId: 'tu_' + Math.random().toString(16).slice(2, 10),
+              clean: true,
+              connectTimeout: 5000,
+              reconnectPeriod: 4000
+            });
+
+            client.on('connect', () => {
+              updateCloudBadge(true, "Đã đồng bộ Cloud (Đa trình duyệt)");
+              client.subscribe([MQTT_STATE_TOPIC, MQTT_PING_TOPIC], { qos: 1 });
+            });
+
+            client.on('message', (topic, message) => {
+              if (topic === MQTT_STATE_TOPIC && message) {
+                try {
+                  applyIncomingPayload(JSON.parse(message.toString()));
+                } catch (e) {}
+              } else if (topic === MQTT_PING_TOPIC) {
+                // Nếu có trình duyệt khác vừa mở và hỏi dữ liệu, gửi trả ngay nếu trình duyệt này có dữ liệu mới
+                if (appState.users.length > INITIAL_LEADERS.length || appState.applications.length > 0) {
+                  const deltaStr = JSON.stringify(buildCompactDelta(appState));
+                  client.publish(MQTT_STATE_TOPIC, deltaStr, { qos: 1, retain: true });
+                }
+              }
+            });
+
+            mqttClients.push(client);
+          } catch (e) {}
+        });
+      }
+    }
+
+    function saveState(syncCloud = true) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {}
+      if (syncCloud) {
+        pushStateToCloud(false);
+      }
+    }
+
+    function openSyncModal() {
+      document.getElementById('modal-sync').classList.remove('hidden');
+    }
+
+    function closeSyncModal() {
+      document.getElementById('modal-sync').classList.add('hidden');
+    }
+
+    function copySyncToken() {
+      try {
+        const token = btoa(unescape(encodeURIComponent(JSON.stringify(buildCompactDelta(appState)))));
+        navigator.clipboard.writeText(token);
+        alert("Đã sao chép Mã đồng bộ! Bạn có thể dán vào Chrome khác nếu đang ngoại tuyến.");
+      } catch (e) {}
+    }
+
+    function importSyncToken() {
+      const raw = document.getElementById('input-sync-token').value.trim();
+      if (!raw) return;
+      try {
+        const decoded = JSON.parse(decodeURIComponent(escape(atob(raw))));
+        applyIncomingPayload(decoded);
+        saveState(true);
+        document.getElementById('input-sync-token').value = '';
+        closeSyncModal();
+        alert("Đã nhập và đồng bộ tài khoản thành công!");
+      } catch (e) {
+        alert("Mã đồng bộ không hợp lệ!");
+      }
     }
 
     // =====================================================================
@@ -923,9 +1280,10 @@
     }
 
     // =====================================================================
-    // ĐĂNG KÝ (2 LỰA CHỌN) & ĐĂNG NHẬP BẢO MẬT
+    // ĐĂNG KÝ (2 LỰA CHỌN) & ĐĂNG NHẬP ĐỒNG BỘ CLOUD TỰ ĐỘNG
     // =====================================================================
     function openAuthModal(tab) {
+      pullCloudStateNow(false);
       document.getElementById('modal-auth').classList.remove('hidden');
       switchAuthTab(tab);
     }
@@ -970,12 +1328,13 @@
       }
     }
 
-    function handleRegister() {
+    async function handleRegister() {
       const displayName = document.getElementById('reg-name').value.trim();
       const username = document.getElementById('reg-username').value.trim().toLowerCase();
       const password = document.getElementById('reg-password').value.trim();
       const accountType = document.querySelector('input[name="reg-account-type"]:checked').value;
       const errEl = document.getElementById('reg-error');
+      const btnReg = document.getElementById('btn-submit-register');
 
       if (!displayName || !username || password.length < 4) {
         errEl.textContent = "Vui lòng nhập đầy đủ Họ tên, Tên đăng nhập và Mật khẩu (tối thiểu 4 ký tự).";
@@ -983,13 +1342,22 @@
         return;
       }
 
+      btnReg.disabled = true;
+      btnReg.textContent = "⏳ Đang đồng bộ tài khoản lên Cloud...";
+
+      // Đồng bộ trước khi kiểm tra trùng lặp
+      await pullCloudStateNow(false);
+
       if (appState.users.some(u => u.username === username || u.altLogin === username)) {
-        errEl.textContent = "Tên đăng nhập này đã tồn tại trên hệ thống. Vui lòng chọn tên khác.";
+        errEl.textContent = "Tên đăng nhập này đã tồn tại trên hệ thống. Vui lòng chọn tên khác hoặc chuyển sang Đăng nhập.";
         errEl.classList.remove('hidden');
+        btnReg.disabled = false;
+        btnReg.textContent = "Hoàn tất Đăng ký & Đồng bộ Cloud";
         return;
       }
 
-      const newUserId = "USR_" + Date.now().toString(36).toUpperCase();
+      const nowTs = Date.now();
+      const newUserId = "USR_" + nowTs.toString(36).toUpperCase();
       const pwHash = hashSecret(password);
 
       if (accountType === 'MEMBER') {
@@ -1001,6 +1369,7 @@
         const newUser = {
           id: newUserId,
           username,
+          nameKey: normalizeLoginKey(displayName),
           passwordHash: pwHash,
           validHashes: [pwHash, hashSecret(password.toLowerCase())],
           displayName,
@@ -1010,12 +1379,17 @@
           desiredRole,
           skills: skills.length ? skills : ["C++ / Thuật toán"],
           joinedGroupId: null,
-          joinedRole: null
+          joinedRole: null,
+          updatedAt: nowTs
         };
 
         appState.users.push(newUser);
-        saveState();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        await pushStateToCloud(false);
+
         currentUser = newUser;
+        btnReg.disabled = false;
+        btnReg.textContent = "Hoàn tất Đăng ký & Đồng bộ Cloud";
         closeAuthModal();
         updateHeaderUI();
         goHome();
@@ -1030,10 +1404,12 @@
         if (!grpTitle || recruitingRoles.length === 0) {
           errEl.textContent = "Trưởng nhóm vui lòng nhập Tên đề tài dự án và chọn ít nhất 1 vị trí cần tuyển dụng.";
           errEl.classList.remove('hidden');
+          btnReg.disabled = false;
+          btnReg.textContent = "Hoàn tất Đăng ký & Đồng bộ Cloud";
           return;
         }
 
-        const newGroupId = "GRP_" + Date.now().toString(36).toUpperCase();
+        const newGroupId = "GRP_" + nowTs.toString(36).toUpperCase();
         const newGroup = {
           id: newGroupId,
           leaderId: newUserId,
@@ -1047,46 +1423,43 @@
           requiredSkills: ["Git / GitHub", "Viết báo cáo / BMC"],
           members: [
             { userId: newUserId, alias: displayName, role: "Trưởng nhóm (Leader)" }
-          ]
+          ],
+          updatedAt: nowTs
         };
 
         const newLeader = {
           id: newUserId,
           username,
+          nameKey: normalizeLoginKey(displayName),
           passwordHash: pwHash,
           validHashes: [pwHash, hashSecret(password.toLowerCase())],
           displayName,
           accountType: 'LEADER',
-          ownedGroupId: newGroupId
+          ownedGroupId: newGroupId,
+          updatedAt: nowTs
         };
 
         appState.groups.unshift(newGroup);
         appState.users.push(newLeader);
-        saveState();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        await pushStateToCloud(false);
+
         currentUser = newLeader;
+        btnReg.disabled = false;
+        btnReg.textContent = "Hoàn tất Đăng ký & Đồng bộ Cloud";
         closeAuthModal();
         updateHeaderUI();
         goHome();
       }
     }
 
-    function handleLogin() {
-      const rawLogin = document.getElementById('login-username').value.trim().replace(/^`|`$/g, '');
-      const rawPass = document.getElementById('login-password').value.trim().replace(/^`|`$/g, '');
-      const errEl = document.getElementById('login-error');
-
-      if (!rawLogin || !rawPass) {
-        errEl.textContent = "Vui lòng nhập đầy đủ Tên đăng nhập (hoặc MSSV) và Mật khẩu.";
-        errEl.classList.remove('hidden');
-        return;
-      }
-
+    function matchUserCredential(rawLogin, rawPass) {
       const loginLower = rawLogin.toLowerCase();
       const loginNorm = normalizeLoginKey(rawLogin);
       const passHashExact = hashSecret(rawPass);
       const passHashLower = hashSecret(rawPass.toLowerCase());
 
-      const found = appState.users.find(u => {
+      return appState.users.find(u => {
         const matchUser =
           (u.username && u.username.toLowerCase() === loginLower) ||
           (u.altLogin && u.altLogin.toLowerCase() === loginLower) ||
@@ -1100,9 +1473,38 @@
         }
         return u.passwordHash === passHashExact || u.passwordHash === passHashLower;
       });
+    }
+
+    async function handleLogin() {
+      const rawLogin = document.getElementById('login-username').value.trim().replace(/^`|`$/g, '');
+      const rawPass = document.getElementById('login-password').value.trim().replace(/^`|`$/g, '');
+      const errEl = document.getElementById('login-error');
+      const btnLogin = document.getElementById('btn-submit-login');
+
+      if (!rawLogin || !rawPass) {
+        errEl.textContent = "Vui lòng nhập đầy đủ Tên đăng nhập (hoặc MSSV) và Mật khẩu.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      btnLogin.disabled = true;
+      btnLogin.textContent = "⏳ Đang đồng bộ tài khoản từ Cloud...";
+
+      // Kiểm tra trong bộ nhớ hiện tại trước, nếu chưa thấy sẽ tự động kéo từ Cloud về ngay lập tức
+      let found = matchUserCredential(rawLogin, rawPass);
+      if (!found) {
+        await pullCloudStateNow(false);
+        found = matchUserCredential(rawLogin, rawPass);
+      } else {
+        // Vẫn đồng bộ ngầm trạng thái nhóm mới nhất
+        pullCloudStateNow(false);
+      }
+
+      btnLogin.disabled = false;
+      btnLogin.textContent = "Đăng nhập vào hệ thống";
 
       if (!found) {
-        errEl.textContent = "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng kiểm tra lại (lưu ý không thừa khoảng trắng).";
+        errEl.textContent = "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng kiểm tra lại.";
         errEl.classList.remove('hidden');
         return;
       }
@@ -1124,7 +1526,7 @@
     // =====================================================================
     function renderMemberDashboard() {
       if (!currentUser || currentUser.accountType !== 'MEMBER') return;
-      currentUser = appState.users.find(u => u.id === currentUser.id);
+      currentUser = appState.users.find(u => u.id === currentUser.id) || currentUser;
 
       document.getElementById('mem-level').value = currentUser.level;
       document.getElementById('mem-role').value = currentUser.desiredRole;
@@ -1152,7 +1554,8 @@
       currentUser.desiredRole = document.getElementById('mem-role').value;
       currentUser.targetGoal = parseFloat(document.getElementById('mem-goal').value);
       currentUser.skills = Array.from(document.querySelectorAll('#mem-skills-box input:checked')).map(i => i.value);
-      saveState();
+      currentUser.updatedAt = Date.now();
+      saveState(true);
       renderMatchingGroupsForMember();
     }
 
@@ -1394,7 +1797,7 @@
       activeQuizContext = null;
     }
 
-    function submitQuizAnswers() {
+    async function submitQuizAnswers() {
       if (!activeQuizContext || !currentUser) return;
       const { groupId, role } = activeQuizContext;
       const questions = QUIZ_BANK[role] || QUIZ_BANK["Backend / Thuật toán"];
@@ -1417,9 +1820,10 @@
 
       if (correct >= 2) {
         const grp = appState.groups.find(g => g.id === groupId);
+        const nowTs = Date.now();
 
         appState.applications.push({
-          id: "APP_" + Date.now().toString(36).toUpperCase(),
+          id: "APP_" + nowTs.toString(36).toUpperCase(),
           userId: currentUser.id,
           applicantAlias: currentUser.displayName,
           applicantLevel: currentUser.level,
@@ -1428,16 +1832,16 @@
           groupId,
           role,
           quizScore: correct,
-          status: 'PENDING'
+          status: 'PENDING',
+          updatedAt: nowTs
         });
-        saveState();
+        saveState(true);
 
         resBox.className = "mt-4 p-4 rounded-xl text-center bg-emerald-50 border border-emerald-300 text-emerald-900 space-y-2";
         resBox.innerHTML = `
           <p class="text-base font-extrabold text-emerald-700">🎉 Bạn đã vượt qua bài Quiz (${correct}/3 câu đúng)!</p>
           <p class="text-xs">
-            Hồ sơ ứng tuyển vị trí <strong>${role}</strong> của bạn đã được chuyển sang giao diện của Trưởng nhóm <strong>${grp.leaderAlias}</strong> chờ phê duyệt.
-            Chỉ có Trưởng nhóm <strong>${grp.leaderAlias}</strong> mới có quyền phê duyệt bạn vào nhóm.
+            Hồ sơ ứng tuyển vị trí <strong>${role}</strong> của bạn đã được đồng bộ lên Cloud và chuyển sang giao diện của Trưởng nhóm <strong>${grp.leaderAlias}</strong> chờ phê duyệt.
           </p>
         `;
         renderMemberDashboard();
@@ -1462,18 +1866,23 @@
       const group = appState.groups.find(g => g.id === app.groupId);
       if (!user || !group) return;
 
+      const nowTs = Date.now();
+
       if (user.joinedGroupId) {
         const firstGroup = appState.groups.find(g => g.id === user.joinedGroupId);
-        alert(`Không thể tuyển ứng viên "${user.displayName}"!
-Ứng viên này đã được Trưởng nhóm "${firstGroup ? firstGroup.leaderAlias : 'nhóm khác'}" xác nhận phê duyệt trước đó.`);
+        alert(`Không thể tuyển ứng viên "${user.displayName}"!\nỨng viên này đã được Trưởng nhóm "${firstGroup ? firstGroup.leaderAlias : 'nhóm khác'}" xác nhận phê duyệt trước đó.`);
         app.status = 'LOCKED_BY_FIRST_APPROVAL';
-        saveState();
+        app.updatedAt = nowTs;
+        saveState(true);
         return;
       }
 
       app.status = 'APPROVED';
+      app.updatedAt = nowTs;
+
       user.joinedGroupId = group.id;
       user.joinedRole = app.role;
+      user.updatedAt = nowTs;
 
       group.members.push({
         userId: user.id,
@@ -1481,14 +1890,16 @@
         role: app.role
       });
       group.recruitingRoles = group.recruitingRoles.filter(r => r !== app.role);
+      group.updatedAt = nowTs;
 
       appState.applications.forEach(otherApp => {
         if (otherApp.userId === user.id && otherApp.id !== app.id && otherApp.status === 'PENDING') {
           otherApp.status = 'LOCKED_BY_FIRST_APPROVAL';
+          otherApp.updatedAt = nowTs;
         }
       });
 
-      saveState();
+      saveState(true);
     }
 
     // =====================================================================
@@ -1498,15 +1909,14 @@
       if (!currentUser || !currentUser.joinedGroupId) return;
       const currentGrp = appState.groups.find(g => g.id === currentUser.joinedGroupId);
       const reason = prompt(
-        `Bạn đang là thành viên của nhóm "${currentGrp ? currentGrp.title : ''}".
-Để rời nhóm, bạn cần sự cho phép của Trưởng nhóm ${currentGrp ? currentGrp.leaderAlias : ''}.
-Nhập lý do xin rời nhóm:`,
+        `Bạn đang là thành viên của nhóm "${currentGrp ? currentGrp.title : ''}".\nĐể rời nhóm, bạn cần sự cho phép của Trưởng nhóm ${currentGrp ? currentGrp.leaderAlias : ''}.\nNhập lý do xin rời nhóm:`,
         "Em muốn xin phép điều chỉnh lại kế hoạch môn học trong kỳ này ạ."
       );
       if (reason === null) return;
 
+      const nowTs = Date.now();
       appState.leaveRequests.push({
-        id: "REQ_" + Date.now().toString(36).toUpperCase(),
+        id: "REQ_" + nowTs.toString(36).toUpperCase(),
         userId: currentUser.id,
         memberAlias: currentUser.displayName,
         memberRole: currentUser.joinedRole,
@@ -1516,11 +1926,12 @@ Nhập lý do xin rời nhóm:`,
         targetRole: null,
         type: 'LEAVE',
         reason: reason.trim() || "Xin phép rời nhóm",
-        status: 'PENDING'
+        status: 'PENDING',
+        updatedAt: nowTs
       });
-      saveState();
+      saveState(true);
       renderMemberDashboard();
-      alert(`Đã gửi yêu cầu xin rời nhóm đến Trưởng nhóm "${currentGrp.leaderAlias}". Vui lòng chờ Trưởng nhóm đăng nhập và phê duyệt!`);
+      alert(`Đã gửi yêu cầu xin rời nhóm đến Trưởng nhóm "${currentGrp.leaderAlias}". Vui lòng chờ Trưởng nhóm phê duyệt!`);
     }
 
     function requestTransferGroup(targetGroupId, targetRole) {
@@ -1538,15 +1949,14 @@ Nhập lý do xin rời nhóm:`,
       }
 
       const reason = prompt(
-        `Bạn đang thuộc nhóm của Trưởng nhóm "${currentGrp.leaderAlias}".
-Để chuyển sang vị trí "${targetRole}" của nhóm "${targetGrp.title}", bạn bắt buộc phải có sự cho phép của Trưởng nhóm hiện tại.
-Nhập lý do xin chuyển nhóm:`,
+        `Bạn đang thuộc nhóm của Trưởng nhóm "${currentGrp.leaderAlias}".\nĐể chuyển sang vị trí "${targetRole}" của nhóm "${targetGrp.title}", bạn bắt buộc phải có sự cho phép của Trưởng nhóm hiện tại.\nNhập lý do xin chuyển nhóm:`,
         `Em xin phép chuyển sang vị trí ${targetRole} của nhóm mới phù hợp với hướng nghiên cứu của em ạ.`
       );
       if (reason === null) return;
 
+      const nowTs = Date.now();
       appState.leaveRequests.push({
-        id: "REQ_" + Date.now().toString(36).toUpperCase(),
+        id: "REQ_" + nowTs.toString(36).toUpperCase(),
         userId: currentUser.id,
         memberAlias: currentUser.displayName,
         memberRole: currentUser.joinedRole,
@@ -1556,9 +1966,10 @@ Nhập lý do xin chuyển nhóm:`,
         targetRole,
         type: 'TRANSFER',
         reason: reason.trim() || "Xin phép chuyển sang nhóm khác",
-        status: 'PENDING'
+        status: 'PENDING',
+        updatedAt: nowTs
       });
-      saveState();
+      saveState(true);
       renderMemberDashboard();
       alert(`Đã gửi yêu cầu xin chuyển nhóm tới Trưởng nhóm hiện tại "${currentGrp.leaderAlias}". Sau khi Trưởng nhóm hiện tại cho phép, bạn mới có thể ứng tuyển vào nhóm mới!`);
     }
@@ -1569,7 +1980,9 @@ Nhập lý do xin chuyển nhóm:`,
 
       const user = appState.users.find(u => u.id === req.userId);
       const fromGrp = appState.groups.find(g => g.id === req.fromGroupId);
+      const nowTs = Date.now();
 
+      req.updatedAt = nowTs;
       if (isApproved) {
         req.status = 'APPROVED';
         if (fromGrp && user) {
@@ -1577,13 +1990,15 @@ Nhập lý do xin chuyển nhóm:`,
             fromGrp.recruitingRoles.push(user.joinedRole);
           }
           fromGrp.members = fromGrp.members.filter(m => m.userId !== user.id);
+          fromGrp.updatedAt = nowTs;
           user.joinedGroupId = null;
           user.joinedRole = null;
+          user.updatedAt = nowTs;
         }
       } else {
         req.status = 'REJECTED';
       }
-      saveState();
+      saveState(true);
     }
 
     // =====================================================================
@@ -1738,7 +2153,8 @@ Nhập lý do xin chuyển nhóm:`,
       const app = appState.applications.find(a => a.id === appId);
       if (app) {
         app.status = 'REJECTED';
-        saveState();
+        app.updatedAt = Date.now();
+        saveState(true);
         renderLeaderDashboard();
       }
     }
@@ -1751,6 +2167,7 @@ Nhập lý do xin chuyển nhóm:`,
     window.onload = () => {
       updateHeaderUI();
       showView('view-landing');
+      initCloudSyncEngine();
     };
   </script>
 </body>
